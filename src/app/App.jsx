@@ -13,7 +13,7 @@ import Footer from "../components/Footer";
 function App() {
 
   return (
-    <>
+    <div>
       <Navbar />
 
       <main>
@@ -29,15 +29,10 @@ function App() {
           <About />
         </div>
 
-        <div>
-          <ProductDetailComponent productId="65e8b8119a2ec477d4239219" userId="65e8b89bfeef1c905fe9e184" />
-        </div>
-
       </main>
 
       <Footer />
-
-    </>
+    </div>
   )
 }
 
