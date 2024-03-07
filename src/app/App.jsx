@@ -1,39 +1,44 @@
-import { useState } from 'react'
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import ProductDetailComponent from '../components/product/ProductDetailComponent'
+import React, { Component } from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Home from "../components/Home";
 import Menu from "../components/Menu";
 import About from "../components/About";
-import Product from "../components/Product";
+import ProductDetail from "../components/Products/ProductDetail";
 import Footer from "../components/Footer";
 
-function App() {
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <div id="home">
+                    <Home />
+                  </div>
 
-  return (
-    <div>
-      <Navbar />
+                  <div id="home">
+                    <Menu />
+                  </div>
 
-      <main>
-        <div id="home">
-          <Home />
-        </div>
-
-        <div id="home">
-          <Menu />
-        </div>
-
-        <div id="About us">
-          <About />
-        </div>
-
-      </main>
-
-      <Footer />
-    </div>
-  )
+                  <div id="About us">
+                    <About />
+                  </div>
+                </>
+              }
+            />
+            <Route path="/product" element={<ProductDetail productId = "" userId =""/>} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 }
 
-export default App
+export default App;
