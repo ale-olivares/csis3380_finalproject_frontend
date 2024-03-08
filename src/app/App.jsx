@@ -32,7 +32,7 @@ class App extends Component {
                 </>
               }
             />
-            <Route path="/product" element={<ProductDetail productId = "" userId =""/>} />
+            <Route path="/product/:productId" element={<ProductDetail userId ="65e8b89bfeef1c905fe9e184"/>} />
           </Routes>
         </main>
         <Footer />
