@@ -1,10 +1,11 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/product';
+const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export const getProductDetails = async (productId) => {
     try{
-        const response = await axios.get(`${API_URL}/${productId}`);
+        console.log(BASE_URL)
+        const response = await axios.get(`${BASE_URL}/product/${productId}`);
         return response.data;
     }
     catch(error){

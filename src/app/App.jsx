@@ -6,6 +6,7 @@ import Menu from "../components/Menu";
 import About from "../components/About";
 import ProductDetail from "../components/Products/ProductDetail";
 import Footer from "../components/Footer";
+import DevLogin from "../components/Helpers/DevLogin";
 
 class App extends Component {
   render() {
@@ -32,7 +33,8 @@ class App extends Component {
                 </>
               }
             />
-            <Route path="/product/:productId" element={<ProductDetail userId ="65e8b89bfeef1c905fe9e184"/>} />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/login" element={<DevLogin/>} />
           </Routes>
         </main>
         <Footer />
