@@ -1,39 +1,31 @@
 import React, { Component } from "react";
-import { Routes, Route} from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
+//App components
 import Navbar from "../components/Navbar";
 import Home from "../components/Home";
-import Menu from "../components/Menu";
+import Catalog from "../components/Sections/Catalog";
 import About from "../components/About";
 import Footer from "../components/Footer";
+import Wholesale from "../components/Sections/Wholesale";
+import AboutUs from "../components/Sections/AboutUs";
+
 
 class App extends Component {
   render() {
     return (
       <div>
         <Navbar />
-        <main>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <div id="home">
-                    <Home />
-                  </div>
 
-                  <div id="home">
-                    <Menu />
-                  </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/" element={<About />} />
+          <Route path="/" element={<Footer />} />
+          <Route path="/catalog" element={<Catalog />} />
+          <Route path="/wholesale" element={<Wholesale />} />
+          <Route path="/aboutus" element={<AboutUs />} />
 
-                  <div id="About us">
-                    <About />
-                  </div>
-                </>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
+        </Routes>
       </div>
     );
   }

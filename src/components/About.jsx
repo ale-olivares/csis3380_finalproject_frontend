@@ -16,15 +16,14 @@ const About = () => {
             What Makes Our Coffee Special?
           </h2>
           <p>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi
-            quaerat quia quasi beatae et iste, tempora voluptatum corporis sit
-            pariatur eaque exercitationem, doloribus eum optio nobis cum?
-            Quidem, dolor atque.
+            If you’re an avid coffee drinker, chances are that you’ve come across
+            the term specialty coffee at least once in the hunt for that perfect cup of coffee.
+
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam ut
-            minima perspiciatis doloribus quod repellendus molestiae rerum!
-            Enim, vero natus.
+            Passionate baristas, latte art, manual coffee brewing, and tiny espresso drinks make up
+            just a portion of the specialty coffee movement; the foundations run much deeper.
+
           </p>
 
           <Button title="Learn More" />
