@@ -26,6 +26,8 @@ class App extends Component {
           <Route path="/aboutus" element={<AboutUs />} />
 
         </Routes>
+
+        <Footer />
       </div>
     );
   }
