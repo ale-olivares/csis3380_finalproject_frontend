@@ -12,8 +12,9 @@ const ProductDetailComponent = () => {
     const { productId } = useParams();
     const [selectedGrind, setSelectedGrind] = useState('');
     const [selectedWeight, setSelectedWeight] = useState('');
+    const [selectedPrice, setSelectedPrice] = useState('');
     const [selectedImage, setSelectedImage] = useState('');
-    const [inputQuantity, setInputQuantity] = useState('');
+    const [inputQuantity, setInputQuantity] = useState(1);
     const [product, setProduct] = useState(null);
     const [message, setMessage] = useState(null);
 
@@ -24,6 +25,7 @@ const ProductDetailComponent = () => {
                 setProduct(productData);
                 if (productData.product_subtypes.length > 0) {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
+                    setSelectedPrice(productData.product_subtypes[0].price);
                 }
                 if (productData.grind_types.length > 0) {
                     setSelectedGrind(productData.grind_types[0]._id);
@@ -50,7 +52,7 @@ const ProductDetailComponent = () => {
                     setMessage(null);
 
                     // Call the service function to add to the backend cart
-                    const response = await addToCartService(getCurrentUser().id, productId, selectedWeight, selectedGrind, inputQuantity);
+                    const response = await addToCartService(getCurrentUser().id, productId, selectedWeight, selectedGrind, inputQuantity, selectedPrice);
 
                     if (response.message) {
                         setMessage(response.message);
@@ -162,9 +164,9 @@ const ProductDetailComponent = () => {
                         </div>
                     </div>
                     <div>
-                        <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                        <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6 mt-5">
                             <div className="sm:col-span-4 sm:col-start-2">
-                                <img className='rounded-lg w-80 h-80' src={selectedImage === "#" ? defaultProductImage : selectedImage} alt="Product" />
+                                <img className='rounded-lg w-96 h-96' src={selectedImage === "#" ? defaultProductImage : selectedImage} alt="Product" />
                             </div>
                             <div className="sm:col-span-6">
                                 <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-6">
@@ -192,6 +194,7 @@ const ProductDetailComponent = () => {
                                                 onChange={(e) => {
                                                     setSelectedWeight(e.target.value);
                                                     setSelectedImage(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value).image_url);
+                                                    setSelectedPrice(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value).price);
                                                 }}
                                                 className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             >
@@ -209,15 +212,24 @@ const ProductDetailComponent = () => {
                                                 id="quantity"
                                                 name="quantity"
                                                 value={inputQuantity}
-                                                onChange={(e) => setInputQuantity(e.target.value)}
+                                                onChange={(e) => {
+                                                    setInputQuantity(e.target.value);
+                                                }}
                                                 min="1"
                                                 max="50"
                                                 className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                             />
                                         </div>
                                     </div>
-                                    <div className="sm:col-span-1 mt-7 flex items-center">
-                                        <button onClick={handleAddToCart} className="bg-blue-400 text-white py-3 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"><FaCartPlus /></button>
+                                    <div className="sm:col-span-1">
+                                        <label htmlFor="price" className="block mb-2">Price:</label>
+                                        <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
+                                    </div>
+                                    <div className="sm:col-span-2 sm:col-start-3 mt-4">
+                                        <button onClick={handleAddToCart} className="flex items-center justify-center bg-blue-400 text-white py-3 px-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full space-x-2">
+                                            <FaCartPlus className="text-base" /> {/* Adjust the className as needed */}
+                                            <span>Add to Cart</span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
