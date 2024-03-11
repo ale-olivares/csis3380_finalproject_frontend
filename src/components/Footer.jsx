@@ -38,7 +38,6 @@ const Footer = () => {
       </div>
 
       <div>
-        <p>
           <p className=" text-sm text-center py-2">
             Copyright © 2024 developed by
             <span className=" text-hoverColor">
@@ -47,7 +46,6 @@ const Footer = () => {
             </span>
             | All rights reserved
           </p>
-        </p>
       </div>
 
     </div>

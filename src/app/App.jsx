@@ -4,7 +4,10 @@ import Navbar from "../components/Navbar";
 import Home from "../components/Home";
 import Menu from "../components/Menu";
 import About from "../components/About";
+import ProductDetail from "../components/Products/ProductDetail";
 import Footer from "../components/Footer";
+import DevLogin from "../components/Helpers/DevLogin";
+import ShoppingCart from "../components/Purchase/ShoppingCart";
 
 class App extends Component {
   render() {
@@ -31,6 +34,9 @@ class App extends Component {
                 </>
               }
             />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/login" element={<DevLogin/>} />
+            <Route path="/cart" element={<ShoppingCart/>} />
           </Routes>
         </main>
         <Footer />
