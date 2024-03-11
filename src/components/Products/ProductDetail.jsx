@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProductDetails } from '../../services/ProductService';
 import { addToCart as addToCartService } from '../../services/CartService';
 import { useParams } from 'react-router-dom';
 import defaultProductImage from '../../assets/img/default_500_500.png'
-import { FaCar, FaCartPlus } from "react-icons/fa";
+import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
 import ProductReviewComponent from '../Reviews/ProductReview';
 
@@ -17,6 +18,7 @@ const ProductDetailComponent = () => {
     const [inputQuantity, setInputQuantity] = useState(1);
     const [product, setProduct] = useState(null);
     const [message, setMessage] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -75,6 +77,10 @@ const ProductDetailComponent = () => {
             total += parseFloat(review.rating);
         });
         return total / parseFloat(reviews.length);
+    }
+
+    const redirectLogin = () => {
+        navigate('/login');
     }
 
     if (!product) {
@@ -170,21 +176,39 @@ const ProductDetailComponent = () => {
                             </div>
                             <div className="sm:col-span-6">
                                 <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-6">
-                                    <div className="sm:col-span-2">
-                                        <label htmlFor="grindType" className="block text-sm font-medium leading-6 text-gray-900">Choose a Grind:</label>
-                                        <div className='mt-2'>
-                                            <select
-                                                id="grindType"
-                                                value={selectedGrind}
-                                                onChange={(e) => setSelectedGrind(e.target.value)}
-                                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
-                                            >
-                                                {product.grind_types.map(grind => (
-                                                    <option key={grind._id} value={grind._id}>{grind.name}</option>
-                                                ))}
-                                            </select>
+                                    { getCurrentUser() ? (
+                                        <div className="sm:col-span-2">
+                                            <label htmlFor="grindType" className="block text-sm font-medium leading-6 text-gray-900">Choose a Grind:</label>
+                                            <div className='mt-2'>
+                                                <select
+                                                    id="grindType"
+                                                    value={selectedGrind}
+                                                    onChange={(e) => setSelectedGrind(e.target.value)}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                                >
+                                                    {product.grind_types.map(grind => (
+                                                        <option key={grind._id} value={grind._id}>{grind.name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ): (
+                                        <div className="sm:col-span-2 sm:col-start-2">
+                                            <label htmlFor="grindType" className="block text-sm font-medium leading-6 text-gray-900">Choose a Grind:</label>
+                                            <div className='mt-2'>
+                                                <select
+                                                    id="grindType"
+                                                    value={selectedGrind}
+                                                    onChange={(e) => setSelectedGrind(e.target.value)}
+                                                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-md sm:text-sm sm:leading-6"
+                                                >
+                                                    {product.grind_types.map(grind => (
+                                                        <option key={grind._id} value={grind._id}>{grind.name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    )} 
                                     <div className="sm:col-span-2">
                                         <label htmlFor="weight" className="block text-sm font-medium leading-6 text-gray-900">Choose a Weight:</label>
                                         <div className='mt-2'>
@@ -204,33 +228,45 @@ const ProductDetailComponent = () => {
                                             </select>
                                         </div>
                                     </div>
-                                    <div className="sm:col-span-1">
-                                        <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">Quantity:</label>
-                                        <div className='mt-2'>
-                                            <input
-                                                type="number"
-                                                id="quantity"
-                                                name="quantity"
-                                                value={inputQuantity}
-                                                onChange={(e) => {
-                                                    setInputQuantity(e.target.value);
-                                                }}
-                                                min="1"
-                                                max="50"
-                                                className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                                            />
+                                    { getCurrentUser() ? (
+                                        <div className="sm:col-span-1">
+                                            <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">Quantity:</label>
+                                            <div className='mt-2'>
+                                                <input
+                                                    type="number"
+                                                    id="quantity"
+                                                    name="quantity"
+                                                    value={inputQuantity}
+                                                    onChange={(e) => {
+                                                        setInputQuantity(e.target.value);
+                                                    }}
+                                                    min="1"
+                                                    max="50"
+                                                    className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (<></>)}
                                     <div className="sm:col-span-1">
                                         <label htmlFor="price" className="block mb-2">Price:</label>
                                         <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                     </div>
-                                    <div className="sm:col-span-2 sm:col-start-3 mt-4">
-                                        <button onClick={handleAddToCart} className="flex items-center justify-center bg-blue-400 text-white py-3 px-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full space-x-2">
-                                            <FaCartPlus className="text-base" /> {/* Adjust the className as needed */}
-                                            <span>Add to Cart</span>
-                                        </button>
-                                    </div>
+                                    { getCurrentUser() ? (
+                                        <div className="sm:col-span-2 sm:col-start-3 mt-4">
+                                            <button onClick={handleAddToCart} className="flex items-center justify-center bg-blue-400 text-white py-3 px-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full space-x-2">
+                                                <FaCartPlus className="text-base" />
+                                                <span>Add to Cart</span>
+                                            </button>
+                                        </div>) : (
+                                        <div className="sm:col-span-2 sm:col-start-3 mt-4">
+                                            <button onClick={redirectLogin} className="flex items-center justify-center bg-yellow-500 text-white py-3 px-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 w-full space-x-2">
+                                                <FaUser className="text-base" />
+                                                <span>Login to Buy</span>
+                                            </button>
+                                        </div>
+                                        )    
+                                        
+                                    }
                                 </div>
                             </div>
                             <div className="sm:col-span-6">
@@ -239,7 +275,7 @@ const ProductDetailComponent = () => {
                         </div>
                     </div>
                     <div className="pb-2 sm:col-span-2">
-                        <hr class="h-px mt-8 bg-gray-200 border-0"></hr>
+                        <hr className="h-px mt-8 bg-gray-200 border-0"></hr>
                     </div>
                     {/* For review and rating it's sampling from now */}
                     <div className="pb-12 sm:col-span-2">
@@ -250,8 +286,8 @@ const ProductDetailComponent = () => {
                             <h1 className="text-2xl font-semibold leading-7 text-gray-900">Reviews & Ratings</h1>
                             
                         </div>
-                        {product.reviews.map(review => (
-                             <ProductReviewComponent reviewData={review} /> 
+                        {product.reviews.map((review,index) => (
+                             <ProductReviewComponent reviewData={review} key={index} /> 
                         ))}
                     </div>
                 </div>
