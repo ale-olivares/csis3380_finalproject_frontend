@@ -98,9 +98,9 @@ const Product = () => {
                 </select>
                 </div>
             </div>
-            
+       
             {/* <div className="flex flex-col lg:flex-row gap-12 justify-center"> */}
-            {products.length === 0 && <div className="text-center text-2xl text-gray-600">No products found</div>}
+            {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-screen">No products found</div>}
             <div className="flex flex-wrap gap-12 pb-10 justify-start product-list">
               {products.slice(indexOfFirstProduct, indexOfLastProduct).map((product, index) => (
                 <ProductCard key={(index+1)*currentPage} ind={(index+1)*currentPage} product={product} img={img1} rating={calculateAverageRating(product.reviews).toFixed(1)}/> //Change img1 to product.image_url key={/*product.prod_id*/} 

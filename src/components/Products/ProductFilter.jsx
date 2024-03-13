@@ -70,7 +70,7 @@ const ProductFilter = (props) => {
 
     return (
         <div className="w-1/4 pt-[85px] bg-gray-50" >
-          <aside className="w-full p-6 bg-white rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[85px]">
+          <aside className="w-full p-6 rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[85px]">
             <div className="divide-y divide-gray-200">
 
               {/* Category Filter */}

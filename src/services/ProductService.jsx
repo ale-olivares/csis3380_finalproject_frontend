@@ -19,8 +19,8 @@ export const getProducts = async (filters = {}) => {
     try{
         const queryString = new URLSearchParams(filters).toString();
         // console.log(queryString);
-        const url = queryString ? `${API_URL}products?${queryString}` : `${API_URL}products`;
-        // console.log(url);
+        const url = queryString ? `${BASE_URL}/products?${queryString}` : `${BASE_URL}/products`;
+        console.log(url);
         const response = await axios.get(url);
         //console.log(response.data); 
         return response.data;
@@ -34,7 +34,8 @@ export const getProducts = async (filters = {}) => {
 
 export const getCountries = async () => {
     try{
-        const response = await axios.get(`${API_URL}countries`);
+
+        const response = await axios.get(`${BASE_URL}/countries`);
         return response.data;
         
     }

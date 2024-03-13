@@ -8,7 +8,7 @@ const ProductCard = (props) => {
 
   const handleClick = () => {
     console.log("Product clicked:", props.product.name);
-    navigate(`/api/product/${props.product.prod_id}`); // Navigate to the product details page
+    navigate(`/product/${props.product.prod_id}`); // Navigate to the product details page
   };
 
   const calculateStock =() =>{

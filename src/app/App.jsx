@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import DevLogin from "../components/Helpers/DevLogin";
 import ShoppingCart from "../components/Purchase/ShoppingCart";
 import Product from "../components/Product";
-import ProductDetails from "../components/Products/ProductDetail";
+import ProductDetail from "../components/Products/ProductDetail";
 
 
 class App extends Component {
@@ -37,7 +37,7 @@ class App extends Component {
             <Route path="/product/:productId" element={<ProductDetail/>} />
             <Route path="/login" element={<DevLogin/>} />
             <Route path="/cart" element={<ShoppingCart/>} />
-            <Route path="/product/:productId" element={<ProductDetails/>} />
+            <Route path="/products" element={<Product/>} />
           </Routes>
 
         </main>
