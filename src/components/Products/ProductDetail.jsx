@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getProductDetails } from '../../services/ProductService';
 import { addToCart as addToCartService } from '../../services/CartService';
 import { useParams } from 'react-router-dom';
+import img1 from "../../assets/img/product1.jpg"
 
 const ProductDetailComponent = ({ userId }) => {
 
@@ -18,13 +19,17 @@ const ProductDetailComponent = ({ userId }) => {
             try {
                 const productData = await getProductDetails(productId);
                 setProduct(productData);
-                if (productData.product_subtype.length > 0) {
-                    setSelectedWeight(productData.product_subtype[0].weight._id);
+
+                console.log(productData);
+                if (productData.product_subtypes.length > 0) {
+                    setSelectedWeight(productData.product_subtypes[0].weight._id);
                 }
+           
                 if (productData.grind_types.length > 0) {
                     setSelectedGrind(productData.grind_types[0]._id);
                 }
-                setSelectedImage(productData.product_subtype[0].image_url);
+                setSelectedImage(img1);
+                 // setSelectedImage(productData.product_subtype[0].image_url);
 
             } catch (error) {
                 console.error('Error while fetching product details', error);
@@ -94,14 +99,14 @@ const ProductDetailComponent = ({ userId }) => {
                                 }}
                                 className="w-full p-2 border rounded-md"
                             >
-                                {product.product_subtype.map((subtype, index) => (
+                                {product.product_subtypes.map((subtype, index) => (
                                     <option key={subtype.weight._id} value={subtype.weight._id}>{subtype.weight.name}</option>
                                 ))}
                             </select>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="price" className="block mb-2">Price:</label>
-                            <p>${(product.product_subtype.find(subtype => subtype.weight._id === selectedWeight).price / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
+                            <p>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                         </div>
                         <div className="mb-4">
                             <label htmlFor="quantity" className="block mb-2">Select the Quantity:</label>

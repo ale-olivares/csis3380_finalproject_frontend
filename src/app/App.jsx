@@ -5,18 +5,19 @@ import Home from "../components/Home";
 import Menu from "../components/Menu";
 import About from "../components/About";
 import Footer from "../components/Footer";
+import Product from "../components/Product";
+import ProductDetails from "../components/Products/ProductDetail";
+
 
 class App extends Component {
   render() {
     return (
       <div>
         <Navbar />
-        <main>
+        <main >
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
+            <Route path="/" element={
+               <>
                   <div id="home">
                     <Home />
                   </div>
@@ -31,7 +32,10 @@ class App extends Component {
                 </>
               }
             />
+             <Route path="/api/products" element={<Product/>} />
+             <Route path="/api/product/:productId" element={<ProductDetails/>} />
           </Routes>
+
         </main>
         <Footer />
       </div>
