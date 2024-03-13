@@ -55,3 +55,17 @@ export const removeFromCart = async (userId, productSubtypeId) => {
         return error.response.data;
     }
 }
+
+export const removeCart = async (cartId) => {
+    try {
+        
+        const response = await axios.delete(`${BASE_URL}/cart/${cartId}`, {
+            headers: { ...authHeader()}
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error removing cart', error);
+        return error.response;
+    }
+}

@@ -8,6 +8,8 @@ import ProductDetail from "../components/Products/ProductDetail";
 import Footer from "../components/Footer";
 import DevLogin from "../components/Helpers/DevLogin";
 import ShoppingCart from "../components/Purchase/ShoppingCart";
+import PaymentSuccess from "../components/Purchase/PaymentSuccess";
+import PaymentCanceled from "../components/Purchase/PaymentCanceled";
 
 class App extends Component {
   render() {
@@ -37,6 +39,8 @@ class App extends Component {
             <Route path="/product/:productId" element={<ProductDetail/>} />
             <Route path="/login" element={<DevLogin/>} />
             <Route path="/cart" element={<ShoppingCart/>} />
+            <Route path="/checkout-success" element={<PaymentSuccess/>} />
+            <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
           </Routes>
         </main>
         <Footer />

@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { getCurrentUser } from '../../services/AuthService';
 import { getCart as getCartService, removeFromCart as removeFromCartService } from '../../services/CartService';
+import { makeStripeCheckout as stripeCheckoutService, updateShoppingCartSessionId as updateCartSessionIdService } from '../../services/PaymentService';
 import defaultProductImage from '../../assets/img/default_500_500.png';
 import { FaTrash } from 'react-icons/fa';
+import { loadStripe } from '@stripe/stripe-js';
 
 const ShoppingCartComponent = () => {
     
@@ -30,7 +32,6 @@ const ShoppingCartComponent = () => {
         setTotal(subtotal + taxes);
     };
     
-
     useEffect(() => {
         
         // If user is not logged in, redirect to login page
@@ -41,12 +42,16 @@ const ShoppingCartComponent = () => {
         const getCart = async () => {
             try {
                 const userId = getCurrentUser().id;
-                const cart = await getCartService(userId);
-                if (!cart){
-                    setCartItems({items: []});
-                }else{
-                    setCartItems(cart);
-                }
+                await getCartService(userId).then((response) => {
+                    
+                    if (!response){
+                        setCartItems({items: []});
+                    }else{
+                        setCartItems(response);
+                    }
+                });
+                
+                
                 
             }
             catch (error) {
@@ -86,6 +91,31 @@ const ShoppingCartComponent = () => {
             console.error('Error while removing item from cart', error);
         }
     };
+
+    const handleStripeCheckout = async () => {
+
+        const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+        const response = await stripeCheckoutService(cartItems.items);
+        
+        // Update the shopping cart by adding the Stripe Session Id
+        const cartId = cartItems._id;
+        const sessionId = response.sessionId;
+        
+        updateCartSessionIdService(cartId, sessionId).then((response) => {
+            const result = stripe.redirectToCheckout({
+                sessionId: sessionId,
+            });
+    
+            if (result.error) {
+                console.error('Error while starting Stripe checkout', result.error);
+            }
+        })
+        .catch((error) => {
+            console.error('Error while updating shopping cart session', error);
+        });
+
+    }
 
     // In your render or return statement
     if (isLoading) {
@@ -164,7 +194,7 @@ const ShoppingCartComponent = () => {
                             <span>${total.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-end mt-10">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            <button onClick={handleStripeCheckout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Checkout
                             </button>
                         </div>
