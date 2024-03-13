@@ -5,6 +5,8 @@ import Home from "../components/Home";
 import Menu from "../components/Menu";
 import About from "../components/About";
 import Footer from "../components/Footer";
+import DevLogin from "../components/Helpers/DevLogin";
+import ShoppingCart from "../components/Purchase/ShoppingCart";
 import Product from "../components/Product";
 import ProductDetails from "../components/Products/ProductDetail";
 
@@ -32,8 +34,10 @@ class App extends Component {
                 </>
               }
             />
-             <Route path="/api/products" element={<Product/>} />
-             <Route path="/api/product/:productId" element={<ProductDetails/>} />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/login" element={<DevLogin/>} />
+            <Route path="/cart" element={<ShoppingCart/>} />
+            <Route path="/product/:productId" element={<ProductDetails/>} />
           </Routes>
 
         </main>
