@@ -21,33 +21,33 @@ const PaymentSuccessComponent = () => {
 
                 if (cartItems) {
                     // Proceed to review the session Id
-                    if (cartItems.sessionId) {
+                    if (cartItems.stripe_session_id) {
                         // Review the status of the payment
-                        getStripeSessionService(cartItems.sessionId).then((response) => {
+                        getStripeSessionService(cartItems.stripe_session_id).then((response) => {
                             
                             if (response.payment_status === 'paid') {
                                 // We can generate the order
                                 const items = cartItems.items.map((item) => {
                                     return {
                                         product: item.product._id,
-                                        productSubtype: item.productSubtype._id,
-                                        grindType: item.grindType._id,
+                                        product_subtype: item.product_subtype._id,
+                                        grind_type: item.grind_type._id,
                                         quantity: item.quantity,
-                                        unitPrice: item.unitPrice
+                                        unit_price: item.unit_price
                                     }
                                 });
 
                                 const purchaseOrder = {
                                     user: user.id,
                                     items,
-                                    createdAt: new Date(),
-                                    updatedAt: null,
-                                    sessionId: cartItems.sessionId,
+                                    created_at: new Date(),
+                                    updated_at: null,
+                                    stripe_session_id: cartItems.stripe_session_id,
                                     status: 'pending'
                                 }
                                 
                                 // Save the order
-                                saveOrderService(purchaseOrder).then((response) => {
+                                saveOrderService(purchaseOrder, getCurrentUser().id).then((response) => {
                                     if (response) {
                                         
                                         // Clear the shopping cart

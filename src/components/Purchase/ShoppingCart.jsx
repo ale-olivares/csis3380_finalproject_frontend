@@ -3,7 +3,7 @@ import { getCurrentUser } from '../../services/AuthService';
 import { getCart as getCartService, removeFromCart as removeFromCartService } from '../../services/CartService';
 import { makeStripeCheckout as stripeCheckoutService, updateShoppingCartSessionId as updateCartSessionIdService } from '../../services/PaymentService';
 import defaultProductImage from '../../assets/img/default_500_500.png';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 
 const ShoppingCartComponent = () => {
@@ -17,9 +17,11 @@ const ShoppingCartComponent = () => {
     const calculateSubtotal = () => {
         let newSubtotal = 0;
         
-        cartItems.items.forEach((item) => {
-            newSubtotal += (parseInt(item.quantity) * parseInt(item.unitPrice) / 100);
-        });
+        if (cartItems && cartItems.items.length > 0){
+            cartItems.items.forEach((item) => {
+                newSubtotal += (parseInt(item.quantity) * parseInt(item.unit_price) / 100);
+            });
+        }
     
         setSubtotal(newSubtotal);
     };
@@ -79,11 +81,11 @@ const ShoppingCartComponent = () => {
         calculateTotal();
     }, [subtotal, taxes]);
 
-    const handlRemoveItem = async (itemId) => {
+    const handleRemoveItem = async (itemId) => {
         const cartItem = cartItems.items[itemId];
         const userId = getCurrentUser().id;
         try {
-            await removeFromCartService(userId, cartItem.productSubtype._id);
+            await removeFromCartService(userId, cartItem.product_subtype._id);
             const newCartItems = cartItems.items.filter((item, index) => index !== itemId);
             setCartItems({items: newCartItems});
         }
@@ -96,15 +98,15 @@ const ShoppingCartComponent = () => {
 
         const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-        const response = await stripeCheckoutService(cartItems.items);
-        
+        const response = await stripeCheckoutService(cartItems.items, getCurrentUser().id);
+
         // Update the shopping cart by adding the Stripe Session Id
-        const cartId = cartItems._id;
-        const sessionId = response.sessionId;
+        const stripe_session_id = response.stripe_session_id;
         
-        updateCartSessionIdService(cartId, sessionId).then((response) => {
+        await updateCartSessionIdService(getCurrentUser().id, stripe_session_id).then((response) => {
+            
             const result = stripe.redirectToCheckout({
-                sessionId: sessionId,
+                sessionId: stripe_session_id,
             });
     
             if (result.error) {
@@ -124,11 +126,12 @@ const ShoppingCartComponent = () => {
 
     return (
         <div className="container pt-40 px-40 pb-40 md:mx-auto min-h-screen">
-            { cartItems.items.length > 0 ? (
+            { cartItems && cartItems.items.length > 0 ? (
                 <>
+                <h3 className="text-3xl font-semibold leading-7 text-gray-900 py-5">My Cart</h3>
                 <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 text-center">
                             <tr>
                                 <th scope="col" className="px-16 py-3">
                                     <span className="sr-only">Image</span>
@@ -150,29 +153,31 @@ const ShoppingCartComponent = () => {
                         <tbody>
                             {cartItems.items.map((item,index) => (
                                 <tr className="bg-white border-b hover:bg-gray-50" key={index} >
-                                    <td className="p-4">
-                                        <img src={defaultProductImage} className="w-16 md:w-32 max-w-full max-h-full" alt="Apple Watch"/>
+                                    <td className="p-4 flex justify-center items-center">
+                                        <img src={defaultProductImage} className="w-16 md:w-32 mx-auto max-w-full max-h-full" alt="Product"/>
                                     </td>
                                     <td className="px-6 py-4 text-gray-900">
                                         {item.product.name} 
                                         <br/>
-                                        {item.grindType.name}
+                                        {item.grind_type.name}
                                         <br/>
-                                        {item.productSubtype.name}
+                                        {item.product_subtype.name}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-center">
                                         {item.quantity}
                                     </td>
-                                    <td className="px-6 py-4 font-semibold text-gray-900">
-                                        ${(parseInt(item.quantity) * parseInt(item.unitPrice)/100).toFixed(2)}
+                                    <td className="px-6 py-4 font-semibold text-gray-900 text-center">
+                                        ${(parseInt(item.quantity) * parseInt(item.unit_price)/100).toFixed(2)}
                                     </td>
-                                    <td className="px-6 py-4">
-                                        <button
-                                            onClick={() => {handlRemoveItem(index)}}
+                                    <td className="px-6 py-4 text-center"> {/* text-center can help horizontally center the content */}
+                                        <div className="flex justify-center items-center"> {/* Flex container to align the button */}
+                                            <button
+                                            onClick={() => handleRemoveItem(index)}
                                             className="font-medium text-red-600 dark:text-red-500 hover:underline flex items-center justify-center"
-                                        >
-                                            <FaTrash aria-label="Remove item" />
-                                        </button>
+                                            >
+                                            <FaTrash aria-label="Remove item" size={24} />
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -194,9 +199,13 @@ const ShoppingCartComponent = () => {
                             <span>${total.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-end mt-10">
-                            <button onClick={handleStripeCheckout} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Checkout
-                            </button>
+                        <button 
+                            onClick={handleStripeCheckout} 
+                            style={{ backgroundColor: '#635BFF', color: 'white', padding: '12px 24px' }} // Added more padding
+                            className="hover:bg-blue-700 text-white rounded flex items-center justify-center gap-2">
+                            <FaCreditCard />
+                            Pay with Stripe
+                        </button>
                         </div>
                     </div>
                 </div>

@@ -20,7 +20,6 @@ export const addToCart = async (userId, productId, productSubtypeIdentifier, gri
                 headers: { ...authHeader()}
             }
         );
-
         return response.data;
     } catch (error) {
         console.error('Error adding to cart', error);

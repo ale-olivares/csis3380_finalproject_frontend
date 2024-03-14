@@ -4,11 +4,12 @@ import authHeader from './AuthHeader';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-export const makeStripeCheckout = async (items) => {
+export const makeStripeCheckout = async (items, userId) => {
     try {
         
         const response = await axios.post(`${BASE_URL}/stripe-checkout`, {
-            items
+            items,
+            userId
         },
         {
             headers: { ...authHeader()}
@@ -23,10 +24,11 @@ export const makeStripeCheckout = async (items) => {
     }
 };
 
-export const updateShoppingCartSessionId = async (cartId, sessionId) => {
+export const updateShoppingCartSessionId = async (userId, sessionId) => {
     try {
         
-        const response = await axios.post(`${BASE_URL}/update-session-id-shopping-cart/${cartId}`, {
+        const response = await axios.post(`${BASE_URL}/update-session-id-shopping-cart`, {
+            userId,
             sessionId
         },
         {
@@ -59,11 +61,14 @@ export const getStripeSession = async (sessionId) => {
     }
 }
 
-export const saveOrder = async (order) => {
+export const saveOrder = async (order,userId) => {
     try {
 
         const response = await axios.post(`${BASE_URL}/save-purchase-order`, 
+        {
             order,
+            userId
+        },
         {
             headers: { ...authHeader()}
         }

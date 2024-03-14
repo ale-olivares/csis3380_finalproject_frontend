@@ -55,7 +55,7 @@ const ProductDetailComponent = () => {
 
                     // Call the service function to add to the backend cart
                     const response = await addToCartService(getCurrentUser().id, productId, selectedWeight, selectedGrind, inputQuantity, selectedPrice);
-
+                    
                     if (response.message) {
                         setMessage(response.message);
                     }
@@ -101,7 +101,7 @@ const ProductDetailComponent = () => {
                                         <thead className="text-xl text-gray-800 bg-gray-50 text-center">
                                             <tr>
                                                 <th colSpan="2" scope="col" className="px-6 py-3">
-                                                    Features
+                                                    Specifications
                                                 </th>
                                             </tr>
                                         </thead>
@@ -124,10 +124,10 @@ const ProductDetailComponent = () => {
                                             </tr>
                                             <tr className="bg-white border-b">
                                                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                    Country Origin
+                                                    Region
                                                 </th>
                                                 <td className="px-6 py-4">
-                                                    {product.countries_origin.join(', ')}
+                                                    {product.region}
                                                 </td>
                                             </tr>
                                             <tr className="bg-white border-b">
@@ -252,13 +252,13 @@ const ProductDetailComponent = () => {
                                         <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                     </div>
                                     { getCurrentUser() ? (
-                                        <div className="sm:col-span-2 sm:col-start-3 mt-4">
+                                        <div className="sm:col-span-4 sm:col-start-2 mt-4">
                                             <button onClick={handleAddToCart} className="flex items-center justify-center bg-blue-400 text-white py-3 px-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full space-x-2">
                                                 <FaCartPlus className="text-base" />
                                                 <span>Add to Cart</span>
                                             </button>
                                         </div>) : (
-                                        <div className="sm:col-span-2 sm:col-start-3 mt-4">
+                                        <div className="sm:col-span-4 sm:col-start-2 mt-4">
                                             <button onClick={redirectLogin} className="flex items-center justify-center bg-yellow-500 text-white py-3 px-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 w-full space-x-2">
                                                 <FaUser className="text-base" />
                                                 <span>Login to Buy</span>
