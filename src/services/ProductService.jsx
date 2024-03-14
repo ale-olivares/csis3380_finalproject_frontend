@@ -18,11 +18,8 @@ export const getProductDetails = async (productId) => {
 export const getProducts = async (filters = {}) => {
     try{
         const queryString = new URLSearchParams(filters).toString();
-        // console.log(queryString);
         const url = queryString ? `${BASE_URL}/products?${queryString}` : `${BASE_URL}/products`;
-        console.log(url);
         const response = await axios.get(url);
-        //console.log(response.data); 
         return response.data;
     }
     catch(error){

@@ -4,69 +4,49 @@ import { useSearchParams } from 'react-router-dom';
 const ProductFilter = (props) => {
     const [searchParams, setSearchParams] = useSearchParams();
 
-    //Handle category change
-    const handleCategoryChange = (event) => {
-        const { name, checked } = event.target;
-        const currentCategories = searchParams.get('category') ? searchParams.get('category').split(',') : [];
+     //Handling checkboxes change
+     const handleCheckbox = (event) => {
+      const { name, checked , value} = event.target;
+      const current = searchParams.get(name) ? searchParams.get(name).split(',') : [];
 
-        // If the checkbox is checked and not already in the array, add it
-        if (checked && !currentCategories.includes(name)) {
-          currentCategories.push(name);
+      // If the checkbox is checked and not already in the array, add it
+      if (checked && !current.includes(value)) {
+        current.push(value);
+      }
+    
+      // If the checkbox is unchecked, remove it from the array
+      if (!checked) {
+        const index = current.indexOf(value);
+        if (index > -1) {
+          current.splice(index, 1);
         }
-      
-        // If the checkbox is unchecked, remove it from the array
-        if (!checked) {
-          const index = currentCategories.indexOf(name);
-          if (index > -1) {
-            currentCategories.splice(index, 1); // Remove the category
-          }
-        }
+      }
 
-        // Update the search parameters
-        const newSearchParams = new URLSearchParams(searchParams);
-        if (currentCategories.length > 0) {
-          newSearchParams.set('category', currentCategories.join(',')); // Join the categories array into a string and set it in the search parameters
-        } else {
-          newSearchParams.delete('category'); // If there are no categories selected, remove the parameter from the search
-        }
+      // Update the search parameters
+      const newSearchParams = new URLSearchParams(searchParams);
+      newSearchParams.set('page', '1');
+      if (current.length > 0) {
+        newSearchParams.set(name, current.join(',')); // Set categoried in the search parameters
+      } else {
+        newSearchParams.delete(name); //If there are no categories selected, remove the parameter from the search
+      }
       
-        setSearchParams(newSearchParams);
-    };
+      setSearchParams(newSearchParams);
+  };
 
     //Handle weight, price, country change
     const handleChange = (event) => {
         const { name, value } = event.target;
         const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.set('page', '1');
         newSearchParams.set(name, value);
+
+      if(value === ''){
+        newSearchParams.delete(name);
+      }
+       
         setSearchParams(newSearchParams);
     }
-
-    //Handle grind change
-    const handleGrindChange = (event) => {
-        const {  value, checked } = event.target;
-        const currentGrinds = searchParams.get('grind') ? searchParams.get('grind').split(',') : [];
-
-        if(checked && !currentGrinds.includes(value)){
-            currentGrinds.push(value);
-        }
-
-        if(!checked){
-            const index = currentGrinds.indexOf(value);
-            if (index > -1) { 
-                currentGrinds.splice(index, 1); // Remove the grind
-            }
-        }
-
-        const newSearchParams = new URLSearchParams(searchParams);
-        if (currentGrinds.length>0){
-            newSearchParams.set('grind', currentGrinds.join(','));
-        }else{
-            newSearchParams.delete('grind');
-        }
-
-        setSearchParams(newSearchParams);
-    };
-
 
     return (
         <div className="w-1/4 pt-[85px] bg-gray-50" >
@@ -78,12 +58,12 @@ const ProductFilter = (props) => {
                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Category</h3>
                 <div className="space-y-2">
                   <div className="flex items-center">
-                    <input type="checkbox" name="Coffee" id="Coffee" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCategoryChange}  />
+                    <input type="checkbox" name="category" value="Coffee" id="Coffee" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox}  />
                     <label htmlFor="coffee" className="text-gray-600 ml-3 cursor-pointer">Coffee</label>
                     {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
                   </div>
                   <div className="flex items-center">
-                    <input type="checkbox" name="Tea" id="Tea" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCategoryChange} />
+                    <input type="checkbox" name="category" value="Tea" id="Tea" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox} />
                     <label htmlFor="tea" className="text-gray-600 ml-3 cursor-pointer">Tea</label>
                     {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
                   </div>
@@ -131,11 +111,11 @@ const ProductFilter = (props) => {
                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Grind Type</h3>
                 <div className="space-y-2">
                   <div className="flex items-center">
-                    <input type="checkbox" name="grind" id="ground" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Ground" onChange={handleGrindChange}/>
+                    <input type="checkbox" name="grind" id="ground" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Ground" onChange={handleCheckbox}/>
                     <label htmlFor="ground" className="text-gray-600 ml-3 cursor-pointer">Ground</label>
                   </div>
                   <div className="flex items-center">
-                    <input type="checkbox" name="grind" id="wholebean" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Whole Bean"  onChange={handleGrindChange}/>
+                    <input type="checkbox" name="grind" id="wholebean" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Whole Bean"  onChange={handleCheckbox}/>
                     <label htmlFor="wholebean" className="text-gray-600 ml-3 cursor-pointer"> Whole Bean</label>
                   </div>
                 </div>              
