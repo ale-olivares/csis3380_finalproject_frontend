@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import defaultProductImage from '../../assets/img/default_500_500.png'
 import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
-import ProductReviewComponent from '../Reviews/ProductReview';
+import ReviewCardComponent from '../../layouts/ReviewCard';
 
 const ProductDetailComponent = () => {
 
@@ -274,7 +274,7 @@ const ProductDetailComponent = () => {
                                         ) : (<></>)}
                                         <div className="sm:col-span-1">
                                             <label htmlFor="price" className="block mb-2">Price:</label>
-                                            <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
+                                            <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price.$numberDecimal * inputQuantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                         </div>
                                         { getCurrentUser() ? (
                                             <div className="sm:col-span-4 sm:col-start-2 mt-4">
@@ -312,7 +312,7 @@ const ProductDetailComponent = () => {
                                                                 <h4>This product has not received any review or rating yet.</h4>
                                                         ) :  (
                                                                 product.reviews.map((review,index) => (
-                                                                    <ProductReviewComponent reviewData={review} key={index} /> 
+                                                                    <ReviewCardComponent reviewData={review} key={index} /> 
                                                                 ))
                             )}
                         </div>
