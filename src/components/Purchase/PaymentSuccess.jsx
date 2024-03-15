@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getCurrentUser } from "../../services/AuthService";
 import { getCart as getCartService, removeCart as removeCartService } from '../../services/CartService';
 import { getStripeSession as getStripeSessionService } from '../../services/PaymentService';
+
 import { saveOrder as saveOrderService } from '../../services/PaymentService';
 import { useNavigate } from "react-router-dom";
 
 const PaymentSuccessComponent = () => {
 
     const navigate = useNavigate();
+    const [orderItems, setOrderItems] = useState({items: []});
 
     useEffect(() => {
 
@@ -52,6 +54,9 @@ const PaymentSuccessComponent = () => {
                                         
                                         // Clear the shopping cart
                                         removeCartService(cartItems._id);
+                                        
+                                        // Set orderItems
+                                        setOrderItems(purchaseOrder);
 
                                     }
                                 });
@@ -71,13 +76,13 @@ const PaymentSuccessComponent = () => {
                 }
             });
 
-
-
         }
 
         getCartData();
 
     }, []);
+
+
 
     return (
         <div className="container pt-40 px-40 pb-40 md:mx-auto min-h-screen">
