@@ -20,7 +20,6 @@ export const addToCart = async (userId, productId, productSubtypeIdentifier, gri
                 headers: { ...authHeader()}
             }
         );
-
         return response.data;
     } catch (error) {
         console.error('Error adding to cart', error);
@@ -53,5 +52,19 @@ export const removeFromCart = async (userId, productSubtypeId) => {
     } catch (error) {
         console.error('Error removing from cart', error);
         return error.response.data;
+    }
+}
+
+export const removeCart = async (cartId) => {
+    try {
+        
+        const response = await axios.delete(`${BASE_URL}/cart/${cartId}`, {
+            headers: { ...authHeader()}
+        });
+
+        return response;
+    } catch (error) {
+        console.error('Error removing cart', error);
+        return error.response;
     }
 }
