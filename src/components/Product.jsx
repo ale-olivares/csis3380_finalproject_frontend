@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
-import { getProducts, getCountries } from "../services/ProductService";
+import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } from "../services/ProductService";
 import img1 from "../assets/img/product1.jpg";
 import ProductCard from "../layouts/ProductCard";
 import ProductFilter from "./Products/ProductFilter";
+import Pagination from "../layouts/Pagination";
+import { get } from "react-scroll/modules/mixins/scroller";
 
 const Product = () => {
   const [products, setProducts] = useState([]); 
@@ -12,6 +14,9 @@ const Product = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useSearchParams();
   const [uniqueCountries, setUniqueCountries] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [grindTypes, setGrindTypes] = useState([]);
+  const [weights, setWeights] = useState([]);
   const [productPerPage] = useState(9);
   
 
@@ -20,7 +25,6 @@ const Product = () => {
 
       const page = searchParams.get('page') || 1; 
       const filters = { ...Object.fromEntries(searchParams), page };
-      //const filters = Object.fromEntries([...searchParams]);  
         try {
             const productsData = await getProducts(filters); 
             setProducts(productsData.products); 
@@ -39,21 +43,18 @@ const Product = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-          const countriesData = await getCountries();
+        const [countriesData, categoriesData, grindTypesData, weightsData] = await Promise.all([getCountries(), getCategories(), getGrindTypes(), getWeights()]);
+          // const countriesData = await getCountries();
           setUniqueCountries(countriesData);
+          setCategories(categoriesData);
+          setGrindTypes(grindTypesData);
+          setWeights(weightsData);
       } catch (error) {
           console.error('Error while fetching countries', error);
       }
     };
     fetchCountries();
   },[]);
-
-   // Update Search Params
-   const paginate = (pageNumber) => {
-    const newSearchParams = new URLSearchParams(searchParams); 
-    newSearchParams.set('page', pageNumber);
-    setSearchParams(newSearchParams); 
-  };
 
   //Sorting
   const handleSortChange = (event) => {
@@ -66,7 +67,7 @@ const Product = () => {
 
   return (
       <div className="flex">
-        <ProductFilter countries={uniqueCountries}/>
+        <ProductFilter countries={uniqueCountries} categories={categories} grindTypes={grindTypes} weights={weights}/>
         <div className="w-3/4">
           <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full pt-[55px] ">
             <h1 className="font-semibold text-center text-4xl lg:mt-14 mt-24 mb-8">Our Products</h1>
@@ -90,15 +91,7 @@ const Product = () => {
               ))}
             </div>
 
-            <div className="flex justify-center pb-10">
-              <div className="flex space-x-2">
-              {[...Array(totalPages).keys()].map(number => (
-                <button key={number+1} onClick={() => paginate(number + 1)} className={`px-4 py-2 ${currentPage === number + 1 ? 'bg-gray-300' : 'bg-white'} rounded shadow`}>
-                  {number + 1}
-                </button>
-              ))}
-              </div>
-            </div>
+            <Pagination totalPages={totalPages} currentPage={currentPage} />
           </div>
         </div>
       </div>

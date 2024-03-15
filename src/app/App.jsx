@@ -9,6 +9,8 @@ import DevLogin from "../components/Helpers/DevLogin";
 import ShoppingCart from "../components/Purchase/ShoppingCart";
 import Product from "../components/Product";
 import ProductDetail from "../components/Products/ProductDetail";
+import ProductTable from "../components/Products/ProductTable";
+
 
 
 class App extends Component {
@@ -38,6 +40,7 @@ class App extends Component {
             <Route path="/login" element={<DevLogin/>} />
             <Route path="/cart" element={<ShoppingCart/>} />
             <Route path="/products" element={<Product/>} />
+            <Route path="/productsTable" element={<ProductTable/>} />
           </Routes>
 
         </main>

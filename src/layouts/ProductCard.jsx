@@ -7,7 +7,6 @@ const ProductCard = (props) => {
   const navigate = useNavigate(); // Initialize navigate function
 
   const handleClick = () => {
-    console.log("Product clicked:", props.product.name);
     navigate(`/product/${props.product.prod_id}`); // Navigate to the product details page
   };
 

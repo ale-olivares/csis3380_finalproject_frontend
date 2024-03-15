@@ -57,16 +57,14 @@ const ProductFilter = (props) => {
               <div className="p-5">
                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Category</h3>
                 <div className="space-y-2">
-                  <div className="flex items-center">
-                    <input type="checkbox" name="category" value="Coffee" id="Coffee" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox}  />
-                    <label htmlFor="coffee" className="text-gray-600 ml-3 cursor-pointer">Coffee</label>
-                    {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
-                  </div>
-                  <div className="flex items-center">
-                    <input type="checkbox" name="category" value="Tea" id="Tea" className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox} />
-                    <label htmlFor="tea" className="text-gray-600 ml-3 cursor-pointer">Tea</label>
-                    {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
-                  </div>
+
+                  {props.categories.map((category, index) => (
+                    <div key={index} className="flex items-center">
+                      <input type="checkbox" name="category" value={category} id={category} className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox} />
+                      <label htmlFor={category} className="text-gray-600 ml-3 cursor-pointer">{category}</label>
+                      {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
+                    </div>
+                  ))}
                 </div>              
               </div>
 
@@ -74,14 +72,12 @@ const ProductFilter = (props) => {
               <div className="p-5">
                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Weight</h3>
                 <div className="flex items-center gap-2">
-                    <div className="weight-selector">
-                        <input type="radio" name="weight" id="250g" className="hidden" value="250g" onClick={handleChange} />
-                        <label htmlFor="250g" className="radio-label text-xs border border-gray-200 rounded-sm h-9 w-9 flex items-center justify-center cursor-pointer shadow-sm text-gray-600"> 250g </label>
+                  {props.weights.map((weight, index) => (
+                    <div key={index} className="weight-selector">
+                      <input type="radio" name="weight" id={weight} className="hidden" value={weight} onClick={handleChange} />
+                      <label htmlFor={weight} className="radio-label text-xs border border-gray-200 rounded-sm h-9 w-9 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">{weight}</label>
                     </div>
-                    <div className="weight-selector">
-                        <input type="radio" name="weight" id="500g" className="hidden" value="500g" onClick={handleChange}/>
-                        <label htmlFor="500g" className="radio-label text-xs border border-gray-200 rounded-sm h-9 w-9 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">500g</label>
-                    </div>
+                    ))}
                 </div>         
               </div>
 
@@ -110,14 +106,12 @@ const ProductFilter = (props) => {
              <div className="p-5">
                 <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">Grind Type</h3>
                 <div className="space-y-2">
-                  <div className="flex items-center">
-                    <input type="checkbox" name="grind" id="ground" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Ground" onChange={handleCheckbox}/>
-                    <label htmlFor="ground" className="text-gray-600 ml-3 cursor-pointer">Ground</label>
-                  </div>
-                  <div className="flex items-center">
-                    <input type="checkbox" name="grind" id="wholebean" className="text-primary focus:ring-0 rounded-sm cursor-pointer" value="Whole Bean"  onChange={handleCheckbox}/>
-                    <label htmlFor="wholebean" className="text-gray-600 ml-3 cursor-pointer"> Whole Bean</label>
-                  </div>
+                  {props.grindTypes.map((grindType, index) => (
+                    <div key={index} className="flex items-center">
+                      <input type="checkbox" name="grind" id={grindType} className="text-primary focus:ring-0 rounded-sm cursor-pointer" value={grindType} onChange={handleCheckbox}/>
+                      <label htmlFor={grindType} className="text-gray-600 ml-3 cursor-pointer">{grindType}</label>
+                    </div>
+                  ))}
                 </div>              
               </div>
             </div>
