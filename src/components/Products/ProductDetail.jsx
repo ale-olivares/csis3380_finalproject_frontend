@@ -33,8 +33,7 @@ const ProductDetailComponent = () => {
                 if (productData.grind_types.length > 0) {
                     setSelectedGrind(productData.grind_types[0]._id);
                 }
-                setSelectedImage(img1);
-                 // setSelectedImage(productData.product_subtypes[0].image_url);
+                setSelectedImage(productData.product_subtypes[0].image_url);
 
             } catch (error) {
                 console.error('Error while fetching product details', error);
