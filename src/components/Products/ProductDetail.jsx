@@ -29,6 +29,7 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                 }
+           
                 if (productData.grind_types.length > 0) {
                     setSelectedGrind(productData.grind_types[0]._id);
                 }

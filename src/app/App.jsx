@@ -4,24 +4,26 @@ import Navbar from "../components/Navbar";
 import Home from "../components/Home";
 import Menu from "../components/Menu";
 import About from "../components/About";
-import ProductDetail from "../components/Products/ProductDetail";
 import Footer from "../components/Footer";
 import DevLogin from "../components/Helpers/DevLogin";
 import ShoppingCart from "../components/Purchase/ShoppingCart";
 import PaymentSuccess from "../components/Purchase/PaymentSuccess";
 import PaymentCanceled from "../components/Purchase/PaymentCanceled";
+import Product from "../components/Product";
+import ProductDetail from "../components/Products/ProductDetail";
+import ProductTable from "../components/Products/ProductTable";
+
+
 
 class App extends Component {
   render() {
     return (
       <div>
         <Navbar />
-        <main>
+        <main >
           <Routes>
-            <Route
-              path="/"
-              element={
-                <>
+            <Route path="/" element={
+               <>
                   <div id="home">
                     <Home />
                   </div>
@@ -41,7 +43,10 @@ class App extends Component {
             <Route path="/cart" element={<ShoppingCart/>} />
             <Route path="/checkout-success" element={<PaymentSuccess/>} />
             <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
+            <Route path="/products" element={<Product/>} />
+            <Route path="/productsTable" element={<ProductTable/>} />
           </Routes>
+
         </main>
         <Footer />
       </div>
