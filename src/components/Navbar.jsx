@@ -4,6 +4,10 @@ import { GiCoffeeBeans } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import { FaCartShopping } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+
+
 
 import Button from "../layouts/Button";
 
@@ -18,14 +22,23 @@ const Navbar = () => {
     setMenu(false);
   };
 
+  let navigate = useNavigate();
+  const ToLogin = () => {
+    let path = "/aboutus";
+    navigate(path);
+  }
+
   return (
     <div className="fixed-top w-full z-10">
       <div>
         <div className=" flex flex-row justify-between p-5 lg:px-32 px-5 bg-gradient-to-r from-backgroundColor to-brightColor shadow-[0_3px_10px_rgb(0,0,0,0.2)]">
           <div className=" flex flex-row items-center cursor-pointer gap-2">
-            <span>
-              <GiCoffeeBeans size={25} style={{ color: "white" }} />
-            </span>
+            <NavLink to="/">
+              <span>
+                <GiCoffeeBeans size={25} style={{ color: "white" }} />
+              </span>
+            </NavLink>
+
             <h1 className=" text-xl text-white font-semibold">CoffeBeans.</h1>
           </div>
 
@@ -66,9 +79,18 @@ const Navbar = () => {
 
           </nav>
 
-          <div className=" hidden lg:flex">
-            <Button title="Login" />
+          <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
+            <NavLink to="/wholesale">
+              <FaCartShopping size={25} style={{ color: "white" }} />
+
+            </NavLink>
+            <NavLink to="/login">
+              <Button title="Login" />
+
+            </NavLink>
+
           </div>
+
 
           <div className="md:hidden flex items-center">
             {menu ? (

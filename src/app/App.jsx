@@ -9,7 +9,7 @@ import About from "../components/About";
 import Footer from "../components/Footer";
 import Wholesale from "../components/Sections/Wholesale";
 import AboutUs from "../components/Sections/AboutUs";
-
+import Login from "../components/Login";
 
 class App extends Component {
   render() {
@@ -24,6 +24,7 @@ class App extends Component {
           <Route path="/catalog" element={<Catalog />} />
           <Route path="/wholesale" element={<Wholesale />} />
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/login" element={<Login />} />
 
         </Routes>
 
