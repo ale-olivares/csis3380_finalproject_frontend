@@ -39,7 +39,7 @@ const Navbar = () => {
               </span>
             </NavLink>
 
-            <h1 className=" text-xl text-white font-semibold">CoffeBeans.</h1>
+            <h1 className=" text-xl text-white font-semibold">CoffeeBeans.</h1>
           </div>
 
           <nav className="hidden md:flex flex-row items-center text-lg text-white font-medium gap-8">
