@@ -182,7 +182,7 @@ const ProductDetailComponent = () => {
                                                 </tr>
                                                 <tr className="bg-white border-b">
                                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Importer
+                                                        Import Partner
                                                     </th>
                                                     <td className="px-6 py-4">
                                                         {product.import_partner.name}

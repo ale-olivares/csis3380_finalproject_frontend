@@ -3,6 +3,7 @@ import { getCurrentUser } from '../../services/AuthService';
 import { getCart as getCartService, removeFromCart as removeFromCartService } from '../../services/CartService';
 import { makeStripeCheckout as stripeCheckoutService, updateShoppingCartSessionId as updateCartSessionIdService } from '../../services/PaymentService';
 import defaultProductImage from '../../assets/img/default_500_500.png';
+import defaultImageEmptyCart from '../../assets/img/emptycart.png';
 import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 
@@ -222,6 +223,7 @@ const ShoppingCartComponent = () => {
                 :
                 (    <div className="text-center">
                         <h1 className="text-3xl font-bold">Your cart is empty</h1>
+                        <img src={defaultImageEmptyCart} alt="EmptyCart" className="mx-auto mt-6 w-48 h-auto object-cover" />
                         <p className="text-gray-500">Looks like you haven't added anything to your cart yet</p>
                     </div>
                 )}
