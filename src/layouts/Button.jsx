@@ -3,7 +3,7 @@ import React from "react";
 const Button = (props) => {
   return (
     <div>
-      <button className="px-10 py-3 border-2 border-white bg-hoverColor hover:text-[#AB6B2E] transition-all rounded-full">
+      <button className={props.title === "Out of Stock"? "px-10 py-3 border-2 border-white bg-[#d9a97c]  transition-all rounded-full" :"px-10 py-3 border-2 border-white bg-hoverColor hover:text-[#AB6B2E] transition-all rounded-full"} disabled={props.title === "Out of Stock"} >
         {props.title}
       </button>
     </div>
