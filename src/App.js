@@ -127,6 +127,7 @@ class App extends Component {
             <Route path="/user" element={<BoardUser />} />
             <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin" element={<BoardAdmin />} />
+            <Route path="/profile" element={<BoardAdmin />} />
           </Routes>
         </div>
       </div>
