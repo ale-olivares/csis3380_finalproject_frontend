@@ -80,7 +80,7 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
-            <NavLink to="/wholesale">
+            <NavLink to="/cart">
               <FaCartShopping size={25} style={{ color: "white" }} />
 
             </NavLink>
