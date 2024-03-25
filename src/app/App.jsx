@@ -17,6 +17,7 @@ import PaymentCanceled from "../components/Purchase/PaymentCanceled";
 import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
+import UserProfile from "../components/Sections/UserProfile";
 
 class App extends Component {
   render() {
@@ -38,7 +39,7 @@ class App extends Component {
           <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
           <Route path="/catalog" element={<Product/>} />
           <Route path="/productsTable" element={<ProductTable/>} />
-
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
         <Footer />
       </div>
