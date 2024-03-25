@@ -16,3 +16,17 @@ export const getUserDetail = async (userId) => {
     }
     
 };
+
+export const getUsers = async (filters = {}) => {
+    try{
+        const queryString = new URLSearchParams(filters).toString();
+        const url = queryString ? `${BASE_URL}/users?${queryString}` : `${BASE_URL}/users`;
+        const response = await axios.get(url);
+        return response.data;
+    }
+    catch(error){
+        console.error('Error while fetching users', error);
+        throw error;
+    }
+    
+};
