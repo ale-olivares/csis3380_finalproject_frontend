@@ -38,7 +38,8 @@ const PaymentSuccessComponent = () => {
                                         product_subtype: item.product_subtype._id,
                                         grind_type: item.grind_type._id,
                                         quantity: item.quantity,
-                                        unit_price: item.unit_price
+                                        unit_price: item.unit_price,
+                                        product_rated: false
                                     }
                                 });
 

@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { FaStar } from 'react-icons/fa';
+import UserAddReviewComponent from "./UserAddReview";
+import UserReviewSuccessComponent from "./UserReviewSuccess";
 
 const UserProfileOrderDetailComponent = ({ order }) => {
 
     const [subtotal, setSubtotal] = useState(0);
     const [taxes, setTaxes] = useState(0);
     const [total, setTotal] = useState(0);
+    const [showReviewModal, setShowReviewModal] = useState(false);
+    const [showReviewSuccessModal, setShowReviewSuccessModal] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+    const [productId, setProductId] = useState(null);
 
     // Format the creation date
     const formatDate = (dateString) => {
@@ -44,6 +51,31 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         calculateTotal();
     }, [subtotal, taxes]);
 
+    // Function to handle opening the review modal
+    const openReviewModal = (orderId, productId) => {
+        setOrderId(orderId);
+        setProductId(productId);
+        setShowReviewModal(true);
+    };
+
+    // Function to handle closing the review modal
+    const closeReviewModal = () => {
+        setOrderId(null);
+        setProductId(null);
+        setShowReviewModal(false);
+        openReviewSuccessModal();
+    };
+
+    // Function to handle opening the review success modal
+    const openReviewSuccessModal = () => {
+        setShowReviewSuccessModal(true);
+    };
+
+    // Function to handle closing the review modal
+    const closeReviewSuccessModal = () => {
+        setShowReviewSuccessModal(false);
+    };
+
     if (!(order && order.items)) {
         return <div>Loading...</div>;
     }
@@ -51,13 +83,19 @@ const UserProfileOrderDetailComponent = ({ order }) => {
     return (
         <>
             <div className="mt-10 p-6 bg-white shadow-lg rounded-lg">
-                <h2 className="text-2xl font-semibold text-gray-800">Order Number: {order.order_number.toString().padStart(10,'0')}</h2>
-                <div className="mt-4 text-gray-600">
-                    <p><strong>Order Status:</strong> {order.order_status}</p>
-                    <p><strong>Order Date:</strong> {formatDate(order.created_at)}</p>
+                <div className="flex justify-between">
+                    <h2 className="text-xl font-semibold text-gray-800">Order #: {order.order_number.toString().padStart(10, '0')}</h2>
+                    <p className={`text-lg font-semibold ${order.order_status.toLowerCase() === 'pending' ? 'text-blue-500' :
+                            order.order_status.toLowerCase() === 'in process' ? 'text-orange-500' :
+                                order.order_status.toLowerCase() === 'delivered' ? 'text-green-500' :
+                                    order.order_status.toLowerCase() === 'delayed' ? 'text-red-500' : 'text-gray-800'
+                        } capitalize`}>
+                        {order.order_status}
+                    </p>
                 </div>
-
-                <h3 className="text-xl font-semibold mt-6 text-gray-800">Items Ordered:</h3>
+                <div className="mt-4 text-gray-600">
+                    <p><strong>Date:</strong> {formatDate(order.created_at)}</p>
+                </div>
                 <div className="mt-4">
                     <table className="table-auto w-full text-left">
                         <thead>
@@ -65,7 +103,8 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                                 <th className="px-4 py-2 rounded-l-lg">Product</th>
                                 <th className="px-4 py-2">Quantity</th>
                                 <th className="px-4 py-2">Unit Price</th>
-                                <th className="px-4 py-2 rounded-r-lg">Subtotal</th>
+                                <th className="px-4 py-2">Subtotal</th>
+                                <th className="px-4 py-2 rounded-r-lg"> Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,6 +119,21 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                                     <td className="px-4 py-2">{item.quantity}</td>
                                     <td className="px-4 py-2">${item.unit_price}</td>
                                     <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
+                                    {
+                                        order.order_status.toLowerCase() === 'delivered' &&
+                                        item.product_rated === false ?
+                                        (
+                                        <td className="px-4 py-2" >
+                                            <button 
+                                                className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded"
+                                                onClick={() => openReviewModal(order._id, item.product._id)}
+                                            >
+                                                <FaStar className="mr-2"/> Rate
+                                            </button>
+                                        </td>
+                                    ) :
+                                            (<td className="px-4 py-2" ></td>)
+                                    }
                                 </tr>
                             ))}
                         </tbody>
@@ -102,6 +156,13 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                         </div>
                     </div>
                 </div>
+                {showReviewModal && (
+                    <UserAddReviewComponent onClose={closeReviewModal} orderId={orderId} productId={productId} />
+                )}
+                {showReviewSuccessModal && (
+                        <UserReviewSuccessComponent onClose={closeReviewSuccessModal} />
+                    )
+                }
             </div>
         </>
     )
