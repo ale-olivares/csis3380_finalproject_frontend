@@ -27,7 +27,7 @@ const ReviewCardComponent = ({ reviewData }) => {
                 ))}
                 <h3 className="ms-2 text-sm font-semibold text-gray-900">{reviewData.title}</h3>
             </div>
-            <p className="mb-2 text-gray-500 dark:text-gray-400">{reviewData.comment}</p>
+            <p className="mb-2 text-gray-500 dark:text-gray-400" dangerouslySetInnerHTML={{__html: reviewData.comment.replace(/\n/g, '<br/>')}} ></p>
         </article>
     )
 

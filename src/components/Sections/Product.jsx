@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
-import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } from "../services/ProductService";
-import img1 from "../assets/img/product1.jpg";
-import ProductCard from "../layouts/ProductCard";
-import ProductFilter from "./Products/ProductFilter";
-import Pagination from "../layouts/Pagination";
+import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } from "../../services/ProductService";
+import img1 from "../../assets/img/product1.jpg";
+import ProductCard from "../../layouts/ProductCard";
+import ProductFilter from "../Products/ProductFilter";
+import Pagination from "../../layouts/Pagination";
 import { get } from "react-scroll/modules/mixins/scroller";
 
 const Product = () => {
@@ -19,7 +19,6 @@ const Product = () => {
   const [weights, setWeights] = useState([]);
   const [productPerPage] = useState(9);
   
-
   useEffect(() => {
     const fetchProducts = async () => {
 
