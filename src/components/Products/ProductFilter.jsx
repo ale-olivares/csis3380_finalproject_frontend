@@ -49,8 +49,8 @@ const ProductFilter = (props) => {
     }
 
     return (
-        <div className="w-1/4 pt-[85px] bg-gray-50" >
-          <aside className="w-full p-6 rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[85px]">
+        <div className="w-1/4 bg-gray-50" >
+          <aside className="w-full p-6 rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[8px]">
             <div className="divide-y divide-gray-200">
 
               {/* Category Filter */}
@@ -62,7 +62,6 @@ const ProductFilter = (props) => {
                     <div key={index} className="flex items-center">
                       <input type="checkbox" name="category" value={category} id={category} className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox} />
                       <label htmlFor={category} className="text-gray-600 ml-3 cursor-pointer">{category}</label>
-                      {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
                     </div>
                   ))}
                 </div>              
