@@ -17,6 +17,9 @@ import PaymentCanceled from "../components/Purchase/PaymentCanceled";
 import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
+import ContactForm from "../components/ContactForm";
+import ForgotPassword from "../services/ForgotPassword";
+import ConfirmPassword from "../services/ConfirmPassword";
 
 class App extends Component {
   render() {
@@ -24,21 +27,23 @@ class App extends Component {
       <div>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<Home />} />
           <Route path="/" element={<About />} />
           <Route path="/" element={<Footer />} />
           <Route path="/wholesale" element={<Wholesale />} />
           <Route path="/aboutus" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
-          <Route path="/product/:productId" element={<ProductDetail/>} />
-          <Route path="/devLogin" element={<DevLogin/>} />
-          <Route path="/cart" element={<ShoppingCart/>} />
-          <Route path="/checkout-success" element={<PaymentSuccess/>} />
-          <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
-          <Route path="/catalog" element={<Product/>} />
-          <Route path="/productsTable" element={<ProductTable/>} />
-
+          <Route path="/product/:productId" element={<ProductDetail />} />
+          <Route path="/devLogin" element={<DevLogin />} />
+          <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/checkout-success" element={<PaymentSuccess />} />
+          <Route path="/checkout-cancel" element={<PaymentCanceled />} />
+          <Route path="/catalog" element={<Product />} />
+          <Route path="/productsTable" element={<ProductTable />} />
+          <Route path="/contactForm" element={<ContactForm />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/confirmPassword" element={<ConfirmPassword />} />
         </Routes>
         <Footer />
       </div>

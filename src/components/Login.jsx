@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
 
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -64,11 +65,13 @@ const Login = () => {
                             </label>
                         </div>
 
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-brightColor hover:text-indigo-500">
-                                Forgot your password?
-                            </a>
-                        </div>
+                        <NavLink
+                            to="/forgotPassword"
+                            className="text-sm font-medium text-brightColor hover:text-indigo-500"
+                        >
+                            Forgot your password?
+                        </NavLink>
+
                     </div>
 
                     <div>
@@ -80,16 +83,6 @@ const Login = () => {
                         </button>
                     </div>
 
-                    <div className="items-center text-center ">
-                        <span>Don't have an account?
-                            <NavLink to="/signUp">
-                                <span className="font-bold px-2 hover:text-indigo-500">
-                                    Click here to Sign Up
-
-                                </span>
-                            </NavLink>
-                        </span>
-                    </div>
 
                 </form>
             </div>
