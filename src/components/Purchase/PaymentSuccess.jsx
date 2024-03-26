@@ -38,7 +38,8 @@ const PaymentSuccessComponent = () => {
                                         product_subtype: item.product_subtype._id,
                                         grind_type: item.grind_type._id,
                                         quantity: item.quantity,
-                                        unit_price: item.unit_price
+                                        unit_price: item.unit_price,
+                                        product_rated: false
                                     }
                                 });
 
@@ -96,7 +97,7 @@ const PaymentSuccessComponent = () => {
         
         if (orderItems && orderItems.items.length > 0){
             orderItems.items.forEach((item) => {
-                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price.$numberDecimal));
+                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price));
             });
         }
     
@@ -163,8 +164,8 @@ const PaymentSuccessComponent = () => {
                                             <br/>
                                             {item.product_subtype.name}</td>
                                         <td className="px-4 py-2">{item.quantity}</td>
-                                        <td className="px-4 py-2">${item.unit_price.$numberDecimal}</td>
-                                        <td className="px-4 py-2">${(item.quantity * item.unit_price.$numberDecimal).toFixed(2)}</td>
+                                        <td className="px-4 py-2">${item.unit_price}</td>
+                                        <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>
