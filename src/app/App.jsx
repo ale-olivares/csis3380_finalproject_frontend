@@ -19,32 +19,35 @@ import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
 import UserProfile from "../components/Sections/UserProfile";
 import UsersTable from "../components/Users/UsersTable";
+import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/" element={<About />} />
-          <Route path="/" element={<Footer />} />
-          <Route path="/wholesale" element={<Wholesale />} />
-          <Route path="/aboutus" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/product/:productId" element={<ProductDetail/>} />
-          <Route path="/devLogin" element={<DevLogin/>} />
-          <Route path="/cart" element={<ShoppingCart/>} />
-          <Route path="/checkout-success" element={<PaymentSuccess/>} />
-          <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
-          <Route path="/catalog" element={<Product/>} />
-          <Route path="/productsTable" element={<ProductTable/>} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/usersTable" element={<UsersTable/>} />
-        </Routes>
-        <Footer />
-      </div>
+      <ShoppingCartProvider>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/" element={<About />} />
+            <Route path="/" element={<Footer />} />
+            <Route path="/wholesale" element={<Wholesale />} />
+            <Route path="/aboutus" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/devLogin" element={<DevLogin/>} />
+            <Route path="/cart" element={<ShoppingCart/>} />
+            <Route path="/checkout-success" element={<PaymentSuccess/>} />
+            <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
+            <Route path="/catalog" element={<Product/>} />
+            <Route path="/productsTable" element={<ProductTable/>} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/usersTable" element={<UsersTable/>} />
+          </Routes>
+          <Footer />
+        </div>
+      </ShoppingCartProvider>
     );
   }
 }

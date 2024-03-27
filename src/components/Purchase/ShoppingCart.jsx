@@ -5,6 +5,7 @@ import { makeStripeCheckout as stripeCheckoutService, updateShoppingCartSessionI
 import defaultProductImage from '../../assets/img/default_500_500.png';
 import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
+import { useShoppingCart } from "../../contexts/ShoppingCartContext";
 
 const ShoppingCartComponent = () => {
     
@@ -14,6 +15,7 @@ const ShoppingCartComponent = () => {
     const [taxes, setTaxes] = useState(0);
     const [total, setTotal] = useState(0);
     const [modal, setModal] = useState(null);
+    const { updateCartCount } = useShoppingCart();
 
     const calculateSubtotal = () => {
         let newSubtotal = 0;
@@ -95,6 +97,10 @@ const ShoppingCartComponent = () => {
                 modalType: "success"
             });
 
+            // Update the cart count
+            updateCartCount(newCartItems.length);
+            
+
         }
         catch (error) {
             console.error('Error while removing item from cart', error);
@@ -133,7 +139,7 @@ const ShoppingCartComponent = () => {
 
     return (
         <>
-            <div className="container pt-40 px-40 pb-40 md:mx-auto min-h-screen">
+            <div className="container pt-20 px-40 pb-40 md:mx-auto min-h-screen">
                 { cartItems && cartItems.items.length > 0 ? (
                     <>
                     <h3 className="text-3xl font-semibold leading-7 text-gray-900 py-5">My Cart</h3>
@@ -164,7 +170,7 @@ const ShoppingCartComponent = () => {
                                         <td className="p-4 flex justify-center items-center">
                                             <img src={defaultProductImage} className="w-16 md:w-32 mx-auto max-w-full max-h-full" alt="Product"/>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-900">
+                                        <td className="px-6 py-4 text-gray-900 text-xl">
                                             {item.product.name} 
                                             <br/>
                                             {item.grind_type.name}

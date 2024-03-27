@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-scroll";
 import { GiCoffeeBeans } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
@@ -6,13 +6,13 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-
-
+import { useShoppingCart } from "../contexts/ShoppingCartContext";
 
 import Button from "../layouts/Button";
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
+  const { totalItemsCart } = useShoppingCart();
 
   const handleChange = () => {
     setMenu(!menu);
@@ -23,6 +23,7 @@ const Navbar = () => {
   };
 
   let navigate = useNavigate();
+  
   const ToLogin = () => {
     let path = "/aboutus";
     navigate(path);
@@ -75,23 +76,18 @@ const Navbar = () => {
               About us
               <span className="absolute inset-x-0 bottom-0 h-0.5 bg-black transform scale-x-0 origin-left transition-transform group-hover:scale-x-100"></span>
             </NavLink>
-
-
           </nav>
-
           <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
-            <NavLink to="/cart">
+            <NavLink to="/cart" className="relative">
               <FaCartShopping size={25} style={{ color: "white" }} />
-
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 p-1 text-xs text-white absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">
+                {totalItemsCart}
+              </span>
             </NavLink>
             <NavLink to="/login">
               <Button title="Login" />
-
             </NavLink>
-
           </div>
-
-
           <div className="md:hidden flex items-center">
             {menu ? (
               <AiOutlineClose size={25} onClick={handleChange} />

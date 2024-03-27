@@ -7,6 +7,7 @@ import defaultProductImage from '../../assets/img/default_500_500.png'
 import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
 import ReviewCardComponent from '../../layouts/ReviewCard';
+import { useShoppingCart } from '../../contexts/ShoppingCartContext';
 
 const ProductDetailComponent = () => {
 
@@ -19,6 +20,7 @@ const ProductDetailComponent = () => {
     const [product, setProduct] = useState(null);
     const [modal, setModal] = useState(null);
     const navigate = useNavigate();
+    const { updateCartCount } = useShoppingCart();
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -29,7 +31,7 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                 }
-           
+
                 if (productData.grind_types.length > 0) {
                     setSelectedGrind(productData.grind_types[0]._id);
                 }
@@ -43,9 +45,9 @@ const ProductDetailComponent = () => {
     }, [productId]);
 
     const handleAddToCart = async () => {
-        
+
         if (product && getCurrentUser()) {
-            
+
             try {
 
                 if (inputQuantity === '' || parseInt(inputQuantity) <= 0) {
@@ -61,7 +63,7 @@ const ProductDetailComponent = () => {
 
                     // Call the service function to add to the backend cart
                     const response = await addToCartService(getCurrentUser().id, productId, selectedWeight, selectedGrind, inputQuantity, selectedPrice);
-                    
+
                     if (response.message) {
                         setModal({
                             showModal: true,
@@ -70,13 +72,15 @@ const ProductDetailComponent = () => {
                             modalType: "error"
                         });
                     }
-                    else{
+                    else {
+                        console.log(response);
                         setModal({
                             showModal: true,
                             modalMessage: "Item added to cart successfully",
                             modalTitle: "Success",
                             modalType: "success"
                         });
+                        updateCartCount(response.shopping_cart.items.length);
                     }
 
                 }
@@ -94,7 +98,7 @@ const ProductDetailComponent = () => {
 
     const calculateAverageRating = (reviews) => {
         let total = 0.0;
-        
+
         reviews.forEach(review => {
             total += parseFloat(review.rating);
         });
@@ -113,96 +117,90 @@ const ProductDetailComponent = () => {
 
     return (
         <>
-        
-            <div className="container pt-40 px-40 md:mx-auto">
+            <div className="container px-5 md:pt-20 md:px-40 mx-auto">
                 {product ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 min-h-screen">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-6 min-h-screen">
                         <div>
-                            <h1 className="text-3xl font-semibold leading-7 text-gray-900">{product.name}</h1>
+                            <h1 className="text-2xl md:text-3xl font-semibold leading-7 text-gray-900">{product.name}</h1>
                             <p className="mt-1 text-sm leading-6 text-gray-600">{product.description}</p>
-                            <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                <div className="sm:col-span-6">
-                                    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                        <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                                            <thead className="text-xl text-gray-800 bg-gray-50 text-center">
-                                                <tr>
-                                                    <th colSpan="2" scope="col" className="px-6 py-3">
-                                                        Specifications
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Category
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.product_category.name}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Country Origin
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.countries_origin.join(', ')}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Region
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.region}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Process
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.process}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Farm
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.farm}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Producer
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.producer}
-                                                    </td>
-                                                </tr>
-                                                <tr className="bg-white border-b">
-                                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                        Importer
-                                                    </th>
-                                                    <td className="px-6 py-4">
-                                                        {product.import_partner.name}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                            <div className="mt-8">
+                                <div className="overflow-x-auto shadow-md sm:rounded-lg">
+                                    <table className="w-full text-sm text-left text-gray-500">
+                                        <thead className="text-lg md:text-xl text-gray-800 bg-gray-50 text-center">
+                                            <tr>
+                                                <th colSpan="2" scope="col" className="px-6 py-3">
+                                                    Specifications
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Category
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.product_category.name}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Country Origin
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.countries_origin.join(', ')}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Region
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.region}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Process
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.process}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Farm
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.farm}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Producer
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.producer}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Importer
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.import_partner.name}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6 mt-5">
-                                <div className="sm:col-span-4 sm:col-start-2">
-                                    <img className='rounded-lg w-96 h-96' src={selectedImage === "#" ? defaultProductImage : selectedImage} alt="Product" />
-                                </div>
-                                <div className="sm:col-span-6">
+                            <div className="mt-5">
+                                <img className='rounded-lg mx-auto w-full max-w-md h-auto' src={selectedImage === "#" ? defaultProductImage : selectedImage} alt="Product" />
+                                <div className="sm:col-span-6 sm:mt-10 mt-10">
                                     <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-6">
-                                        { getCurrentUser() ? (
+                                        {getCurrentUser() ? (
                                             <div className="sm:col-span-2">
                                                 <label htmlFor="grindType" className="block text-sm font-medium leading-6 text-gray-900">Choose a Grind:</label>
                                                 <div className='mt-2'>
@@ -218,7 +216,7 @@ const ProductDetailComponent = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                        ): (
+                                        ) : (
                                             <div className="sm:col-span-2 sm:col-start-2">
                                                 <label htmlFor="grindType" className="block text-sm font-medium leading-6 text-gray-900">Choose a Grind:</label>
                                                 <div className='mt-2'>
@@ -234,7 +232,7 @@ const ProductDetailComponent = () => {
                                                     </select>
                                                 </div>
                                             </div>
-                                        )} 
+                                        )}
                                         <div className="sm:col-span-2">
                                             <label htmlFor="weight" className="block text-sm font-medium leading-6 text-gray-900">Choose a Weight:</label>
                                             <div className='mt-2'>
@@ -254,7 +252,7 @@ const ProductDetailComponent = () => {
                                                 </select>
                                             </div>
                                         </div>
-                                        { getCurrentUser() ? (
+                                        {getCurrentUser() ? (
                                             <div className="sm:col-span-1">
                                                 <label htmlFor="quantity" className="block text-sm font-medium leading-6 text-gray-900">Quantity:</label>
                                                 <div className='mt-2'>
@@ -277,48 +275,51 @@ const ProductDetailComponent = () => {
                                             <label htmlFor="price" className="block mb-2">Price:</label>
                                             <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                         </div>
-                                        { getCurrentUser() ? (
+                                        {getCurrentUser() ? (
                                             <div className="sm:col-span-4 sm:col-start-2 mt-4">
-                                                <button onClick={handleAddToCart} className="flex items-center justify-center bg-blue-400 text-white py-3 px-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-full space-x-2">
+                                                <button onClick={handleAddToCart} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 space-x-2">
                                                     <FaCartPlus className="text-base" />
                                                     <span>Add to Cart</span>
                                                 </button>
                                             </div>) : (
                                             <div className="sm:col-span-4 sm:col-start-2 mt-4">
-                                                <button onClick={redirectLogin} className="flex items-center justify-center bg-yellow-500 text-white py-3 px-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 w-full space-x-2">
+                                                <button onClick={redirectLogin} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 space-x-2">
                                                     <FaUser className="text-base" />
                                                     <span>Login to Buy</span>
                                                 </button>
                                             </div>
-                                            )    
-                                            
+                                        )
+
                                         }
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="pb-2 sm:col-span-2">
+                        {/* Divider */}
+                        <div className="col-span-1 lg:col-span-2">
                             <hr className="h-px mt-8 bg-gray-200 border-0"></hr>
                         </div>
-                        {/* For review and rating it's sampling from now */}
-                        <div className="pb-12 sm:col-span-2">
-                            <div className="flex items-center mb-4 items-center">
+
+                        {/* Ratings and Reviews */}
+                        <div className="col-span-1 lg:col-span-2 pb-12">
+                            <div className="flex flex-col md:flex-row items-center mb-4">
                                 <div className="flex items-center mr-5">
-                                    <p className="bg-blue-100 text-blue-800 text-md font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">{calculateAverageRating(product.reviews)}</p>
+                                    <p className="bg-blue-100 text-blue-800 text-sm md:text-md font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                        {calculateAverageRating(product.reviews)}
+                                    </p>
                                 </div>
-                                <h1 className="text-2xl font-semibold leading-7 text-gray-900">Reviews & Ratings</h1>
+                                <h1 className="text-xl md:text-2xl font-semibold leading-7 text-gray-900">Reviews & Ratings</h1>
                             </div>
 
                             {product.reviews.length === 0 ? (
-                                                                <h4>This product has not received any review or rating yet.</h4>
-                                                        ) :  (
-                                                                product.reviews.map((review,index) => (
-                                                                    <ReviewCardComponent reviewData={review} key={index} /> 
-                                                                ))
+                                <h4>This product has not received any review or rating yet.</h4>
+                            ) : (
+                                product.reviews.map((review, index) => (
+                                    <ReviewCardComponent reviewData={review} key={index} />
+                                ))
                             )}
                         </div>
                     </div>
-
                 ) : (
                     <p>Loading product details...</p>
                 )}
@@ -334,21 +335,21 @@ const ProductDetailComponent = () => {
                             <div className="items-center px-4 py-3">
                                 {
                                     modal.modalType === 'error' ? (
-                                        <button 
-                                            id="error-btn" 
-                                            onClick={() => setModal(null)} 
+                                        <button
+                                            id="error-btn"
+                                            onClick={() => setModal(null)}
                                             className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
                                         >
                                             OK
                                         </button>
                                     ) : (
-                                        <button 
-                                            id="ok-btn" 
-                                            onClick={() => setModal(null)} 
+                                        <button
+                                            id="ok-btn"
+                                            onClick={() => setModal(null)}
                                             className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
-                                            >
-                                                OK
-                                            </button>
+                                        >
+                                            OK
+                                        </button>
                                     )
                                 }
                             </div>
