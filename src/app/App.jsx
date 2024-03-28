@@ -18,8 +18,8 @@ import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
 import ContactForm from "../components/ContactForm";
-import ForgotPassword from "../services/ForgotPassword";
-import ConfirmPassword from "../services/ConfirmPassword";
+import ForgotPassword from "../components/ForgotPassword";
+import ConfirmPassword from "../components/ConfirmPassword";
 
 class App extends Component {
   render() {

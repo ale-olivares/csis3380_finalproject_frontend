@@ -5,14 +5,18 @@ import { NavLink } from 'react-router-dom';
 import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCartShopping } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import { getCurrentUser } from "../services/AuthService";
 
 
 import Button from "../layouts/Button";
 
 const Navbar = () => {
+
+  //to know the user that's logged in 
+  const location = useLocation()
   const [menu, setMenu] = useState(false);
+  const user = getCurrentUser();
 
   const handleChange = () => {
     setMenu(!menu);
@@ -22,11 +26,14 @@ const Navbar = () => {
     setMenu(false);
   };
 
-  let navigate = useNavigate();
+  /*let navigate = useNavigate();
   const ToLogin = () => {
     let path = "/aboutus";
     navigate(path);
-  }
+  }*/
+
+  //add once user is logged in
+  //<p>Hello! {location.state.id}</p>
 
   return (
     <div className="fixed-top w-full z-10">
@@ -84,12 +91,16 @@ const Navbar = () => {
               <FaCartShopping size={25} style={{ color: "white" }} />
 
             </NavLink>
-            <NavLink to="/login">
-              <Button title="Login" />
 
-            </NavLink>
+            {user === null ? (
+              <NavLink to="/login">
+                <Button title="Login" />
+              </NavLink>
+            ) : (<p>Hello!</p>)}
+
 
           </div>
+
 
 
           <div className="md:hidden flex items-center">
@@ -144,6 +155,8 @@ const Navbar = () => {
           >
             About us
           </Link>
+
+
           <Button title="login" />
         </div>
       </div>

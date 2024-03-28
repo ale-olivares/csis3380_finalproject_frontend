@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
+import { NavLink, useNavigate } from 'react-router-dom';
+import { login } from '../services/AuthService';
 
 
 const Login = () => {
+
+    const history = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
 
-    const handleLogin = (e) => {
+    async function handleLogin(e) {
         e.preventDefault();
-        // add logic to handle the login process
+        //logic to handle the login process
+        try {
+
+            const loginResponse = await login(username, password);
+            if (loginResponse.message) {
+                setMessage(loginResponse.message);
+            }
+            else {
+                setMessage('Login Successful');
+                //validate if user has requiredpassword field  = true 
+
+
+                history("/")
+            }
+
+
+        } catch (e) {
+            console.log(e);
+        }
+
+
         console.log('Logging in with:', { username, password });
     };
 
@@ -82,6 +106,7 @@ const Login = () => {
                             Login
                         </button>
                     </div>
+                    <p>{message}</p>
 
 
                 </form>

@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { requestPasswordReset } from '../services/AuthService';
 
 const ForgotPassword = () => {
+
+
   const [email, setEmail] = useState('');
 
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Send password reset request to the backend
     try {
-      const response = await fetch('/api/forgot-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-      // Handle response accordingly
-    } catch (error) {
-      console.error('Error sending password reset request:', error);
+
+      const response = await requestPasswordReset(email);
+      console.log(response);
+
+
+    } catch (e) {
+      console.log(e);
     }
+
+
   };
 
   return (
@@ -38,14 +39,14 @@ const ForgotPassword = () => {
           />
         </div>
         <br></br>
-        <NavLink to="/confirmPassword">
+        <div>
           <button
             type="submit"
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Reset Password
           </button>
-        </NavLink>
+        </div>
 
       </form>
     </div>
