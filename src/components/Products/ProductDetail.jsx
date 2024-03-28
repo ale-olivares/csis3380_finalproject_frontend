@@ -275,7 +275,7 @@ const ProductDetailComponent = () => {
                                         ) : (<></>)}
                                         <div className="sm:col-span-1">
                                             <label htmlFor="price" className="block mb-2">Price:</label>
-                                            <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price.$numberDecimal * inputQuantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
+                                            <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                         </div>
                                         { getCurrentUser() ? (
                                             <div className="sm:col-span-4 sm:col-start-2 mt-4">

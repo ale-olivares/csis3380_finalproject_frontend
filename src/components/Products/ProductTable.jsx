@@ -62,6 +62,11 @@ const ProductTable = () => {
         }
     };
 
+    const handleCancel = async () => {
+            setEditing(null); // Exit editing mode
+
+    };
+
 
     const handleChange = (event, prodId, subtypeIndex) => {
         const {name, value} = event.target;
@@ -88,7 +93,8 @@ const ProductTable = () => {
 
     return (
         <>
-        <div className="container pt-40 px-40 pb-20 md:mx-auto min-h-screen">
+         <h1 className="font-semibold text-center text-3xl pt-5">Products</h1>
+        <div className="container pt-5 mx-auto pb-20 min-h-screen"> 
             <div className='pb-[10px]'>
                 <label htmlFor="table-search" className="sr-only">Search</label>
                 <div className="relative">
@@ -131,7 +137,7 @@ const ProductTable = () => {
                                             <input
                                                 type="number"
                                                 value={subtype.stock}
-                                                className="appearance-none bg-transparent border-none text-green-500 mr-3 py-1 px-2 leading-tight focus:outline-none text-center  font-medium text-sm rounded-lg h-[35px] w-[100px]"
+                                                className="appearance-none bg-transparent border-none text-green-500 leading-tight focus:outline-none text-center  font-medium text-sm rounded-lg h-[35px] w-[100px]"
                                                 onChange={(e) => handleChange(e, product._id, index)}
                                                 name="stock"
                                             />
@@ -145,7 +151,7 @@ const ProductTable = () => {
                                                 type="text"
                                                 value={subtype.price}
                                               
-                                                className="appearance-none bg-transparent border-none text-green-500 mr-3 py-1 px-2 leading-tight focus:outline-none text-center  font-medium text-sm rounded-lg h-[35px] w-[100px]"
+                                                className="appearance-none bg-transparent border-none text-green-500 leading-tight focus:outline-none text-center  font-medium text-sm rounded-lg h-[35px] w-[100px]"
                                                 onChange={(e) => handleChange(e, product._id, index)}
                                                 name="price"
                                             />
@@ -155,7 +161,10 @@ const ProductTable = () => {
                                     </td>
                                     <td className="px-6 py-4">
                                         {editing === product._id ? (
-                                            <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-500" onClick={() => handleSave(product._id, index)}>Save</button>
+                                            <>
+                                                <button className="w-[60px] h-[35px] bg-green-600 text-white rounded hover:bg-green-500" onClick={() => handleSave(product._id, index)}>Save</button>
+                                                <button className="ml-2 w-[60px] h-[35px] bg-red-600 text-white rounded hover:bg-red-500" onClick={() => handleCancel()}>Cancel</button>
+                                            </>
                                         ) : (
                                             <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500" onClick={() => handleEdit(product._id)}>Edit</button>
                                         )}

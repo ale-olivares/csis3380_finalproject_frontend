@@ -17,9 +17,14 @@ import PaymentCanceled from "../components/Purchase/PaymentCanceled";
 import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
+
 import ContactForm from "../components/ContactForm";
 import ForgotPassword from "../components/ForgotPassword";
 import ConfirmPassword from "../components/ConfirmPassword";
+
+import UserProfile from "../components/Sections/UserProfile";
+import UsersTable from "../components/Users/UsersTable";
+
 
 class App extends Component {
   render() {
@@ -34,6 +39,7 @@ class App extends Component {
           <Route path="/aboutus" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signUp" element={<SignUp />} />
+
           <Route path="/product/:productId" element={<ProductDetail />} />
           <Route path="/devLogin" element={<DevLogin />} />
           <Route path="/cart" element={<ShoppingCart />} />
@@ -44,6 +50,11 @@ class App extends Component {
           <Route path="/contactForm" element={<ContactForm />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/confirmPassword" element={<ConfirmPassword />} />
+
+
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/usersTable" element={<UsersTable />} />
+
         </Routes>
         <Footer />
       </div>

@@ -20,7 +20,7 @@ const ShoppingCartComponent = () => {
         
         if (cartItems && cartItems.items.length > 0){
             cartItems.items.forEach((item) => {
-                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price.$numberDecimal));
+                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price));
             });
         }
     
@@ -175,7 +175,7 @@ const ShoppingCartComponent = () => {
                                             {item.quantity}
                                         </td>
                                         <td className="px-6 py-4 font-semibold text-gray-900 text-center">
-                                            ${(parseInt(item.quantity) * parseFloat(item.unit_price.$numberDecimal)).toFixed(2)}
+                                            ${(parseInt(item.quantity) * parseFloat(item.unit_price)).toFixed(2)}
                                         </td>
                                         <td className="px-6 py-4 text-center"> {/* text-center can help horizontally center the content */}
                                             <div className="flex justify-center items-center"> {/* Flex container to align the button */}

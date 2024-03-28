@@ -16,7 +16,24 @@ export const getPurchaseOrder = async (userId, orderId) => {
         return response.data;
 
     } catch (error) {
-        console.error('Error while fetching Stripe session', error);
+        console.error('Error while fetching order', error);
+        return error.response.data;
+    }
+}
+
+export const getPurchaseOrders = async (userId) => {
+    try {
+        
+        const response = await axios.get(`${BASE_URL}/orders/${userId}`,
+        {
+            headers: { ...authHeader()}
+        }
+        );
+
+        return response.data;
+
+    } catch (error) {
+        console.error('Error while fetching orders', error);
         return error.response.data;
     }
 }

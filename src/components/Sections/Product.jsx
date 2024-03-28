@@ -68,13 +68,13 @@ const Product = () => {
       <div className="flex">
         <ProductFilter countries={uniqueCountries} categories={categories} grindTypes={grindTypes} weights={weights}/>
         <div className="w-3/4">
-          <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full pt-[55px] ">
-            <h1 className="font-semibold text-center text-4xl lg:mt-14 mt-24 mb-8">Our Products</h1>
+          <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full ">
+            <h1 className="font-semibold text-center text-4xl lg:mt-10 mb-8">Our Products</h1>
             <div className="flex items-center mb-4">
                 <div className="text-gray-600">Showing {Math.min(1 + ((currentPage-1)*productPerPage), totalProducts)}–{products.length+((currentPage-1)*productPerPage)} of {totalProducts} results</div>
                 <div className="flex gap-2 ml-auto">
                 <select name="sort" id="sort"
-                    className="w-44 text-sm text-gray-600 py-3 px-4 border-gray-300 shadow rounded focus:ring-primary focus:border-primary" onChange={handleSortChange}>
+                    className="w-44 text-sm text-gray-600 py-3 px-4 mb-4 border-gray-300 shadow rounded focus:ring-primary focus:border-primary" onChange={handleSortChange}>
                     <option value="default">Default sorting</option>
                     <option value="price-low-to-high" >Price low to high</option>
                     <option value="price-high-to-low">Price high to low</option>
