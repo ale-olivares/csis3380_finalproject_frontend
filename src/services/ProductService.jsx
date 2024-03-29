@@ -1,4 +1,5 @@
 import axios from 'axios';
+import authHeader from './AuthHeader';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -87,12 +88,15 @@ export const getWeights = async () => {
 
 
 
-
 export const getProductList = async (filters={}) => {
     try{
         const queryString = new URLSearchParams(filters).toString();
         const url = queryString ? `${BASE_URL}/productList?${queryString}` : `${BASE_URL}/productList`;
-        const response = await axios.get(url);
+        const response = await axios.get(url,
+            {
+                headers: { ...authHeader()}
+            }
+        );
         return response.data;
         
     }
@@ -105,7 +109,11 @@ export const getProductList = async (filters={}) => {
 
 export const updateProduct = async (product, indexSubtype) => {
     try{
-        const response = await axios.put(`${BASE_URL}/editProduct/${product._id}`, {product, indexSubtype});
+        const response = await axios.put(`${BASE_URL}/editProduct/${product._id}`, {product, indexSubtype},
+        {
+            headers: { ...authHeader()}
+        }
+        );
         return response.data;
     }
     catch(error){
