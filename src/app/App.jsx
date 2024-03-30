@@ -18,36 +18,39 @@ import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
 import UserProfile from "../components/Sections/UserProfile";
-import UsersTable from "../components/Users/UsersTable";
 import { CartProvider }  from "../contexts/CartContext";
+import UsersTable from "../components/User/UsersTable";
+import UserForm from "../components/User/UserForm";
 
 class App extends Component {
   render() {
     return (
-        <CartProvider>
-          <div>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />}/>
-              <Route path="/" element={<About />} />
-              <Route path="/" element={<Footer />} />
-              <Route path="/wholesale" element={<Wholesale />} />
-              <Route path="/aboutus" element={<About />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signUp" element={<SignUp />} />
-              <Route path="/product/:productId" element={<ProductDetail/>} />
-              <Route path="/devLogin" element={<DevLogin/>} />
-              <Route path="/cart" element={<ShoppingCart/>} />
-              <Route path="/checkout-success" element={<PaymentSuccess/>} />
-              <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
-              <Route path="/catalog" element={<Product/>} />
-              <Route path="/productsTable" element={<ProductTable/>} />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/usersTable" element={<UsersTable/>} />
-            </Routes>
-            <Footer />
-          </div>
-        </CartProvider>
+      <CartProvider>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}/>
+            <Route path="/" element={<About />} />
+            <Route path="/" element={<Footer />} />
+            <Route path="/wholesale" element={<Wholesale />} />
+            <Route path="/aboutus" element={<About />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/product/:productId" element={<ProductDetail/>} />
+            <Route path="/devLogin" element={<DevLogin/>} />
+            <Route path="/cart" element={<ShoppingCart/>} />
+            <Route path="/checkout-success" element={<PaymentSuccess/>} />
+            <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
+            <Route path="/catalog" element={<Product/>} />
+            <Route path="/productsTable" element={<ProductTable/>} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/users" element={<UsersTable/>} />
+            <Route path="/createUser" element={<UserForm/>} />
+            <Route path="/user/:id" element={<UserForm/>} />
+          </Routes>
+          <Footer />
+        </div>
+      </CartProvider>
     );
   }
 }
