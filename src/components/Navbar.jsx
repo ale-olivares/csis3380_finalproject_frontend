@@ -3,14 +3,15 @@ import { GiCoffeeBeans } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useShoppingCart } from "../contexts/ShoppingCartContext";
+import { useCart } from "../contexts/CartContext";
 import { getCurrentUser, isAdmin as checkAdmin, logout } from "../services/AuthService";
+
 
 import Button from "../layouts/Button";
 
 const Navbar = () => {
+  const { totalItemsCart } = useCart();
   const [menu, setMenu] = useState(false);
-  const { totalItemsCart } = useShoppingCart();
   let navigate = useNavigate();
   const user = getCurrentUser();
   const [isAdmin, setIsAdmin] = useState(false);

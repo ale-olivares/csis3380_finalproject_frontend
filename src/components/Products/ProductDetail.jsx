@@ -7,7 +7,7 @@ import defaultProductImage from '../../assets/img/default_500_500.png'
 import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
 import ReviewCardComponent from '../../layouts/ReviewCard';
-import { useShoppingCart } from '../../contexts/ShoppingCartContext';
+import { useCart } from '../../contexts/CartContext';
 
 const ProductDetailComponent = () => {
 
@@ -20,8 +20,12 @@ const ProductDetailComponent = () => {
     const [product, setProduct] = useState(null);
     const [modal, setModal] = useState(null);
     const navigate = useNavigate();
-    const { updateCartCount } = useShoppingCart();
+    const { totalItemsCart, updateCartCount } = useCart();
 
+    const addToCart = (updatedTotalCart) => {
+        updateCartCount(updatedTotalCart);
+      };
+    
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
@@ -71,16 +75,23 @@ const ProductDetailComponent = () => {
                             modalTitle: "Error",
                             modalType: "error"
                         });
+                        
                     }
                     else {
-                        console.log(response);
+                        console.log(response.shopping_cart.items);
                         setModal({
                             showModal: true,
                             modalMessage: "Item added to cart successfully",
                             modalTitle: "Success",
                             modalType: "success"
                         });
-                        updateCartCount(response.shopping_cart.items.length);
+
+                        // Update the shopping cart items count LocalStorage
+                        if (response.shopping_cart.items.length > 0) {
+                            updateCartCount(response.shopping_cart.items.length);
+                        } else {
+                            updateCartCount(0)
+                        };
                     }
 
                 }
@@ -88,7 +99,7 @@ const ProductDetailComponent = () => {
             } catch (error) {
                 setModal({
                     showModal: true,
-                    modalMessage: error.response.data,
+                    modalMessage: error.response,
                     modalTitle: "Error",
                     modalType: "error"
                 });
@@ -103,7 +114,7 @@ const ProductDetailComponent = () => {
             total += parseFloat(review.rating);
         });
 
-        return reviews.length === 0 ? '-' : total / parseFloat(reviews.length).toFixed(1);
+        return reviews.length === 0 ? '-' : (total / parseFloat(reviews.length)).toFixed(1);
 
     }
 
@@ -140,6 +151,15 @@ const ProductDetailComponent = () => {
                                                 </th>
                                                 <td className="px-6 py-4">
                                                     {product.product_category.name}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Varietal
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    
+                                                    {product.varietal.join(', ')}
                                                 </td>
                                             </tr>
                                             <tr className="bg-white border-b">
@@ -188,6 +208,14 @@ const ProductDetailComponent = () => {
                                                 </th>
                                                 <td className="px-6 py-4">
                                                     {product.import_partner.name}
+                                                </td>
+                                            </tr>
+                                            <tr className="bg-white border-b">
+                                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                                    Quality Coffee Score
+                                                </th>
+                                                <td className="px-6 py-4">
+                                                    {product.sca_score}
                                                 </td>
                                             </tr>
                                         </tbody>

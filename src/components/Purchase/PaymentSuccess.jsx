@@ -5,6 +5,7 @@ import { getStripeSession as getStripeSessionService } from '../../services/Paym
 import { saveOrder as saveOrderService } from '../../services/PaymentService';
 import { useNavigate } from "react-router-dom";
 import defaultImageSuccess from '../../assets/img/success.png';
+import { useCart } from '../../contexts/CartContext';
 
 const PaymentSuccessComponent = () => {
 
@@ -13,6 +14,7 @@ const PaymentSuccessComponent = () => {
     const [subtotal, setSubtotal] = useState(0);
     const [taxes, setTaxes] = useState(0);
     const [total, setTotal] = useState(0);
+    const { totalItemsCart, updateCartCount } = useCart();
 
     useEffect(() => {
 
@@ -49,8 +51,19 @@ const PaymentSuccessComponent = () => {
                                     created_at: new Date(),
                                     updated_at: null,
                                     stripe_session_id: cartItems.stripe_session_id,
-                                    status: 'pending'
+                                    status: 'pending',
+                                    total_taxes: parseFloat(response.total_details.amount_tax) / 100,
+                                    total_purchase: parseFloat(response.amount_total) / 100
                                 }
+
+                                // Set subtotal
+                                setSubtotal(parseFloat(response.amount_subtotal) / 100)
+                                
+                                // Set total taxes
+                                setTaxes(parseFloat(response.total_details.amount_tax) / 100)
+                                
+                                // Set total purchase
+                                setTotal(parseFloat(response.amount_total) / 100)
                                 
                                 // Save the order
                                 saveOrderService(purchaseOrder, getCurrentUser().id).then((response) => {
@@ -58,9 +71,11 @@ const PaymentSuccessComponent = () => {
                                         
                                         // Clear the shopping cart
                                         removeCartService(cartItems._id);
+                                        updateCartCount(0);
                                         
                                         // Set orderItems
                                         setOrderItems(response);
+                                        
 
                                     }
                                 });
@@ -91,38 +106,6 @@ const PaymentSuccessComponent = () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
-
-    const calculateSubtotal = () => {
-        let newSubtotal = 0;
-        
-        if (orderItems && orderItems.items.length > 0){
-            orderItems.items.forEach((item) => {
-                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price));
-            });
-        }
-    
-        setSubtotal(newSubtotal);
-    };
-    
-    const calculateTaxes = () => {
-        setTaxes(subtotal * 0.13);
-    };
-    
-    const calculateTotal = () => {
-        setTotal(subtotal + taxes);
-    };
-
-    useEffect(() => {
-        calculateSubtotal();
-    }, [orderItems]);
-
-    useEffect(() => {
-        calculateTaxes();
-    }, [subtotal]);
-
-    useEffect(() => {
-        calculateTotal();
-    }, [subtotal, taxes]);
 
     if (!(orderItems && orderItems.items)) {
         return <div>Loading...</div>;

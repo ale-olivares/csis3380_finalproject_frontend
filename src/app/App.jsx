@@ -18,15 +18,16 @@ import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
 import UserProfile from "../components/Sections/UserProfile";
+import { CartProvider }  from "../contexts/CartContext";
 import UsersTable from "../components/User/UsersTable";
 import UserForm from "../components/User/UserForm";
 import InquiriesTable from "../components/ContactForm/InquiriesTable";
-import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
+
 
 class App extends Component {
   render() {
     return (
-      <ShoppingCartProvider>
+      <CartProvider>
         <div>
           <Navbar />
           <Routes>
@@ -51,7 +52,7 @@ class App extends Component {
           </Routes>
           <Footer />
         </div>
-      </ShoppingCartProvider>
+      </CartProvider>
     );
   }
 }

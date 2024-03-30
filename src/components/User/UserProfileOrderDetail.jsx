@@ -6,8 +6,6 @@ import UserReviewSuccessComponent from "./UserReviewSuccess";
 const UserProfileOrderDetailComponent = ({ order }) => {
 
     const [subtotal, setSubtotal] = useState(0);
-    const [taxes, setTaxes] = useState(0);
-    const [total, setTotal] = useState(0);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showReviewSuccessModal, setShowReviewSuccessModal] = useState(false);
     const [orderId, setOrderId] = useState(null);
@@ -31,25 +29,9 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         setSubtotal(newSubtotal);
     };
 
-    const calculateTaxes = () => {
-        setTaxes(subtotal * 0.13);
-    };
-
-    const calculateTotal = () => {
-        setTotal(subtotal + taxes);
-    };
-
     useEffect(() => {
         calculateSubtotal();
     }, [order]);
-
-    useEffect(() => {
-        calculateTaxes();
-    }, [subtotal]);
-
-    useEffect(() => {
-        calculateTotal();
-    }, [subtotal, taxes]);
 
     // Function to handle opening the review modal
     const openReviewModal = (orderId, productId) => {
@@ -82,13 +64,13 @@ const UserProfileOrderDetailComponent = ({ order }) => {
 
     return (
         <>
-            <div className="mt-10 p-6 bg-white shadow-lg rounded-lg">
-                <div className="flex justify-between">
+            <div className="mt-10 p-4 md:p-6 bg-white shadow-lg rounded-lg">
+                <div className="flex flex-col md:flex-row justify-between">
                     <h2 className="text-xl font-semibold text-gray-800">Order #: {order.order_number.toString().padStart(10, '0')}</h2>
-                    <p className={`text-lg font-semibold ${order.order_status.toLowerCase() === 'pending' ? 'text-blue-500' :
-                            order.order_status.toLowerCase() === 'in process' ? 'text-orange-500' :
-                                order.order_status.toLowerCase() === 'delivered' ? 'text-green-500' :
-                                    order.order_status.toLowerCase() === 'delayed' ? 'text-red-500' : 'text-gray-800'
+                    <p className={`text-md md:text-lg font-semibold ${order.order_status.toLowerCase() === 'pending' ? 'text-blue-500' :
+                        order.order_status.toLowerCase() === 'in process' ? 'text-orange-500' :
+                            order.order_status.toLowerCase() === 'delivered' ? 'text-green-500' :
+                                order.order_status.toLowerCase() === 'delayed' ? 'text-red-500' : 'text-gray-800'
                         } capitalize`}>
                         {order.order_status}
                     </p>
@@ -96,8 +78,8 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                 <div className="mt-4 text-gray-600">
                     <p><strong>Date:</strong> {formatDate(order.created_at)}</p>
                 </div>
-                <div className="mt-4">
-                    <table className="table-auto w-full text-left">
+                <div className="mt-4 overflow-x-auto">
+                    <table className="min-w-full table-auto text-left">
                         <thead>
                             <tr className="bg-gradient-to-r from-gray-200 to-gray-300 rounded-lg">
                                 <th className="px-4 py-2 rounded-l-lg">Product</th>
@@ -121,17 +103,17 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                                     <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
                                     {
                                         order.order_status.toLowerCase() === 'delivered' &&
-                                        item.product_rated === false ?
-                                        (
-                                        <td className="px-4 py-2" >
-                                            <button 
-                                                className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded"
-                                                onClick={() => openReviewModal(order._id, item.product._id)}
-                                            >
-                                                <FaStar className="mr-2"/> Rate
-                                            </button>
-                                        </td>
-                                    ) :
+                                            item.product_rated === false ?
+                                            (
+                                                <td className="px-4 py-2" >
+                                                    <button
+                                                        className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded"
+                                                        onClick={() => openReviewModal(order._id, item.product._id)}
+                                                    >
+                                                        <FaStar className="mr-2" /> Rate
+                                                    </button>
+                                                </td>
+                                            ) :
                                             (<td className="px-4 py-2" ></td>)
                                     }
                                 </tr>
@@ -139,20 +121,19 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                         </tbody>
                     </table>
                 </div>
-
                 <div className="flex justify-end mt-10">
-                    <div className="w-1/3">
+                    <div className="w-full md:w-2/3 lg:w-1/3">
                         <div className="flex justify-between">
                             <span>Subtotal</span>
                             <span>${subtotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Taxes</span>
-                            <span>${taxes.toFixed(2)}</span>
+                            <span>${order.total_taxes.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>${order.total_purchase.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
@@ -160,9 +141,8 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                     <UserAddReviewComponent onClose={closeReviewModal} orderId={orderId} productId={productId} />
                 )}
                 {showReviewSuccessModal && (
-                        <UserReviewSuccessComponent onClose={closeReviewSuccessModal} />
-                    )
-                }
+                    <UserReviewSuccessComponent onClose={closeReviewSuccessModal} />
+                )}
             </div>
         </>
     )
