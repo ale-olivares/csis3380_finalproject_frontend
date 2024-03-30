@@ -48,5 +48,10 @@ export const register = async (username, email, password) => {
 };
 
 export const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem('user'));
 };
+
+export const isAdmin = () => {
+    const user = getCurrentUser();
+    return user && user.roles && user.roles.includes('ROLE_ADMIN');
+  };

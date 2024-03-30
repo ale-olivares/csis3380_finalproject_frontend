@@ -20,6 +20,7 @@ import ProductTable from "../components/Products/ProductTable";
 import UserProfile from "../components/Sections/UserProfile";
 import UsersTable from "../components/User/UsersTable";
 import UserForm from "../components/User/UserForm";
+import InquiriesTable from "../components/ContactForm/InquiriesTable";
 import { ShoppingCartProvider } from "../contexts/ShoppingCartContext";
 
 class App extends Component {
@@ -35,18 +36,18 @@ class App extends Component {
             <Route path="/wholesale" element={<Wholesale />} />
             <Route path="/aboutus" element={<About />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signUp" element={<SignUp />} />
             <Route path="/product/:productId" element={<ProductDetail/>} />
             <Route path="/devLogin" element={<DevLogin/>} />
             <Route path="/cart" element={<ShoppingCart/>} />
             <Route path="/checkout-success" element={<PaymentSuccess/>} />
             <Route path="/checkout-cancel" element={<PaymentCanceled/>} />
             <Route path="/catalog" element={<Product/>} />
-            <Route path="/productsTable" element={<ProductTable/>} />
+            <Route path="/products" element={<ProductTable/>} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/users" element={<UsersTable/>} />
             <Route path="/createUser" element={<UserForm/>} />
             <Route path="/user/:id" element={<UserForm/>} />
+            <Route path="/inquiries" element={<InquiriesTable/>} />
           </Routes>
           <Footer />
         </div>
