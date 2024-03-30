@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getUsers} from '../../services/UserService';
 import Pagination from '../../layouts/Pagination';
+import { useNavigate } from 'react-router-dom'; 
 
 const UsersTable = () => {
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -70,7 +72,6 @@ const UsersTable = () => {
                             <th scope="col" className="px-6 py-3">Company</th>
                             <th scope="col" className="px-6 py-3" >Address</th>
                             <th scope="col" className="px-6 py-3">Phone</th>
-                            <th scope="col" className="px-6 py-3">Gender</th>
                             <th scope="col" className="px-6 py-3">Roles</th>
                             <th scope="col" className="px-6 py-3">Creation Date</th>
                             <th scope="col" className="px-6 py-3">Status</th>
@@ -78,7 +79,9 @@ const UsersTable = () => {
                     </thead>
                     <tbody>
                         {users.map((user, index) =>
-                            <tr key={index} className="bg-white border-b  hover:bg-amber-50">
+                            <tr key={index} className="bg-white border-b  hover:bg-amber-50" 
+                                onClick={ ()=>navigate(`/user/${user._id}`)}
+                            >
                                 <th scope="row" className="px-6 py-4  font-medium text-gray-900 whitespace-nowrap dark:text-white"> 
                                     {user.username}         
                                 </th>
@@ -86,7 +89,6 @@ const UsersTable = () => {
                                     <td className="px-6 py-4">{user.company}</td>
                                     <td className="px-6 py-4 " >{user.address}</td>
                                     <td className="px-6 py-4">{user.phone}</td>
-                                    <td className="px-6 py-4">{user.gender}</td>
                                     <td className="px-6 py-4"> {user.roles.map(role => role.name).join(", ")}</td>
                                     <td className="px-6 py-4"> {new Date(user.created_at).toLocaleDateString('en-US')}</td>
                                     <td className="px-6 py-4">{user.deletedAt?"Inactive":"Active"}</td>
