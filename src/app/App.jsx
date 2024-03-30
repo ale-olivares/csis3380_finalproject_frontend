@@ -23,7 +23,6 @@ import UsersTable from "../components/User/UsersTable";
 import UserForm from "../components/User/UserForm";
 import InquiriesTable from "../components/ContactForm/InquiriesTable";
 
-
 class App extends Component {
   render() {
     return (
