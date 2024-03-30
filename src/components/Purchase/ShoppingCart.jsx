@@ -6,13 +6,14 @@ import defaultProductImage from '../../assets/img/default_500_500.png';
 import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../../contexts/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const ShoppingCartComponent = () => {
 
+    const history = useNavigate();
+
     const [cartItems, setCartItems] = useState({ items: [] });
     const [isLoading, setIsLoading] = useState(true);
-    const [subtotal, setSubtotal] = useState(0);
-    const [taxes, setTaxes] = useState(0);
     const [total, setTotal] = useState(0);
     const [modal, setModal] = useState(null);
     const { totalItemsCart, updateCartCount } = useCart();
@@ -21,31 +22,24 @@ const ShoppingCartComponent = () => {
         updateCartCount(updatedTotalCart);
       };
 
-    const calculateSubtotal = () => {
-        let newSubtotal = 0;
+    const calculateTotal = () => {
+        let newTotal = 0;
 
         if (cartItems && cartItems.items.length > 0) {
             cartItems.items.forEach((item) => {
-                newSubtotal += (parseInt(item.quantity) * parseFloat(item.unit_price));
+                newTotal += (parseInt(item.quantity) * parseFloat(item.unit_price));
             });
         }
 
-        setSubtotal(newSubtotal);
+        setTotal(newTotal);
     };
 
-    const calculateTaxes = () => {
-        setTaxes(subtotal * 0.13);
-    };
-
-    const calculateTotal = () => {
-        setTotal(subtotal + taxes);
-    };
 
     useEffect(() => {
 
         // If user is not logged in, redirect to login page
         if (!getCurrentUser()) {
-            window.location.href = "/login";
+            history("/login")
         }
 
         const getCart = async () => {
@@ -73,16 +67,8 @@ const ShoppingCartComponent = () => {
     }, []);
 
     useEffect(() => {
-        calculateSubtotal();
-    }, [cartItems]);
-
-    useEffect(() => {
-        calculateTaxes();
-    }, [subtotal]);
-
-    useEffect(() => {
         calculateTotal();
-    }, [subtotal, taxes]);
+    }, [cartItems]);
 
     const handleRemoveItem = async (itemId) => {
         const cartItem = cartItems.items[itemId];
@@ -202,16 +188,8 @@ const ShoppingCartComponent = () => {
                         <div className="flex justify-end mt-10 px-4 md:px-0">
                             <div className="w-full md:w-2/3 lg:w-1/3">
                                 <div className="flex justify-between">
-                                    <span>Subtotal</span>
-                                    <span>${subtotal.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Taxes</span>
-                                    <span>${taxes.toFixed(2)}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span>Total</span>
-                                    <span>${total.toFixed(2)}</span>
+                                    <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">Total:</h2>
+                                    <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">${total.toFixed(2)}</h2>
                                 </div>
                                 <div className="flex justify-end mt-10">
                                     <button

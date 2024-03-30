@@ -6,8 +6,6 @@ import UserReviewSuccessComponent from "./UserReviewSuccess";
 const UserProfileOrderDetailComponent = ({ order }) => {
 
     const [subtotal, setSubtotal] = useState(0);
-    const [taxes, setTaxes] = useState(0);
-    const [total, setTotal] = useState(0);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showReviewSuccessModal, setShowReviewSuccessModal] = useState(false);
     const [orderId, setOrderId] = useState(null);
@@ -31,25 +29,9 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         setSubtotal(newSubtotal);
     };
 
-    const calculateTaxes = () => {
-        setTaxes(subtotal * 0.13);
-    };
-
-    const calculateTotal = () => {
-        setTotal(subtotal + taxes);
-    };
-
     useEffect(() => {
         calculateSubtotal();
     }, [order]);
-
-    useEffect(() => {
-        calculateTaxes();
-    }, [subtotal]);
-
-    useEffect(() => {
-        calculateTotal();
-    }, [subtotal, taxes]);
 
     // Function to handle opening the review modal
     const openReviewModal = (orderId, productId) => {
@@ -147,11 +129,11 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                         </div>
                         <div className="flex justify-between">
                             <span>Taxes</span>
-                            <span>${taxes.toFixed(2)}</span>
+                            <span>${order.total_taxes.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span>Total</span>
-                            <span>${total.toFixed(2)}</span>
+                            <span>${order.total_purchase.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
