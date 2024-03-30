@@ -6,13 +6,15 @@ import { AiOutlineMenuUnfold } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useShoppingCart } from "../contexts/ShoppingCartContext";
+import { useCart } from "../contexts/CartContext";
 
 import Button from "../layouts/Button";
 
 const Navbar = () => {
+
+  const { totalItemsCart } = useCart();
+
   const [menu, setMenu] = useState(false);
-  const { totalItemsCart } = useShoppingCart();
 
   const handleChange = () => {
     setMenu(!menu);

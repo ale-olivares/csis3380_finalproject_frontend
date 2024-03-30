@@ -5,6 +5,7 @@ import { getStripeSession as getStripeSessionService } from '../../services/Paym
 import { saveOrder as saveOrderService } from '../../services/PaymentService';
 import { useNavigate } from "react-router-dom";
 import defaultImageSuccess from '../../assets/img/success.png';
+import { useCart } from '../../contexts/CartContext';
 
 const PaymentSuccessComponent = () => {
 
@@ -13,6 +14,7 @@ const PaymentSuccessComponent = () => {
     const [subtotal, setSubtotal] = useState(0);
     const [taxes, setTaxes] = useState(0);
     const [total, setTotal] = useState(0);
+    const { totalItemsCart, updateCartCount } = useCart();
 
     useEffect(() => {
 
@@ -58,6 +60,7 @@ const PaymentSuccessComponent = () => {
                                         
                                         // Clear the shopping cart
                                         removeCartService(cartItems._id);
+                                        updateCartCount(0);
                                         
                                         // Set orderItems
                                         setOrderItems(response);
