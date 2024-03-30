@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import RatingStars from "../components/Products/ProductRating";
 
 const ProductCard = (props) => {
-  const navigate = useNavigate(); // Initialize navigate function
+  const navigate = useNavigate(); 
 
   const handleClick = () => {
     navigate(`/product/${props.product.prod_id}`); // Navigate to the product details page
