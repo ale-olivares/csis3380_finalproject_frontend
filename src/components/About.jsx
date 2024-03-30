@@ -4,10 +4,10 @@ import Button from "../layouts/Button";
 
 const About = () => {
   return (
-    <div className=" min-h-screen flex flex-col items-center justify-center lg:px-32 px-5 bg-[#FFFF] text-black">
+    <div className=" min-h-screen flex flex-col items-center  lg:px-32 px-5 bg-[#FFFF] text-black">
       <h1 className=" font-semibold text-center text-4xl lg:mt-14 mt-24 mb-8">About Us</h1>
 
-      <div className=" flex flex-col lg:flex-row items-center gap-5">
+      <div className=" flex flex-col lg:flex-row items-center ">
         <div className=" w-full lg:w-2/4">
           <img className=" rounded-lg" src={img} alt="img" />
         </div>
@@ -26,7 +26,7 @@ const About = () => {
 
           </p>
 
-          <Button title="Learn More" />
+          {/* <Button title="Learn More" /> */}
         </div>
       </div>
     </div>
