@@ -36,7 +36,7 @@ const Navbar = () => {
                 <NavLink to="/catalog" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Product Catalog</NavLink>
                 <NavLink to="/wholesale" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Wholesale</NavLink>
                 <NavLink to="/aboutus" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>About us</NavLink>
-                <NavLink to="/aboutus" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Contact Form</NavLink>
+                <NavLink to="/contact" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Contact Form</NavLink>
               </nav>
 
               <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">

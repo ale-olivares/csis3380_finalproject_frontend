@@ -21,6 +21,7 @@ import UserProfile from "../components/Sections/UserProfile";
 import { CartProvider }  from "../contexts/CartContext";
 import UsersTable from "../components/User/UsersTable";
 import UserForm from "../components/User/UserForm";
+import ContactForm from "../components/ContactForm/ContactForm";
 import InquiriesTable from "../components/ContactForm/InquiriesTable";
 import Error from "../components/Sections/Error";
 
@@ -32,7 +33,7 @@ class App extends Component {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />}/>
-            <Route path="/" element={<About />} />
+            {/* <Route path="/" element={<About />} /> */}
             <Route path="/" element={<Footer />} />
             <Route path="/wholesale" element={<Wholesale />} />
             <Route path="/aboutus" element={<About />} />
@@ -49,6 +50,7 @@ class App extends Component {
             <Route path="/createUser" element={<UserForm/>} />
             <Route path="/user/:id" element={<UserForm/>} />
             <Route path="/inquiries" element={<InquiriesTable/>} />
+            <Route path="/contact" element={<ContactForm/>} />
             <Route path="*" element={<Error/>} />
           </Routes>
           <Footer />
