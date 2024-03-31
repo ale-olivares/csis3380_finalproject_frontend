@@ -23,6 +23,7 @@ import UsersTable from "../components/User/UsersTable";
 import UserForm from "../components/User/UserForm";
 import ContactForm from "../components/ContactForm/ContactForm";
 import InquiriesTable from "../components/ContactForm/InquiriesTable";
+import Error from "../components/Sections/Error";
 
 class App extends Component {
   render() {
@@ -50,6 +51,7 @@ class App extends Component {
             <Route path="/user/:id" element={<UserForm/>} />
             <Route path="/inquiries" element={<InquiriesTable/>} />
             <Route path="/contact" element={<ContactForm/>} />
+            <Route path="*" element={<Error/>} />
           </Routes>
           <Footer />
         </div>
