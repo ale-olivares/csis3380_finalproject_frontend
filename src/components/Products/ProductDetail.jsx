@@ -20,11 +20,7 @@ const ProductDetailComponent = () => {
     const [product, setProduct] = useState(null);
     const [modal, setModal] = useState(null);
     const navigate = useNavigate();
-    const { totalItemsCart, updateCartCount } = useCart();
-
-    const addToCart = (updatedTotalCart) => {
-        updateCartCount(updatedTotalCart);
-      };
+    const { updateCartCount } = useCart();
     
     useEffect(() => {
         const fetchProductDetails = async () => {
