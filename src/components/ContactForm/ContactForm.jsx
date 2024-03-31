@@ -54,7 +54,7 @@ const ContactForm = () => {
                             <textarea id="message" rows="6" name="body" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Leave a comment..."></textarea>
                         </div>
                         <div className="mt-4 flex justify-end">
-                            <button onClick={handleClick} type="button" className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-[#7c2d12] sm:w-fit hover:bg-[#431407] focus:ring-4 focus:outline-none focus:ring-[#a16207]">Send message</button>
+                            <button onClick={handleClick} type="button" className="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-[#431407] sm:w-fit hover:bg-[#7c2d12] focus:ring-4 focus:outline-none focus:ring-[#a16207]">Send message</button>
                         </div>
                     </form>
                 </div>
