@@ -16,7 +16,7 @@ const SetPassword = () => {
             const passwordResponse = await setNewPassword(user.id, password);
             setMessage(passwordResponse.message);
             console.log("Password changed successfully");
-
+            window.location.reload();
 
         } catch (e) {
             console.log(e);
