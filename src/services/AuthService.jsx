@@ -68,3 +68,20 @@ export const requestPasswordReset = async (email) => {
         console.error('Error sending password reset request:', error);
     }
 };
+
+export const setNewPassword = async (password, userId) => {
+    //create component and pass variable as in getUserDetail 
+
+    try {
+        const response = await axios.put(`${BASE_URL}/changePassword/${userId}`, {
+            password
+        });
+        return response.data;
+    }
+    catch (error) {
+        console.error('Error while changing the password', error);
+        throw error;
+    }
+
+
+};

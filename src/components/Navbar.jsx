@@ -96,7 +96,9 @@ const Navbar = () => {
               <NavLink to="/login">
                 <Button title="Login" />
               </NavLink>
-            ) : (<p>Hello!</p>)}
+            ) : (
+              <p className="text-white">Hello! {user.username}</p>
+            )}
 
 
           </div>

@@ -20,7 +20,8 @@ import ProductTable from "../components/Products/ProductTable";
 
 import ContactForm from "../components/ContactForm";
 import ForgotPassword from "../components/ForgotPassword";
-import ConfirmPassword from "../components/ConfirmPassword";
+import SetPassword from "../components/SetPassword";
+
 
 import UserProfile from "../components/Sections/UserProfile";
 import UsersTable from "../components/Users/UsersTable";
@@ -49,7 +50,7 @@ class App extends Component {
           <Route path="/productsTable" element={<ProductTable />} />
           <Route path="/contactForm" element={<ContactForm />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/confirmPassword" element={<ConfirmPassword />} />
+          <Route path="/setPassword" element={<SetPassword />} />
 
 
           <Route path="/profile" element={<UserProfile />} />

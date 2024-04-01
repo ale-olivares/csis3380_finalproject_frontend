@@ -1,6 +1,7 @@
 import React from "react";
-import img from "../assets/img/home.png";
 import Button from "../layouts/Button";
+import { NavLink } from 'react-router-dom';
+
 
 const Home = () => {
   return (
@@ -18,7 +19,13 @@ const Home = () => {
         </p>
         <br></br>
         <div className=" flex flex-row gap-6 text-black">
-          <Button title="PRODUCT CATALOG" />
+
+          <NavLink
+            to="/catalog"
+            className="group relative inline-block cursor-pointer hover:text-hoverColor"
+          >
+            <Button title="PRODUCT CATALOG" />
+          </NavLink>
 
         </div>
       </div>
