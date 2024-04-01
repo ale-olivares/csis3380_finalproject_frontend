@@ -88,8 +88,6 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         const user = getCurrentUser();
         const response = await deleteReview(user.id, productId, productSubtypeId, orderId, orderItemId);
 
-        console.log(response);
-
         if (response.status === 200) {
 
             setDeleteReviewModal({
