@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from 'react-router-dom';
 import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } from "../../services/ProductService";
-import img1 from "../../assets/img/product1.jpg";
 import ProductCard from "../../layouts/ProductCard";
 import ProductFilter from "../Products/ProductFilter";
 import Pagination from "../../layouts/Pagination";
-import { get } from "react-scroll/modules/mixins/scroller";
 
 const Product = () => {
   const [products, setProducts] = useState([]); 
@@ -69,7 +67,7 @@ const Product = () => {
         <ProductFilter countries={uniqueCountries} categories={categories} grindTypes={grindTypes} weights={weights}/>
         <div className="w-3/4">
           <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full ">
-            <h1 className="font-semibold text-center text-4xl lg:mt-10 mb-8">Our Products</h1>
+            <h1 className="font-semibold text-center text-4xl m-8">Our Products</h1>
             <div className="flex items-center mb-4">
                 <div className="text-gray-600">Showing {Math.min(1 + ((currentPage-1)*productPerPage), totalProducts)}–{products.length+((currentPage-1)*productPerPage)} of {totalProducts} results</div>
                 <div className="flex gap-2 ml-auto">
@@ -86,7 +84,7 @@ const Product = () => {
             {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-screen">No products found</div>}
             <div className="flex flex-wrap gap-12 pb-10 justify-start product-list">
               {products.map((product, index) => (
-                <ProductCard key={index+1} ind={index+1} product={product} img={img1} /> //Change img1 to product.image_url key={/*product.prod_id*/} rating={calculateAverageRating(product.reviews).toFixed(1)}
+                <ProductCard key={index+1} ind={index+1} product={product}/> 
               ))}
             </div>
 

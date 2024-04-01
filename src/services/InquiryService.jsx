@@ -32,3 +32,15 @@ export const openInquiry = async (inquiryId) => {
     }
     
 }
+
+export const sendInquiry = async (inquiry ) => {
+    try {
+        const response = await axios.post(`${BASE_URL}/addInquiry`, inquiry);
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error while sending inquiry', error);
+        throw error;
+    }
+    
+}
