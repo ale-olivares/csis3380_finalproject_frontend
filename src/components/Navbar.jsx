@@ -80,7 +80,7 @@ const Navbar = () => {
 
                   <nav className="hidden md:flex flex-row items-center text-lg text-white font-medium gap-8">
                     <NavLink to="/catalog" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}> Product Catalog</NavLink>
-                    <NavLink to="/createUser" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Contact Form</NavLink>
+                    <NavLink to="/contact" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}>Contact Form</NavLink>
                     <NavLink to="/profile" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor"}> Profile</NavLink>
                   </nav>
 
