@@ -35,9 +35,10 @@ const PaymentSuccessComponent = () => {
                             if (response.payment_status === 'paid') {
                                 // We can generate the order
                                 const items = cartItems.items.map((item) => {
+                                    console.log(item);
                                     return {
                                         product: item.product._id,
-                                        product_subtype: item.product_subtype._id,
+                                        product_subtype: item.product_subtype,
                                         grind_type: item.grind_type._id,
                                         quantity: item.quantity,
                                         unit_price: item.unit_price,
@@ -55,6 +56,8 @@ const PaymentSuccessComponent = () => {
                                     total_taxes: parseFloat(response.total_details.amount_tax) / 100,
                                     total_purchase: parseFloat(response.amount_total) / 100
                                 }
+
+                                console.log(purchaseOrder)
 
                                 // Set subtotal
                                 setSubtotal(parseFloat(response.amount_subtotal) / 100)
@@ -145,7 +148,7 @@ const PaymentSuccessComponent = () => {
                                             <br/>
                                             {item.grind_type.name}
                                             <br/>
-                                            {item.product_subtype.name}</td>
+                                            {item.product.product_subtypes[0].weight.name}</td>
                                         <td className="px-4 py-2">{item.quantity}</td>
                                         <td className="px-4 py-2">${item.unit_price}</td>
                                         <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>

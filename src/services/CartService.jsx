@@ -4,14 +4,14 @@ import authHeader from './AuthHeader';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-export const addToCart = async (userId, productId, productSubtypeIdentifier, grindType, quantity, price) => {
+export const addToCart = async (userId, productId, productSubtypeId, grindType, quantity, price) => {
     try {
         
         const response = await axios.post(`${BASE_URL}/cart`, {
             userId,
             product: {
                 id: productId,
-                subtypeIdentifier: productSubtypeIdentifier,
+                subtypeIdentifier: productSubtypeId,
                 grindType: grindType,
                 quantity,
                 price

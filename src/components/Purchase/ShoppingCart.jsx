@@ -46,7 +46,7 @@ const ShoppingCartComponent = () => {
             try {
                 const userId = getCurrentUser().id;
                 await getCartService(userId).then((response) => {
-                    console.log(response);
+                    
                     if (!response) {
                         setCartItems({ items: [] });
                     } else {
@@ -73,8 +73,9 @@ const ShoppingCartComponent = () => {
     const handleRemoveItem = async (itemId) => {
         const cartItem = cartItems.items[itemId];
         const userId = getCurrentUser().id;
+
         try {
-            await removeFromCartService(userId, cartItem.product_subtype._id);
+            await removeFromCartService(userId, cartItem.product.product_subtypes[0]._id);
             const newCartItems = cartItems.items.filter((item, index) => index !== itemId);
             setCartItems({ items: newCartItems });
 
@@ -155,14 +156,14 @@ const ShoppingCartComponent = () => {
                                     {cartItems.items.map((item, index) => (
                                         <tr className="bg-white border-b hover:bg-gray-50" key={index}>
                                             <td className="p-4 flex justify-center items-center">
-                                                <img src={item.product.product_subtypes.find((subproduct) => subproduct.weight === item.product_subtype._id).image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
+                                                <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
                                             </td>
                                             <td className="px-6 py-4 text-gray-900">
                                                 {item.product.name}
                                                 <br />
                                                 {item.grind_type.name}
                                                 <br />
-                                                {item.product_subtype.name}
+                                                {item.product.product_subtypes[0].weight.name}
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 {item.quantity}

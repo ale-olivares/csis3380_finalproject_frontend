@@ -81,8 +81,11 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                 <div className="mt-4 overflow-x-auto">
                     <table className="min-w-full table-auto text-left">
                         <thead>
-                            <tr className="bg-gradient-to-r from-gray-200 to-gray-300 rounded-lg">
-                                <th className="px-4 py-2 rounded-l-lg">Product</th>
+                            <tr className="bg-gradient-to-r from-gray-200 to-gray-300">
+                                <th className="px-4 py-2 rounded-l-lg">
+                                    <span className="sr-only">Image</span>
+                                </th>
+                                <th className="px-4 py-2">Product</th>
                                 <th className="px-4 py-2">Quantity</th>
                                 <th className="px-4 py-2">Unit Price</th>
                                 <th className="px-4 py-2">Subtotal</th>
@@ -92,12 +95,15 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                         <tbody>
                             {order.items.map((item, index) => (
                                 <tr key={index} className={`border-b ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                                    <td className="p-4 flex justify-center items-center">
+                                        <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
+                                    </td>
                                     <td className="px-4 py-2">
                                         {item.product.name}
                                         <br />
                                         {item.grind_type.name}
                                         <br />
-                                        {item.product_subtype.name}</td>
+                                        {item.product.product_subtypes[0].weight.name}</td>
                                     <td className="px-4 py-2">{item.quantity}</td>
                                     <td className="px-4 py-2">${item.unit_price}</td>
                                     <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
