@@ -8,7 +8,7 @@ const ProductTable = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [editing, setEditing] = useState(null); 
+    const [editing, setEditing] =  useState({ prodId: null, index: null });; 
     const [modal, setModal] = useState(null);
 
     useEffect(() => {
@@ -44,8 +44,8 @@ const ProductTable = () => {
     };
 
 
-    const handleEdit = (prodId) => {
-        setEditing(prodId);
+    const handleEdit = (prodId, index) => {
+        setEditing({prodId, index})
     };
 
 
@@ -61,7 +61,7 @@ const ProductTable = () => {
             });
 
             await updateProduct(product, index);
-            setEditing(null); // Exit editing mode
+            setEditing({prodId: null, index: null}); // Exit editing mode
             //console.log('Product updated successfully');
             
             setModal({
@@ -78,12 +78,12 @@ const ProductTable = () => {
                 modalTitle: "Error",
                 modalType: "error"
             });
-            setEditing(null); // Exit editing mode
+            setEditing({prodId: null, index: null}); // Exit editing mode
         }
     };
 
     const handleCancel = async () => {
-            setEditing(null); // Exit editing mode
+            setEditing({prodId: null, index: null}); // Exit editing mode
 
     };
 
@@ -153,7 +153,7 @@ const ProductTable = () => {
                                     <td className="px-6 py-4">{product.product_category.name}</td>
                                     <td className="px-6 py-4">{subtype.weight.name}</td>
                                     <td className="px-6 py-4">
-                                        {editing === product._id ? (
+                                        {(editing.prodId === product._id && editing.index == index) ? (
                                             <input
                                                 type="number"
                                                 value={subtype.stock}
@@ -166,7 +166,7 @@ const ProductTable = () => {
                                         )}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {editing === product._id ? (
+                                        { (editing.prodId === product._id && editing.index == index)? (
                                             <input
                                                 type="text"
                                                 value={subtype.price}
@@ -180,13 +180,13 @@ const ProductTable = () => {
                                         )}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {editing === product._id ? (
+                                        {(editing.prodId === product._id && editing.index == index) ? (
                                             <>
                                                 <button className="w-[60px] h-[35px] bg-green-600 text-white rounded hover:bg-green-500" onClick={() => handleSave(product._id, index)}>Save</button>
                                                 <button className="ml-2 w-[60px] h-[35px] bg-red-600 text-white rounded hover:bg-red-500" onClick={() => handleCancel()}>Cancel</button>
                                             </>
                                         ) : (
-                                            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500" onClick={() => handleEdit(product._id)}>Edit</button>
+                                            <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500" onClick={() => handleEdit(product._id, index)}>Edit</button>
                                         )}
                                     </td>
                                 </tr>
