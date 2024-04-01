@@ -93,37 +93,37 @@ const handleInactivation = async(event) =>{
         <form ref={userForm}>
           {/* Username */}
           <div className="mb-5">
-            <label htmlFor="name" className="mb-3 block text-base font-medium text-[#422006]"> Username </label>
+            <label htmlFor="name" className="mb-3 block text-base font-bold text-[#422006]"> Username </label>
             <input type="text" name="username" id="username"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#27272a] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
           {/* Email */}
           <div className="mb-5">
-            <label htmlFor="email" className="mb-3 block text-base font-medium text-[#422006]">Email</label>
+            <label htmlFor="email" className="mb-3 block text-base font-bold text-[#422006]">Email</label>
             <input type="email" name="email" id="email"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#27272a] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
           {/* Phone */}
           <div className="mb-5">
-            <label htmlFor="phone" className="mb-3 block text-base font-medium text-[#422006]">Phone Number</label>
+            <label htmlFor="phone" className="mb-3 block text-base font-bold text-[#422006]">Phone Number</label>
             <input type="text" name="phone" id="phone" placeholder="###-###-####"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#27272a] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
           {/* Company */}
           <div className="mb-5">
-            <label htmlFor="company" className="mb-3 block text-base font-medium text-[#422006]">Company Name</label>
+            <label htmlFor="company" className="mb-3 block text-base font-bold text-[#422006]">Company Name</label>
             <input type="text" name="company" id="company"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#27272a] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
           {/* Addres */}
           <div className="mb-5">
-            <label htmlFor="address" className="mb-3 block text-base font-medium text-[#422006]">Address</label>
+            <label htmlFor="address" className="mb-3 block text-base font-bold text-[#422006]">Address</label>
             <input type="text" name="address" id="address"
-              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+              className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#27272a] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
           {/* Roles */}
           <div className="mb-5">
-            <label htmlFor="roles[]" className="mb-3 block text-base font-medium text-[#422006]">Roles</label>
+            <label htmlFor="roles[]" className="mb-3 block text-base font-bold text-[#422006]">Roles</label>
             <ul className="grid w-full gap-6 md:grid-cols-2">
               <li>
                 <input type="checkbox" id="user" name="roles[]" value="user" className="hidden peer" required />
@@ -143,7 +143,7 @@ const handleInactivation = async(event) =>{
           <div>
             <button
                 type="button"
-                className="hover:shadow-form w-full rounded-md bg-[#422006] py-3 px-8 text-center text-base font-semibold text-white outline-none mb-2"
+                className="hover:shadow-form w-full rounded-md  bg-brightColor  hover:bg-[#451a03]  py-3 px-8 text-center text-base font-semibold text-white outline-none mb-2"
                 onClick={handleClick}> 
                 {id ? 'Update User' : 'Create User'}
             </button>
