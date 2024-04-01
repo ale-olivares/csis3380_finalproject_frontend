@@ -3,6 +3,7 @@ import { getCurrentUser } from "../../services/AuthService";
 import { getCart as getCartService, removeCart as removeCartService } from '../../services/CartService';
 import { getStripeSession as getStripeSessionService } from '../../services/PaymentService';
 import { saveOrder as saveOrderService } from '../../services/PaymentService';
+import { getPurchaseOrder as getPurchaseOrderService} from '../../services/OrderService';
 import { useNavigate } from "react-router-dom";
 import defaultImageSuccess from '../../assets/img/success.png';
 import { useCart } from '../../contexts/CartContext';
@@ -57,8 +58,6 @@ const PaymentSuccessComponent = () => {
                                     total_purchase: parseFloat(response.amount_total) / 100
                                 }
 
-                                console.log(purchaseOrder)
-
                                 // Set subtotal
                                 setSubtotal(parseFloat(response.amount_subtotal) / 100)
                                 
@@ -72,13 +71,21 @@ const PaymentSuccessComponent = () => {
                                 saveOrderService(purchaseOrder, getCurrentUser().id).then((response) => {
                                     if (response) {
                                         
-                                        // Clear the shopping cart
-                                        removeCartService(cartItems._id);
-                                        updateCartCount(0);
+                                        const order_id = response.order_id;
+
+                                        // Get the order details
+                                        getPurchaseOrderService(user.id, order_id).then((response) => {
+
+                                            // Clear the shopping cart
+                                            removeCartService(cartItems._id);
+                                            updateCartCount(0);
+                                            
+                                            // Set orderItems
+                                            setOrderItems(response);
                                         
-                                        // Set orderItems
-                                        setOrderItems(response);
-                                        
+                                        }).catch((error) => {
+                                            console.error('Error while fetching the order', error);
+                                        });
 
                                     }
                                 });

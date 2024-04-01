@@ -19,6 +19,8 @@ const ProductDetailComponent = () => {
     const [selectedImage, setSelectedImage] = useState('');
     const [inputQuantity, setInputQuantity] = useState(1);
     const [product, setProduct] = useState(null);
+    const [reviews, setReviews] = useState([]);
+    const [averageRating, setAverageRating] = useState(0);
     const [modal, setModal] = useState(null);
     const navigate = useNavigate();
     const { updateCartCount } = useCart();
@@ -32,6 +34,8 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                     setSelectedSubproductId(productData.product_subtypes[0]._id);
+                    setReviews(productData.product_subtypes[0].reviews) 
+                    setAverageRating(calculateAverageRating(productData));
                 }
 
                 if (productData.grind_types.length > 0) {
@@ -76,7 +80,6 @@ const ProductDetailComponent = () => {
                         
                     }
                     else {
-                        console.log(response.shopping_cart.items);
                         setModal({
                             showModal: true,
                             modalMessage: "Item added to cart successfully",
@@ -105,7 +108,15 @@ const ProductDetailComponent = () => {
         }
     };
 
-    const calculateAverageRating = (reviews) => {
+    const calculateAverageRating = (product) => {
+        
+        // get reviews from the selected sub product
+        const reviews = product.product_subtypes.filter(subtype => subtype._id.toString() !== selectedSubproductId)[0].reviews;
+        
+        if (reviews === undefined || reviews.length === 0) {
+            return 0
+        }
+
         let total = 0.0;
 
         reviews.forEach(review => {
@@ -270,6 +281,8 @@ const ProductDetailComponent = () => {
                                                         setSelectedImage(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value).image_url);
                                                         setSelectedPrice(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value).price);
                                                         setSelectedSubproductId(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value)._id);
+                                                        setReviews(product.product_subtypes.find(subtype => subtype.weight._id === e.target.value).reviews);
+                                                        setAverageRating(calculateAverageRating(product));
                                                     }}
                                                     className="mt-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                                 >
@@ -325,6 +338,25 @@ const ProductDetailComponent = () => {
                         {/* Divider */}
                         <div className="col-span-1 lg:col-span-2">
                             <hr className="h-px mt-8 bg-gray-200 border-0"></hr>
+                        </div>
+                        {/* Ratings and Reviews */}
+                        <div className="col-span-1 lg:col-span-2 pb-12">
+                            <div className="flex flex-col md:flex-row items-center mb-4">
+                                <div className="flex items-center mr-5">
+                                    <p className="bg-blue-100 text-blue-800 text-sm md:text-md font-semibold inline-flex items-center p-1.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                        {averageRating === 0 ? '-' : averageRating}
+                                    </p>
+                                </div>
+                                <h1 className="text-xl md:text-2xl font-semibold leading-7 text-gray-900">Reviews & Ratings</h1>
+                            </div>
+
+                            {reviews.length === 0 ? (
+                                <h4>This product has not received any review or rating yet.</h4>
+                            ) : (
+                                reviews.map((review, index) => (
+                                    <ReviewCardComponent reviewData={review} key={index} />
+                                ))
+                            )}
                         </div>
                     </div>
                 ) : (

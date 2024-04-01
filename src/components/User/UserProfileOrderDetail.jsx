@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaTrash, FaEye } from 'react-icons/fa';
 import UserAddReviewComponent from "./UserAddReview";
 import UserReviewSuccessComponent from "./UserReviewSuccess";
+import { getCurrentUser } from "../../services/AuthService";
+import { deleteReview, getReviewFromUser } from "../../services/ReviewService";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileOrderDetailComponent = ({ order }) => {
 
     const [subtotal, setSubtotal] = useState(0);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showReviewSuccessModal, setShowReviewSuccessModal] = useState(false);
+    const [deleteReviewModal, setDeleteReviewModal] = useState(false);
+    const [productId, setProductId] = useState(null)
+    const [subproductTypeId, setSubproductTypeId] = useState(null);
     const [orderId, setOrderId] = useState(null);
-    const [productId, setProductId] = useState(null);
+    const [orderItemId, setOrderItemId] = useState(null);
+    const [action, setAction] = useState(null);
+    const [userRating, setUserRating] = useState(0);
+    const [comment, setComment] = useState('');
+    const [shortMessage, setShortMessage] = useState('');
 
     // Format the creation date
     const formatDate = (dateString) => {
@@ -34,9 +44,24 @@ const UserProfileOrderDetailComponent = ({ order }) => {
     }, [order]);
 
     // Function to handle opening the review modal
-    const openReviewModal = (orderId, productId) => {
-        setOrderId(orderId);
+    const openReviewModal =  async (productId, productSubtypeId, orderId, orderItemId, reviewId, action) => {
         setProductId(productId);
+        setSubproductTypeId(productSubtypeId);
+        setOrderId(orderId);
+        setOrderItemId(orderItemId);
+        setAction(action);
+        if (action == 2){
+            
+            const response = await getReviewFromUser(getCurrentUser().id, reviewId);
+            
+            if (response.status === 200){
+                const review = response.data;
+                setShortMessage(review.title);
+                setComment(review.comment);
+                setUserRating(review.rating);
+            }
+        }
+        
         setShowReviewModal(true);
     };
 
@@ -55,8 +80,34 @@ const UserProfileOrderDetailComponent = ({ order }) => {
 
     // Function to handle closing the review modal
     const closeReviewSuccessModal = () => {
-        setShowReviewSuccessModal(false);
+        window.location.reload();
     };
+
+    const removeReview = async (productId, productSubtypeId, orderId, orderItemId) => {
+        console.log(productId);
+        const user = getCurrentUser();
+        const response = await deleteReview(user.id, productId, productSubtypeId, orderId, orderItemId);
+
+        console.log(response);
+
+        if (response.status === 200) {
+
+            setDeleteReviewModal({
+                showModal: true,
+                modalMessage: response.data.message,
+                modalTitle: "Success",
+                modalType: "success"
+            });
+        }
+        else {
+            setDeleteReviewModal({
+                showModal: true,
+                modalMessage: "There was an error, please try again later",
+                modalTitle: "Error",
+                modalType: "error"
+            });
+        }
+    }
 
     if (!(order && order.items)) {
         return <div>Loading...</div>;
@@ -80,18 +131,18 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                 </div>
                 <div className="mt-4 overflow-x-auto">
                     <table className="min-w-full table-auto text-left">
+
                         <thead>
                             <tr className="bg-gradient-to-r from-gray-200 to-gray-300">
-                                <th className="px-4 py-2 rounded-l-lg">
-                                    <span className="sr-only">Image</span>
-                                </th>
-                                <th className="px-4 py-2">Product</th>
-                                <th className="px-4 py-2">Quantity</th>
-                                <th className="px-4 py-2">Unit Price</th>
-                                <th className="px-4 py-2">Subtotal</th>
-                                <th className="px-4 py-2 rounded-r-lg"> Action</th>
+                                <th className="w-1/6 px-4 py-2 rounded-l-lg">Product</th>
+                                <th className="w-1/6 px-4 py-2">Quantity</th>
+                                <th className="w-1/6 px-4 py-2">Unit Price</th>
+                                <th className="w-1/6 px-4 py-2">Subtotal</th>
+                                <th className="w-1/6 px-4 py-2">Action</th>
+                                <th className="w-1/6 px-4 py-2 rounded-r-lg">Status</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             {order.items.map((item, index) => (
                                 <tr key={index} className={`border-b ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
@@ -108,19 +159,40 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                                     <td className="px-4 py-2">${item.unit_price}</td>
                                     <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
                                     {
-                                        order.order_status.toLowerCase() === 'delivered' &&
+                                        order.order_status.toLowerCase() === 'delivered' ? (
                                             item.product_rated === false ?
-                                            (
-                                                <td className="px-4 py-2" >
-                                                    <button
-                                                        className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded"
-                                                        onClick={() => openReviewModal(order._id, item.product._id)}
-                                                    >
-                                                        <FaStar className="mr-2" /> Rate
-                                                    </button>
+                                                (
+                                                    <td className="px-4 py-2" >
+                                                        <div className="flex justify-center gap-2">
+                                                            <button
+                                                                className="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded"
+                                                                onClick={() => openReviewModal(item.product._id.toString(), item.product_subtype.toString(), order._id.toString(), item._id.toString(), null, 1)}
+                                                            >
+                                                                <FaStar className="mr-2" /> Rate
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                ) :
+                                                (<td className="px-4 py-2">
+                                                    <div className="flex justify-center gap-2">
+                                                        <button
+                                                            onClick={() => removeReview(item.product._id.toString(), item.product_subtype.toString(), order._id.toString(), item._id.toString())}
+                                                            className="inline-flex items-center bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-5 rounded mr-2" // Add a right margin for spacing
+                                                        >
+                                                            <FaTrash aria-label="Remove item" size={24} /> Delete Rating
+                                                        </button>
+                                                        <button
+                                                            onClick={() => openReviewModal(item.product._id.toString(), item.product_subtype.toString(), order._id.toString(), item._id.toString(), item.review_id, 2)}
+                                                            className="inline-flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded"
+                                                        >
+                                                            <FaEye aria-label="View Rating" size={24} /> View Rating
+                                                        </button>
+
+                                                    </div>
                                                 </td>
+                                                )
                                             ) :
-                                            (<td className="px-4 py-2" ></td>)
+                                            (<td className="px-4 py-2">N/A</td>)
                                     }
                                 </tr>
                             ))}
@@ -144,10 +216,43 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                     </div>
                 </div>
                 {showReviewModal && (
-                    <UserAddReviewComponent onClose={closeReviewModal} orderId={orderId} productId={productId} />
+                    <UserAddReviewComponent onClose={closeReviewModal} productId={productId} subproductTypeId={subproductTypeId} orderId={orderId} orderItemId={orderItemId} shortMessageInit={shortMessage} commentInit={comment} actionInit={action} userRatingInit={userRating} />
                 )}
                 {showReviewSuccessModal && (
                     <UserReviewSuccessComponent onClose={closeReviewSuccessModal} />
+                )}
+                {deleteReviewModal && (
+                    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="my-modal">
+                        <div className="p-5 border w-96 shadow-lg rounded-md bg-white">
+                            <div className="text-center">
+                                <h3 className="text-lg leading-6 font-medium text-gray-900">{deleteReviewModal.modalTitle}</h3>
+                                <div className="mt-2 px-7 py-3">
+                                    <p className="text-sm text-gray-500">{deleteReviewModal.modalMessage}</p>
+                                </div>
+                                <div className="items-center px-4 py-3">
+                                    {
+                                        deleteReviewModal.modalType === 'error' ? (
+                                            <button
+                                                id="error-btn"
+                                                onClick={() => setDeleteReviewModal(null)}
+                                                className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                            >
+                                                OK
+                                            </button>
+                                        ) : (
+                                            <button
+                                                id="ok-btn"
+                                                onClick={() => window.location.reload() }
+                                                className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                            >
+                                                OK
+                                            </button>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </>
