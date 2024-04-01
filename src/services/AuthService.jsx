@@ -48,10 +48,8 @@ export const register = async (username, email, password) => {
 };
 
 export const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));;
+    return JSON.parse(localStorage.getItem('user'));
 };
-
-
 
 export const requestPasswordReset = async (email) => {
 
@@ -63,23 +61,24 @@ export const requestPasswordReset = async (email) => {
 
         });
         return response.data
+
     } catch (error) {
         console.error('Error sending password reset request:', error);
     }
 };
 
-export const setNewPassword = async (password, userId) => {
+export const setNewPassword = async (userId, userPassword) => {
     //create component and pass variable as in getUserDetail 
 
     try {
         const response = await axios.put(`${BASE_URL}/changePassword/${userId}`, {
-            password
+            userPassword
         });
         return response.data;
     }
     catch (error) {
         console.error('Error while changing the password', error);
-        throw error;
+
     }
 
 

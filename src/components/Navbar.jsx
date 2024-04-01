@@ -26,15 +26,6 @@ const Navbar = () => {
     setMenu(false);
   };
 
-  /*let navigate = useNavigate();
-  const ToLogin = () => {
-    let path = "/aboutus";
-    navigate(path);
-  }*/
-
-  //add once user is logged in
-  //<p>Hello! {location.state.id}</p>
-
   return (
     <div className="fixed-top w-full z-10">
       <div>

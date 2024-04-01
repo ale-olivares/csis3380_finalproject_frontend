@@ -12,7 +12,7 @@ const ForgotPassword = () => {
     try {
 
       const response = await requestPasswordReset(email);
-      console.log("Backend response" + response);
+      console.log(response);
 
 
     } catch (e) {
