@@ -24,41 +24,51 @@ import SetPassword from "../components/SetPassword";
 
 
 import UserProfile from "../components/Sections/UserProfile";
-import UsersTable from "../components/Users/UsersTable";
+import { CartProvider } from "../contexts/CartContext";
+import UsersTable from "../components/User/UsersTable";
+import UserForm from "../components/User/UserForm";
+import ContactForm from "../components/ContactForm/ContactForm";
+import InquiriesTable from "../components/ContactForm/InquiriesTable";
+import Error from "../components/Sections/Error";
 
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/" element={<About />} />
-          <Route path="/" element={<Footer />} />
-          <Route path="/wholesale" element={<Wholesale />} />
-          <Route path="/aboutus" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUp />} />
 
-          <Route path="/product/:productId" element={<ProductDetail />} />
-          <Route path="/devLogin" element={<DevLogin />} />
-          <Route path="/cart" element={<ShoppingCart />} />
-          <Route path="/checkout-success" element={<PaymentSuccess />} />
-          <Route path="/checkout-cancel" element={<PaymentCanceled />} />
-          <Route path="/catalog" element={<Product />} />
-          <Route path="/productsTable" element={<ProductTable />} />
-          <Route path="/contactForm" element={<ContactForm />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/setPassword" element={<SetPassword />} />
+      <CartProvider>
+        <div>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<About />} /> */}
+            <Route path="/" element={<Footer />} />
+            <Route path="/wholesale" element={<Wholesale />} />
+            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/devLogin" element={<DevLogin />} />
+            <Route path="/cart" element={<ShoppingCart />} />
+            <Route path="/checkout-success" element={<PaymentSuccess />} />
+            <Route path="/checkout-cancel" element={<PaymentCanceled />} />
+            <Route path="/catalog" element={<Product />} />
+            <Route path="/products" element={<ProductTable />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/users" element={<UsersTable />} />
+            <Route path="/createUser" element={<UserForm />} />
+            <Route path="/user/:id" element={<UserForm />} />
+            <Route path="/inquiries" element={<InquiriesTable />} />
+            <Route path="/contact" element={<ContactForm />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route path="/setPassword" element={<SetPassword />} />
+            <Route path="/usersTable" element={<UsersTable />} />
 
+            <Route path="*" element={<Error />} />
+          </Routes>
+          <Footer />
+        </div>
+      </CartProvider>
 
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/usersTable" element={<UsersTable />} />
-
-        </Routes>
-        <Footer />
-      </div>
     );
   }
 }

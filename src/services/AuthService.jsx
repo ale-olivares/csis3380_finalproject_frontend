@@ -10,8 +10,6 @@ export const login = async (username, password) => {
             password
         });
 
-        console.log(response.data)
-
         if (response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify(response.data));
         }
@@ -51,6 +49,7 @@ export const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };
 
+
 export const requestPasswordReset = async (email) => {
 
     // Send password reset request to the backend
@@ -83,3 +82,9 @@ export const setNewPassword = async (userId, userPassword) => {
 
 
 };
+
+export const isAdmin = () => {
+    const user = getCurrentUser();
+    return user && user.roles && user.roles.includes('ROLE_ADMIN');
+};
+
