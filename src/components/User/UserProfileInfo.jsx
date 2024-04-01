@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import defaultStoreImage from '../../assets/img/default-store.png'
 
 const UserProfileInfoComponent = ({ userInfo }) => {
 
@@ -7,7 +8,7 @@ const UserProfileInfoComponent = ({ userInfo }) => {
             <div className="pt-10 px-4 md:pt-20 md:px-10 lg:px-40 pb-20 mx-auto bg-gray-50">
                 <div className="bg-white w-full rounded-lg shadow-xl p-5 md:pl-10 md:pr-10">
                     <div className="flex items-center px-4 sm:px-0 pt-5">
-                        <img src={userInfo.logo_image_url} alt="User Image" className="h-16 w-16 object-cover mr-4 rounded-full" />
+                        <img src={userInfo.logo_image_url == null ? defaultStoreImage : userInfo.logo_image_url} alt="User Image" className="h-16 w-16 object-cover mr-4 rounded-full" />
                         <div>
                             <h3 className="text-xl font-semibold leading-7 text-gray-900">{userInfo.company}</h3>
                             <p className="mt-1 max-w-2xl text-sm md:text-md leading-6 text-gray-500">Personal details</p>

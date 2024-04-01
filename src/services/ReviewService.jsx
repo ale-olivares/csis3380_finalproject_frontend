@@ -3,16 +3,19 @@ import authHeader from './AuthHeader';
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
-export const addReview = async (userId, productId, title, comment, rating, orderId) => {
+export const addReview = async (userId, productId, productSubtypeId, title, comment, rating, orderId, itemId) => {
     try{
+
         const response = await axios.put(`${BASE_URL}/add-user-review`, 
             {
                 userId,
                 productId,
+                productSubtypeId,
                 title,
                 comment,
                 rating,
-                orderId
+                orderId,
+                itemId
             },
             {
                 headers: { ...authHeader()}
@@ -25,3 +28,45 @@ export const addReview = async (userId, productId, title, comment, rating, order
     }
     
 };
+
+export const deleteReview = async (userId, productId, productSubtypeId, orderId, orderItemId) => {
+    
+    try{
+
+        const response = await axios.put(`${BASE_URL}/deleteReview/${userId}`, 
+            {
+                productId,
+                productSubtypeId,
+                orderId,
+                orderItemId,
+            },
+            {
+                headers: { ...authHeader()}
+            });
+
+        return response;
+    }
+    catch(error){
+        console.error('Error while deleting the user review', error);
+        throw error;
+    }
+    
+}
+
+export const getReviewFromUser = async (userId, reviewId) => {
+    
+    try{
+
+        const response = await axios.get(`${BASE_URL}/getUserReview/${userId}/${reviewId}`, 
+            {
+                headers: { ...authHeader()}
+            });
+
+        return response;
+    }
+    catch(error){
+        console.error('Error while deleting the user review', error);
+        throw error;
+    }
+    
+}

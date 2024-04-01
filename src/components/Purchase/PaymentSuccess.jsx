@@ -3,6 +3,7 @@ import { getCurrentUser } from "../../services/AuthService";
 import { getCart as getCartService, removeCart as removeCartService } from '../../services/CartService';
 import { getStripeSession as getStripeSessionService } from '../../services/PaymentService';
 import { saveOrder as saveOrderService } from '../../services/PaymentService';
+import { getPurchaseOrder as getPurchaseOrderService} from '../../services/OrderService';
 import { useNavigate } from "react-router-dom";
 import defaultImageSuccess from '../../assets/img/success.png';
 import { useCart } from '../../contexts/CartContext';
@@ -35,9 +36,10 @@ const PaymentSuccessComponent = () => {
                             if (response.payment_status === 'paid') {
                                 // We can generate the order
                                 const items = cartItems.items.map((item) => {
+                                    console.log(item);
                                     return {
                                         product: item.product._id,
-                                        product_subtype: item.product_subtype._id,
+                                        product_subtype: item.product_subtype,
                                         grind_type: item.grind_type._id,
                                         quantity: item.quantity,
                                         unit_price: item.unit_price,
@@ -69,13 +71,21 @@ const PaymentSuccessComponent = () => {
                                 saveOrderService(purchaseOrder, getCurrentUser().id).then((response) => {
                                     if (response) {
                                         
-                                        // Clear the shopping cart
-                                        removeCartService(cartItems._id);
-                                        updateCartCount(0);
+                                        const order_id = response.order_id;
+
+                                        // Get the order details
+                                        getPurchaseOrderService(user.id, order_id).then((response) => {
+
+                                            // Clear the shopping cart
+                                            removeCartService(cartItems._id);
+                                            updateCartCount(0);
+                                            
+                                            // Set orderItems
+                                            setOrderItems(response);
                                         
-                                        // Set orderItems
-                                        setOrderItems(response);
-                                        
+                                        }).catch((error) => {
+                                            console.error('Error while fetching the order', error);
+                                        });
 
                                     }
                                 });
@@ -145,7 +155,7 @@ const PaymentSuccessComponent = () => {
                                             <br/>
                                             {item.grind_type.name}
                                             <br/>
-                                            {item.product_subtype.name}</td>
+                                            {item.product.product_subtypes[0].weight.name}</td>
                                         <td className="px-4 py-2">{item.quantity}</td>
                                         <td className="px-4 py-2">${item.unit_price}</td>
                                         <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>
