@@ -20,6 +20,7 @@ const Login = () => {
             const loginResponse = await login(username, password);
             if (loginResponse.message) {
                 setMessage(loginResponse.message);
+                console.log("User logged in!");
             }
             else {
                 //validate if user has requiredpassword field  = true 

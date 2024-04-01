@@ -63,7 +63,6 @@ export const requestPasswordReset = async (email) => {
 
         });
         return response.data
-        // Handle response accordingly
     } catch (error) {
         console.error('Error sending password reset request:', error);
     }
