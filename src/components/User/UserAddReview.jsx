@@ -4,7 +4,7 @@ import StarRatingComponent from './StarRating';
 import { getCurrentUser } from "../../services/AuthService";
 import { addReview as addReviewService } from '../../services/ReviewService';
 
-const UserAddReviewComponent = ({ onClose, productId, subproductTypeId, orderId, orderItemId, shortMessageInit, commentInit, userRatingInit, actionInit  }) => {
+const UserAddReviewComponent = ({ onClose, openReviewSuccessModal ,productId, subproductTypeId, orderId, orderItemId, shortMessageInit, commentInit, userRatingInit, actionInit  }) => {
 
     const [shortMessage, setShortMessage] = useState(shortMessageInit);
     const [comment, setComment] = useState(commentInit);
@@ -20,7 +20,7 @@ const UserAddReviewComponent = ({ onClose, productId, subproductTypeId, orderId,
         const user = getCurrentUser();
         addReviewService(user.id, productId, subproductTypeId, shortMessage, comment, userRating, orderId, orderItemId).then((response) => {
             if (response) {
-                onClose();
+                openReviewSuccessModal();
             }
         }).catch((error) => {    
             console.error('Error while adding the review', error);
@@ -37,14 +37,13 @@ const UserAddReviewComponent = ({ onClose, productId, subproductTypeId, orderId,
 
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div className="col-span-full">
-                                <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">Short Message</label>
+                                <label htmlFor="shortMessage" className="block text-sm font-medium leading-6 text-gray-900">Short Message</label>
                                 <div className="mt-2">
                                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                         <input 
                                             type="text" 
-                                            name="username" 
-                                            id="username" 
-                                            autoComplete="username" 
+                                            name="shortMessage" 
+                                            id="shortMessage"  
                                             className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                             onChange={(e) => setShortMessage(e.target.value)}
                                             required
@@ -55,11 +54,11 @@ const UserAddReviewComponent = ({ onClose, productId, subproductTypeId, orderId,
                                 </div>
                             </div>
                             <div className="col-span-full">
-                                <label htmlFor="about" className="block text-sm font-medium leading-6 text-gray-900">Comment</label>
+                                <label htmlFor="comment" className="block text-sm font-medium leading-6 text-gray-900">Comment</label>
                                 <div className="mt-2">
                                     <textarea 
-                                        id="about" 
-                                        name="about" 
+                                        id="comment" 
+                                        name="comment" 
                                         rows="3" 
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(e) => setComment(e.target.value)}
