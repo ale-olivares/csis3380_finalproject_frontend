@@ -70,11 +70,13 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         setOrderId(null);
         setProductId(null);
         setShowReviewModal(false);
-        openReviewSuccessModal();
     };
 
     // Function to handle opening the review success modal
     const openReviewSuccessModal = () => {
+        setOrderId(null);
+        setProductId(null);
+        setShowReviewModal(false);
         setShowReviewSuccessModal(true);
     };
 
@@ -132,12 +134,12 @@ const UserProfileOrderDetailComponent = ({ order }) => {
 
                         <thead>
                             <tr className="bg-gradient-to-r from-gray-200 to-gray-300">
-                                <th className="w-1/6 px-4 py-2 rounded-l-lg">Product</th>
+                                <th className="w-1/6 px-4 py-2 rounded-l-lg"></th>
+                                <th className="w-1/6 px-4 py-2">Product</th>
                                 <th className="w-1/6 px-4 py-2">Quantity</th>
                                 <th className="w-1/6 px-4 py-2">Unit Price</th>
                                 <th className="w-1/6 px-4 py-2">Subtotal</th>
-                                <th className="w-1/6 px-4 py-2">Action</th>
-                                <th className="w-1/6 px-4 py-2 rounded-r-lg">Status</th>
+                                <th className="w-1/6 px-4 py-2 rounded-r-lg">Action</th>
                             </tr>
                         </thead>
 
@@ -214,7 +216,7 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                     </div>
                 </div>
                 {showReviewModal && (
-                    <UserAddReviewComponent onClose={closeReviewModal} productId={productId} subproductTypeId={subproductTypeId} orderId={orderId} orderItemId={orderItemId} shortMessageInit={shortMessage} commentInit={comment} actionInit={action} userRatingInit={userRating} />
+                    <UserAddReviewComponent onClose={closeReviewModal} openReviewSuccessModal={openReviewSuccessModal} productId={productId} subproductTypeId={subproductTypeId} orderId={orderId} orderItemId={orderItemId} shortMessageInit={shortMessage} commentInit={comment} actionInit={action} userRatingInit={userRating} />
                 )}
                 {showReviewSuccessModal && (
                     <UserReviewSuccessComponent onClose={closeReviewSuccessModal} />
