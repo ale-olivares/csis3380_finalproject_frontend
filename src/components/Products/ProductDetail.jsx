@@ -8,6 +8,7 @@ import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
 import ReviewCardComponent from '../../layouts/ReviewCard';
 import { useCart } from '../../contexts/CartContext';
+import LoadingComponent from '../../layouts/Loading';
 
 const ProductDetailComponent = () => {
 
@@ -132,7 +133,7 @@ const ProductDetailComponent = () => {
     }
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <LoadingComponent />;
     }
 
     return (

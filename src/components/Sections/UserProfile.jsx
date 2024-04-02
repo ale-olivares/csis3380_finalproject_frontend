@@ -5,11 +5,12 @@ import { getCurrentUser } from '../../services/AuthService';
 import { getUserDetail as getUserDetailService } from '../../services/UserService';
 import { getPurchaseOrders as getPurchaseOrdersService } from '../../services/OrderService';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from "../../layouts/Loading";
 
 const UserProfile = () => {
 
-    const [currentUser, setCurrentUser] = useState({});
-    const [userOrders, setUserOrders] = useState([]);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [userOrders, setUserOrders] = useState(null);
     const history = useNavigate();
 
     useEffect(() => {
@@ -33,6 +34,9 @@ const UserProfile = () => {
         getUser();
     }, []);
 
+    if (!currentUser || !userOrders) {
+        return <LoadingComponent />
+    }
 
     return (
         <>

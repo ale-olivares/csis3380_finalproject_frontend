@@ -4,6 +4,7 @@ import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } f
 import ProductCard from "../../layouts/ProductCard";
 import ProductFilter from "../Products/ProductFilter";
 import Pagination from "../../layouts/Pagination";
+import LoadingComponent from "../../layouts/Loading";
 
 const Product = () => {
   const [products, setProducts] = useState([]); 
@@ -52,6 +53,12 @@ const Product = () => {
     };
     fetchCountries();
   },[]);
+
+    //Set loading if products, uniqueCountries, categories, grindTypes and weights are not fetched
+    if (products.length === 0 || uniqueCountries.length === 0 || categories.length === 0 || grindTypes.length === 0 || weights.length === 0) { 
+      return <LoadingComponent />;
+    }
+  
 
   //Sorting
   const handleSortChange = (event) => {
