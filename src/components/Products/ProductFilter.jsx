@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import Button from '../../layouts/Button';
 
 const ProductFilter = (props) => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -46,6 +47,29 @@ const ProductFilter = (props) => {
       }
        
         setSearchParams(newSearchParams);
+    }
+
+    //Handle Resete Filters
+    const resetFilters = () => {
+      setSearchParams('');
+
+      // Reset checkboxes
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      // Reset radio buttons
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+      });
+
+      // Reset input fields
+      document.getElementById('min').value = '';
+      document.getElementById('max').value = '';
+
+      // Reset select field
+      document.getElementById('country').selectedIndex = 0;
+
     }
 
     return (
@@ -113,6 +137,10 @@ const ProductFilter = (props) => {
                   ))}
                 </div>              
               </div>
+            </div>
+
+            <div className="flex p-5 justify-center">
+              <button onClick={resetFilters} className='px-10 py-3 border-2 border-white bg-gray-300 hover:bg-[#AB6B2E]  hover:text-white transition-all rounded-full'>Reset Filter</button>
             </div>
 
           </aside>
