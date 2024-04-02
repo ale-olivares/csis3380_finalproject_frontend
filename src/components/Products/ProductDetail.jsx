@@ -34,7 +34,7 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                     setSelectedSubproductId(productData.product_subtypes[0]._id);
-                    setReviews(productData.product_subtypes[0].reviews) 
+                    setReviews(productData.product_subtypes[0].reviews? productData.product_subtypes[0].reviews : []); 
                     setAverageRating(calculateAverageRating(productData));
                 }
 
