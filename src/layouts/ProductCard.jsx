@@ -2,6 +2,8 @@ import React from "react";
 import Button from "../layouts/Button";
 import { useNavigate } from 'react-router-dom';
 
+import RatingStars from "../components/Products/ProductRating";
+
 const ProductCard = (props) => {
   const navigate = useNavigate();
 

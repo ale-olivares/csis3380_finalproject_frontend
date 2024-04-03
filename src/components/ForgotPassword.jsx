@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { requestPasswordReset } from '../services/AuthService';
+import { useNavigate } from "react-router-dom";
+
 
 const ForgotPassword = () => {
 
-
   const [email, setEmail] = useState('');
+
+  const history = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
+    console.log('test here');
+
     try {
 
       const response = await requestPasswordReset(email);
       console.log(response);
+      if (response.status == 200) {
+        //redirect to component with message to confirm password test
+        history('/confirmPassword');
+        console.log("Password request sent");
+
+      } else {
+        console.log("An error occurred");
+      }
 
 
     } catch (e) {
@@ -40,14 +52,14 @@ const ForgotPassword = () => {
         </div>
         <br></br>
         <div>
-          <NavLink to="/setPassword">
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Reset Password
-            </button>
-          </NavLink>
+
+          <button
+            type="submit"
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Reset Password
+          </button>
+
 
         </div>
 

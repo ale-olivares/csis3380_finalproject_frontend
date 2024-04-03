@@ -18,9 +18,10 @@ import Product from "../components/Sections/Product";
 import ProductDetail from "../components/Products/ProductDetail";
 import ProductTable from "../components/Products/ProductTable";
 
-import ContactForm from "../components/ContactForm";
+
 import ForgotPassword from "../components/ForgotPassword";
 import SetPassword from "../components/SetPassword";
+import ConfirmPassword from "../components/PasswordConfirmation";
 
 
 import UserProfile from "../components/Sections/UserProfile";
@@ -61,6 +62,8 @@ class App extends Component {
             <Route path="/contact" element={<ContactForm />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="/setPassword" element={<SetPassword />} />
+            <Route path="/confirmPassword" element={<ConfirmPassword />} />
+
             <Route path="/usersTable" element={<UsersTable />} />
 
             <Route path="*" element={<Error />} />

@@ -56,13 +56,15 @@ const Navbar = () => {
           </nav>
 
           <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
-            {user === null ? (
+            {user === null || user.required_change_password ? (
               <NavLink to="/login">
                 <Button title="Login" />
               </NavLink>
             ) : (
               <p className="text-white">Hello! {user.username}</p>
             )}
+
+
           </div>
         </div>
       ) : (
@@ -105,6 +107,13 @@ const Navbar = () => {
             </nav>
 
             <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
+              {user === null ? (
+                <NavLink to="/login">
+                  <Button title="Login" />
+                </NavLink>
+              ) : (
+                <p className="text-white">Hello! {user.username}</p>
+              )}
               <NavLink to="/cart" className="relative">
                 <FaCartShopping size={25} style={{ color: "white" }} />
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500 p-1 text-xs text-white absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2">{totalItemsCart} </span>

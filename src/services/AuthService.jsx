@@ -1,4 +1,6 @@
 import axios from "axios";
+import authHeader from './AuthHeader';
+
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -59,7 +61,7 @@ export const requestPasswordReset = async (email) => {
             email
 
         });
-        return response.data
+        return response;
 
     } catch (error) {
         console.error('Error sending password reset request:', error);
@@ -67,11 +69,14 @@ export const requestPasswordReset = async (email) => {
 };
 
 export const setNewPassword = async (userId, userPassword) => {
-    //create component and pass variable as in getUserDetail 
-
+    //Sending password and user id to change password 
     try {
         const response = await axios.put(`${BASE_URL}/changePassword/${userId}`, {
-            userPassword
+
+            password: userPassword
+
+        }, {
+            headers: { ...authHeader() }
         });
         return response.data;
     }
