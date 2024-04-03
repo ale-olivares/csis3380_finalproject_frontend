@@ -7,6 +7,7 @@ import { getPurchaseOrder as getPurchaseOrderService} from '../../services/Order
 import { useNavigate } from "react-router-dom";
 import defaultImageSuccess from '../../assets/img/success.png';
 import { useCart } from '../../contexts/CartContext';
+import LoadingComponent from "../../layouts/Loading";
 
 const PaymentSuccessComponent = () => {
 
@@ -117,8 +118,8 @@ const PaymentSuccessComponent = () => {
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
-    if (!(orderItems && orderItems.items)) {
-        return <div>Loading...</div>;
+    if (!orderItems || (orderItems && !orderItems.items) || subtotal === 0 || taxes === 0 || total === 0) {
+        return <LoadingComponent />;
     }
 
     return (
