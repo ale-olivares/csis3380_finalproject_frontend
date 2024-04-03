@@ -7,3 +7,12 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+input[type="radio"]:checked + .radio-label {
+  background-color: #a67e41; /* Example background color: blue */
+  color: white; /* Change the text color to white */
+}
+
+.product-list {
+  min-height: 500px;
+}
