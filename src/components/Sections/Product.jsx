@@ -7,7 +7,7 @@ import Pagination from "../../layouts/Pagination";
 import LoadingComponent from "../../layouts/Loading";
 
 const Product = () => {
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState(null); 
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,11 +54,11 @@ const Product = () => {
     fetchCountries();
   },[]);
 
-    //Set loading if products, uniqueCountries, categories, grindTypes and weights are not fetched
-    if (products.length === 0 || uniqueCountries.length === 0 || categories.length === 0 || grindTypes.length === 0 || weights.length === 0) { 
+    //Set loading if uniqueCountries, categories, grindTypes and weights are not fetched
+    if (!products||(uniqueCountries.length === 0 || categories.length === 0 || grindTypes.length === 0 || weights.length === 0)) { 
       return <LoadingComponent />;
     }
-  
+
 
   //Sorting
   const handleSortChange = (event) => {
