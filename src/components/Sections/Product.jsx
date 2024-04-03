@@ -81,7 +81,7 @@ const Product = () => {
                 </div>
             </div>
        
-            {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-screen">No products found</div>}
+            {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-max">No products found</div>}
             <div className="flex flex-wrap gap-12 pb-10 justify-start product-list">
               {products.map((product, index) => (
                 <ProductCard key={index+1} ind={index+1} product={product}/> 
