@@ -2,28 +2,28 @@ import React, { Component } from "react";
 import { Routes, Route } from "react-router-dom";
 
 //App components
-import Navbar from "../components/Navbar";
-import Home from "../components/Home";
-import About from "../components/About";
-import Footer from "../components/Footer";
-import Wholesale from "../components/Sections/Wholesale";
-import AboutUs from "../components/Sections/AboutUs";
-import Login from "../components/Login";
-import SignUp from "../components/SignUp";
-import DevLogin from "../components/Helpers/DevLogin";
-import ShoppingCart from "../components/Purchase/ShoppingCart";
-import PaymentSuccess from "../components/Purchase/PaymentSuccess";
-import PaymentCanceled from "../components/Purchase/PaymentCanceled";
-import Product from "../components/Sections/Product";
-import ProductDetail from "../components/Products/ProductDetail";
-import ProductTable from "../components/Products/ProductTable";
-import UserProfile from "../components/Sections/UserProfile";
-import { CartProvider }  from "../contexts/CartContext";
-import UsersTable from "../components/User/UsersTable";
-import UserForm from "../components/User/UserForm";
-import ContactForm from "../components/ContactForm/ContactForm";
-import InquiriesTable from "../components/ContactForm/InquiriesTable";
-import Error from "../components/Sections/Error";
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import About from "./components/About";
+import Footer from "./components/Footer";
+import Wholesale from "./components/Sections/Wholesale";
+import AboutUs from "./components/Sections/AboutUs";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import DevLogin from "./components/Helpers/DevLogin";
+import ShoppingCart from "./components/Purchase/ShoppingCart";
+import PaymentSuccess from "./components/Purchase/PaymentSuccess";
+import PaymentCanceled from "./components/Purchase/PaymentCanceled";
+import Product from "./components/Sections/Product";
+import ProductDetail from "./components/Products/ProductDetail";
+import ProductTable from "./components/Products/ProductTable";
+import UserProfile from "./components/Sections/UserProfile";
+import { CartProvider }  from "./contexts/CartContext";
+import UsersTable from "./components/User/UsersTable";
+import UserForm from "./components/User/UserForm";
+import ContactForm from "./components/ContactForm/ContactForm";
+import InquiriesTable from "./components/ContactForm/InquiriesTable";
+import Error from "./components/Sections/Error";
 
 class App extends Component {
   render() {
