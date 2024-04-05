@@ -27,7 +27,8 @@ const SetPassword = () => {
 
                 const password = password1;
                 const passwordResponse = await setNewPassword(user.id, password);
-                if (response.status == 200) {
+                console.log(passwordResponse);
+                if (passwordResponse.status == 200) {
                     //redirect to home to log in again
                     history('/');
                     console.log(passwordResponse.message);

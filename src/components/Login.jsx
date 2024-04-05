@@ -31,7 +31,7 @@ const Login = () => {
                     history("/setPassword");
                 } else {
                     console.log("Go to home");
-                    window.location.reload();
+                    history("/")
                 }
 
 

@@ -86,6 +86,7 @@ const Navbar = () => {
             </nav>
 
             <div className="hidden md:flex flex-row items-center text-lg font-medium gap-8">
+              <p className="text-white">Hello! {user.username}</p>
               <NavLink to="/">
                 <Button onClick={() => logout()} title="Logout" />
               </NavLink>

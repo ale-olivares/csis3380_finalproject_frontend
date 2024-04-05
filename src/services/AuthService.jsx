@@ -78,7 +78,7 @@ export const setNewPassword = async (userId, userPassword) => {
         }, {
             headers: { ...authHeader() }
         });
-        return response.data;
+        return response;
     }
     catch (error) {
         console.error('Error while changing the password', error);
