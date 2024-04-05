@@ -1,9 +1,11 @@
 import axios from "axios";
+import authHeader from './AuthHeader';
+
 
 const BASE_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export const login = async (username, password) => {
-    
+
     try {
         const response = await axios.post(BASE_URL + "/auth/signin", {
             username,
@@ -11,14 +13,14 @@ export const login = async (username, password) => {
         });
 
         if (response.data.accessToken) {
-            localStorage.setItem("user", JSON.stringify(response.data));   
+            localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
 
     } catch (error) {
         console.error('Error logging in', error);
         return error.response.data;
-        
+
     }
 };
 
@@ -49,7 +51,45 @@ export const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };
 
+
+export const requestPasswordReset = async (email) => {
+
+    // Send password reset request to the backend
+
+    try {
+        const response = await axios.post(BASE_URL + '/request-reset-password', {
+            email
+
+        });
+        return response;
+
+    } catch (error) {
+        console.error('Error sending password reset request:', error);
+    }
+};
+
+export const setNewPassword = async (userId, userPassword) => {
+    //Sending password and user id to change password 
+    try {
+        const response = await axios.put(`${BASE_URL}/changePassword/${userId}`, {
+
+            password: userPassword
+
+        }, {
+            headers: { ...authHeader() }
+        });
+        return response;
+    }
+    catch (error) {
+        console.error('Error while changing the password', error);
+
+    }
+
+
+};
+
 export const isAdmin = () => {
     const user = getCurrentUser();
     return user && user.roles && user.roles.includes('ROLE_ADMIN');
-  };
+};
+
