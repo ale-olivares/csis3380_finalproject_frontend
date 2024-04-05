@@ -21,6 +21,7 @@ const ProductTable = () => {
                 setProducts(response.products);
                 setTotalPages(response.totalPages);
                 setCurrentPage(response.page);
+
             } catch (error) {
                 console.error('Error while fetching products', error);
             }
@@ -50,7 +51,6 @@ const ProductTable = () => {
 
 
     const handleSave = async (prodId, index) => {
-        //console.log(index)
         const product = products.find(p => p._id === prodId);
         try {
 
@@ -62,8 +62,7 @@ const ProductTable = () => {
 
             await updateProduct(product, index);
             setEditing({prodId: null, index: null}); // Exit editing mode
-            //console.log('Product updated successfully');
-            
+ 
             setModal({
                 showModal: true,
                 modalMessage: "Product updated successfully",
@@ -114,9 +113,8 @@ const ProductTable = () => {
     return (
         <>
         <h1 className="font-semibold text-center text-3xl pt-5">Products</h1>
-        <div className="container pt-5 mx-auto pb-20 min-h-screen"> 
-            <div className='pb-[10px]'>
-                <label htmlFor="table-search" className="sr-only">Search</label>
+        <div className="container pt-5 mx-auto pb-20 min-h-screen" style={{ width: '85vw' }}> 
+            <div className='pb-[10px] ml-2'>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
                         <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
@@ -132,27 +130,33 @@ const ProductTable = () => {
                 </div>
             </div>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg pb-[15px]">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 text-center">    
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 text-center items-center">    
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" className="px-6 py-3">Name</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Name</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Product</th>
                             <th scope="col" className="px-6 py-3">ID</th>
-                            <th scope="col" className="px-6 py-3">Category</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Category</th>
                             <th scope="col" className="px-6 py-3">Weight</th>
                             <th scope="col" className="px-6 py-3">Stock</th>
                             <th scope="col" className="px-6 py-3">Price</th>
-                            <th scope="col" className="px-6 py-3">Action</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.map((product) =>
                             product.product_subtypes.map((subtype, index) => (
                                 <tr key={`${product.prod_id}-${index}`} className="bg-white border-b  hover:bg-amber-50">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {product.name} </th>
-                                    <td className="px-6 py-4">{product.prod_id}</td>
-                                    <td className="px-6 py-4">{product.product_category.name}</td>
-                                    <td className="px-6 py-4">{subtype.weight.name}</td>
-                                    <td className="px-6 py-4">
+                                    <th scope="row" className="hidden sm:table-cell px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {product.name} </th>
+                                    <td className="hidden sm:table-cell px-6 py-3">
+                                        <div className="flex justify-center items-center">
+                                            <img className="w-9 h-9" src={subtype.image_url} alt="" />
+                                        </div>
+                                    </td>
+                                    <td className="px-6 py-3">{product.prod_id}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3">{product.product_category.name}</td>
+                                    <td className="px-6 py-3">{subtype.weight.name}</td>
+                                    <td className="px-6 py-3">
                                         {(editing.prodId === product._id && editing.index == index) ? (
                                             <input
                                                 type="number"
@@ -165,7 +169,7 @@ const ProductTable = () => {
                                             subtype.stock
                                         )}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-3">
                                         { (editing.prodId === product._id && editing.index == index)? (
                                             <input
                                                 type="text"
@@ -179,7 +183,7 @@ const ProductTable = () => {
                                             subtype.price
                                         )}
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="hidden sm:table-cell px-6 py-3">
                                         {(editing.prodId === product._id && editing.index == index) ? (
                                             <>
                                                 <button className="w-[60px] h-[35px] bg-green-600 text-white rounded hover:bg-green-500" onClick={() => handleSave(product._id, index)}>Save</button>
