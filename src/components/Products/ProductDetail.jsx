@@ -8,6 +8,7 @@ import { FaCartPlus, FaUser } from "react-icons/fa";
 import { getCurrentUser } from '../../services/AuthService';
 import ReviewCardComponent from '../../layouts/ReviewCard';
 import { useCart } from '../../contexts/CartContext';
+import LoadingComponent from '../../layouts/Loading';
 
 const ProductDetailComponent = () => {
 
@@ -34,7 +35,7 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                     setSelectedSubproductId(productData.product_subtypes[0]._id);
-                    setReviews(productData.product_subtypes[0].reviews) 
+                    setReviews(productData.product_subtypes[0].reviews? productData.product_subtypes[0].reviews : []); 
                     setAverageRating(calculateAverageRating(productData));
                 }
 
@@ -132,7 +133,7 @@ const ProductDetailComponent = () => {
     }
 
     if (!product) {
-        return <div>Loading...</div>;
+        return <LoadingComponent />;
     }
 
     return (

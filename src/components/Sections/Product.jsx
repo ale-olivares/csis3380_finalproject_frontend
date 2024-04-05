@@ -4,9 +4,10 @@ import { getProducts, getCountries, getCategories, getGrindTypes, getWeights } f
 import ProductCard from "../../layouts/ProductCard";
 import ProductFilter from "../Products/ProductFilter";
 import Pagination from "../../layouts/Pagination";
+import LoadingComponent from "../../layouts/Loading";
 
 const Product = () => {
-  const [products, setProducts] = useState([]); 
+  const [products, setProducts] = useState(null); 
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,6 +54,12 @@ const Product = () => {
     fetchCountries();
   },[]);
 
+    //Set loading if uniqueCountries, categories, grindTypes and weights are not fetched
+    if (!products||(uniqueCountries.length === 0 || categories.length === 0 || grindTypes.length === 0 || weights.length === 0)) { 
+      return <LoadingComponent />;
+    }
+
+
   //Sorting
   const handleSortChange = (event) => {
     const { name, value } = event.target;
@@ -81,7 +88,7 @@ const Product = () => {
                 </div>
             </div>
        
-            {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-screen">No products found</div>}
+            {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 px-40 pb-40 md:mx-auto min-h-max">No products found</div>}
             <div className="flex flex-wrap gap-12 pb-10 justify-start product-list">
               {products.map((product, index) => (
                 <ProductCard key={index+1} ind={index+1} product={product}/> 
