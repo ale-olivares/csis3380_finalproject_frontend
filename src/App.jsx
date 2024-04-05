@@ -32,7 +32,6 @@ import ContactForm from "../components/ContactForm/ContactForm";
 import InquiriesTable from "../components/ContactForm/InquiriesTable";
 import Error from "../components/Sections/Error";
 
-
 class App extends Component {
   render() {
     return (
