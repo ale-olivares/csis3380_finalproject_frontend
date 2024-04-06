@@ -4,26 +4,19 @@ import { Routes, Route } from "react-router-dom";
 //App components
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-import About from "./components/About";
 import Footer from "./components/Footer";
 import Wholesale from "./components/Sections/Wholesale";
 import AboutUs from "./components/Sections/AboutUs";
 import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import DevLogin from "./components/Helpers/DevLogin";
 import ShoppingCart from "./components/Purchase/ShoppingCart";
 import PaymentSuccess from "./components/Purchase/PaymentSuccess";
 import PaymentCanceled from "./components/Purchase/PaymentCanceled";
 import Product from "./components/Sections/Product";
 import ProductDetail from "./components/Products/ProductDetail";
 import ProductTable from "./components/Products/ProductTable";
-
-
 import ForgotPassword from "./components/ForgotPassword";
 import SetPassword from "./components/SetPassword";
 import ConfirmPassword from "./components/PasswordConfirmation";
-
-
 import UserProfile from "./components/Sections/UserProfile";
 import { CartProvider } from "./contexts/CartContext";
 import UsersTable from "./components/User/UsersTable";
@@ -47,7 +40,6 @@ class App extends Component {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/login" element={<Login />} />
             <Route path="/product/:productId" element={<ProductDetail />} />
-            <Route path="/devLogin" element={<DevLogin />} />
             <Route path="/cart" element={<ShoppingCart />} />
             <Route path="/checkout-success" element={<PaymentSuccess />} />
             <Route path="/checkout-cancel" element={<PaymentCanceled />} />

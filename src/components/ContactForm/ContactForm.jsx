@@ -5,6 +5,7 @@ import Notification from "../../layouts/Notification";
 const ContactForm = () => {
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
     const formRef = useRef(null);
+    const [modal, setModal] = useState(null);
 
     const handleClick = async (event) => {
         event.preventDefault();
@@ -18,17 +19,29 @@ const ContactForm = () => {
     
         try{
             await sendInquiry({email, phone, title, body });
-            setNotification({ show: true, message: 'Inquiry sent successfully!', type: 'success' });
+            // setNotification({ show: true, message: 'Inquiry sent successfully!', type: 'success' });
+            setModal({
+                showModal: true,
+                modalMessage: "Message sent successfully",
+                modalTitle: "Success",
+                modalType: "success"
+            });
             form.reset();
         }catch(error){
             console.error('Error while sending inquiry', error);
-            setNotification({ show: true, message: error.response.data.message, type: 'error' });
+            // setNotification({ show: true, message: error.response.data.message, type: 'error' });
+            setModal({
+                showModal: true,
+                modalMessage: error.message,
+                modalTitle: "Error",
+                modalType: "error"
+            });
         }
     }
 
     return(
         <>
-            <Notification  show={notification.show}message={notification.message}  type={notification.type}  onClose={() => setNotification({ ...notification, show: false })}        />
+            {/* <Notification  show={notification.show}message={notification.message}  type={notification.type}  onClose={() => setNotification({ ...notification, show: false })}        /> */}
             <section className="bg-white">
                 <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
                     <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Us</h2>
@@ -59,6 +72,39 @@ const ContactForm = () => {
                     </form>
                 </div>
             </section>
+            {modal && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="my-modal">
+                    <div className="p-5 border w-96 shadow-lg rounded-md bg-white">
+                        <div className="text-center">
+                            <h3 className="text-lg leading-6 font-medium text-gray-900">{modal.modalTitle}</h3>
+                            <div className="mt-2 px-7 py-3">
+                                <p className="text-sm text-gray-500">{modal.modalMessage}</p>
+                            </div>
+                            <div className="items-center px-4 py-3">
+                                {
+                                    modal.modalType === 'error' ? (
+                                        <button
+                                            id="error-btn"
+                                            onClick={() => setModal(null)}
+                                            className="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                        >
+                                            OK
+                                        </button>
+                                    ) : (
+                                        <button
+                                            id="ok-btn"
+                                            onClick={() => setModal(null)}
+                                            className="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                        >
+                                            OK
+                                        </button>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 };
