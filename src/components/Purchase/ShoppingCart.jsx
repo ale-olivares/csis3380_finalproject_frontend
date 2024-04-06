@@ -123,100 +123,97 @@ const ShoppingCartComponent = () => {
 
     }
 
-    // In your render or return statement
-    if (isLoading) {
-        return <LoadingComponent />;
-    }
-
     return (
         <>
-            <div className="container pt-10 px-4 md:pt-20 md:px-10 lg:px-40 pb-40 mx-auto min-h-screen">
-                {cartItems && cartItems.items.length > 0 ? (
-                    <>
-                        <h3 className="text-2xl md:text-3xl font-semibold leading-7 text-gray-900 py-5">My Cart</h3>
-                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table className="w-full text-sm md:text-base text-left rtl:text-right text-gray-500">
-                                <thead className="text-xs md:text-sm text-gray-700 uppercase bg-gray-50 text-center">
-                                    <tr>
-                                        <th scope="col" className="px-6 py-3">
-                                            <span className="sr-only">Image</span>
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Product
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Quantity
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Price
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {cartItems.items.map((item, index) => (
-                                        <tr className="bg-white border-b hover:bg-gray-50" key={index}>
-                                            <td className="p-4 flex justify-center items-center">
-                                                <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
-                                            </td>
-                                            <td className="px-6 py-4 text-gray-900">
-                                                {item.product.name}
-                                                <br />
-                                                {item.grind_type.name}
-                                                <br />
-                                                {item.product.product_subtypes[0].weight.name}
-                                            </td>
-                                            <td className="px-6 py-4 text-center">
-                                                {item.quantity}
-                                            </td>
-                                            <td className="px-6 py-4 font-semibold text-gray-900 text-center">
-                                                ${(parseInt(item.quantity) * parseFloat(item.unit_price)).toFixed(2)}
-                                            </td>
-                                            <td className="px-6 py-4 text-center">
-                                                <div className="flex justify-center items-center">
-                                                    <button
-                                                        onClick={() => handleRemoveItem(index)}
-                                                        className="font-medium text-red-600 dark:text-red-500 hover:underline flex items-center justify-center"
-                                                    >
-                                                        <FaTrash aria-label="Remove item" size={24} />
-                                                    </button>
-                                                </div>
-                                            </td>
+            {isLoading ? <LoadingComponent /> : (
+                <div className="container pt-10 px-4 md:pt-20 md:px-10 lg:px-40 pb-40 mx-auto min-h-screen">
+                    {cartItems && cartItems.items.length > 0 ? (
+                        <>
+                            <h3 className="text-2xl md:text-3xl font-semibold leading-7 text-gray-900 py-5">My Cart</h3>
+                            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table className="w-full text-sm md:text-base text-left rtl:text-right text-gray-500">
+                                    <thead className="text-xs md:text-sm text-gray-700 uppercase bg-gray-50 text-center">
+                                        <tr>
+                                            <th scope="col" className="px-6 py-3">
+                                                <span className="sr-only">Image</span>
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Product
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Quantity
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Price
+                                            </th>
+                                            <th scope="col" className="px-6 py-3">
+                                                Action
+                                            </th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        <div className="flex justify-end mt-10 px-4 md:px-0">
-                            <div className="w-full md:w-2/3 lg:w-1/3">
-                                <div className="flex justify-between">
-                                    <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">Total:</h2>
-                                    <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">${total.toFixed(2)}</h2>
-                                </div>
-                                <div className="flex justify-end mt-10">
-                                    <button
-                                        onClick={handleStripeCheckout}
-                                        className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out"
-                                    >
-                                        <FaCreditCard />
-                                        Pay with Stripe
-                                    </button>
+                                    </thead>
+                                    <tbody>
+                                        {cartItems.items.map((item, index) => (
+                                            <tr className="bg-white border-b hover:bg-gray-50" key={index}>
+                                                <td className="p-4 flex justify-center items-center">
+                                                    <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
+                                                </td>
+                                                <td className="px-6 py-4 text-gray-900">
+                                                    {item.product.name}
+                                                    <br />
+                                                    {item.grind_type.name}
+                                                    <br />
+                                                    {item.product.product_subtypes[0].weight.name}
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    {item.quantity}
+                                                </td>
+                                                <td className="px-6 py-4 font-semibold text-gray-900 text-center">
+                                                    ${(parseInt(item.quantity) * parseFloat(item.unit_price)).toFixed(2)}
+                                                </td>
+                                                <td className="px-6 py-4 text-center">
+                                                    <div className="flex justify-center items-center">
+                                                        <button
+                                                            onClick={() => handleRemoveItem(index)}
+                                                            className="font-medium text-red-600 dark:text-red-500 hover:underline flex items-center justify-center"
+                                                        >
+                                                            <FaTrash aria-label="Remove item" size={24} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="flex justify-end mt-10 px-4 md:px-0">
+                                <div className="w-full md:w-2/3 lg:w-1/3">
+                                    <div className="flex justify-between">
+                                        <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">Total:</h2>
+                                        <h2 className="text-2xl md:text-1xl font-semibold text-gray-900">${total.toFixed(2)}</h2>
+                                    </div>
+                                    <div className="flex justify-end mt-10">
+                                        <button
+                                            onClick={handleStripeCheckout}
+                                            className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out"
+                                        >
+                                            <FaCreditCard />
+                                            Pay with Stripe
+                                        </button>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                ) :
-                    (
-                        <div className="text-center px-4">
-                            <h1 className="text-2xl md:text-3xl font-bold">Your cart is empty</h1>
-                            <img src={defaultImageEmptyCart} className="mx-auto w-1/2" alt="Empty cart" />
-                            <p className="text-gray-500">Looks like you haven't added anything to your cart yet</p>
-                        </div>
-                    )}
-            </div>
+                        </>
+                    ) :
+                        (
+                            <div className="text-center px-4">
+                                <h1 className="text-2xl md:text-3xl font-bold">Your cart is empty</h1>
+                                <img src={defaultImageEmptyCart} className="mx-auto w-1/2" alt="Empty cart" />
+                                <p className="text-gray-500">Looks like you haven't added anything to your cart yet</p>
+                            </div>
+                        )}
+                </div>
+            )}
             {modal && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center" id="my-modal">
                     <div className="p-5 border w-96 shadow-lg rounded-md bg-white">
@@ -250,6 +247,7 @@ const ShoppingCartComponent = () => {
                     </div>
                 </div>
             )}
+
         </>
     )
 }
