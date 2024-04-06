@@ -19,7 +19,7 @@ const InquiriesTable = () => {
             const filters = { ...Object.fromEntries(searchParams), page };
             try {
                 const response = await getInquiries(filters);
-                setInquiries(response.inquiries);
+               setInquiries(response.inquiries);
                 setTotalPages(response.totalPages);
                 setCurrentPage(response.page);
             } catch (error) {
@@ -54,7 +54,7 @@ const InquiriesTable = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {inquiries.map((inquiry, index) => (
+                            {inquiries.length===0? <tr><td colSpan={6} className="text-center py-4 text-gray-500 text-lg">No inquiries</td></tr> : inquiries.map((inquiry, index) => (
                                 <React.Fragment key={inquiry._id}>
                                 <tr className="bg-white border-b hover:bg-amber-50" onClick={() => handleRowClick(inquiry._id)}>
                                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

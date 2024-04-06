@@ -78,12 +78,11 @@ const ProductFilter = (props) => {
     };
 
     return (
-      <div className="flex flex-col lg:flex-row lg:flex-col">
+      <div className='flex flex-col lg:w-1/4 bg-gray-50'>
           <button className="lg:hidden mt-4 px-4 py-2 bg-brightColor text-white rounded" onClick={toggleFilters}>
           {isFiltersOpen ? 'Hide Filters' : 'Show Filters'}
         </button>
-        <aside className={`lg:block ${isFiltersOpen ? 'block' : 'hidden'} w-full bg-gray-50 p-6 rounded-lg`}>
-         {/* <aside className="w-full bg-gray-50 p-6 rounded-lg lg:overflow-hidden overflow-visible lg:block lg:sticky relative top-0"> */}
+        <aside className={`lg:block ${isFiltersOpen ? 'block' : 'hidden'} w-full bg-gray-50 p-6 rounded-lg lg:sticky top-0 z-10`}>
             <div className="divide-y divide-gray-200">
 
               {/* Category Filter */}
