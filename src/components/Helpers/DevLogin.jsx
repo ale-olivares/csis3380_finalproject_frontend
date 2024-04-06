@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { login, getCurrentUser } from '../../services/AuthService';
+import { login, getCurrentUser, logout } from '../../services/AuthService';
+import { getCart as getCartService } from '../../services/CartService';
+import { useCart } from '../../contexts/CartContext';
 
 const DevLogin = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const { totalItemsCart, updateCartCount } = useCart();
+
+    const addToCart = (updatedTotalCart) => {
+        updateCartCount(updatedTotalCart);
+      };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -17,7 +24,31 @@ const DevLogin = () => {
         else 
         {
             setMessage('Login Successful');
+            
+            // Update the shopping cart items count LocalStorage
+            const cart = await getCartService(getCurrentUser().id);
+            
+            if (!cart){
+                addToCart(0)
+            }
+            else{
+                if (cart.items.length > 0) {
+                    addToCart(cart.items.length)
+                } else {
+                    addToCart(0)
+                }
+            }
+
+            console.log(localStorage.getItem('cartItemsCount'))
+
         }
+    }
+
+    const handleLogout = () => {
+        
+        logout();
+        addToCart(0);
+        window.location.reload();
     }
 
     return (
@@ -28,6 +59,7 @@ const DevLogin = () => {
                     <p>You are already logged in</p> 
                     <p><strong>USER: </strong> {getCurrentUser().username}</p>
                     <p><strong>TOKEN: </strong>{getCurrentUser().accessToken}</p>
+                    <button onClick={handleLogout} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300">Logout</button>
                 </div>
                 :
                 <form onSubmit={handleLogin}>

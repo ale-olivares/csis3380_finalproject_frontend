@@ -1,15 +1,14 @@
 import React from 'react';
-import defaultUserImageFemale from '../assets/img/pic1.png'
-import defaultUserImageMale from '../assets/img/pic2.png'
+import defaultCoffeeShop from '../assets/img/default-store.png'
 
 const ReviewCardComponent = ({ reviewData }) => {
 
     return (
         <article className='pb-5'>
             <div className="flex items-center mb-4">
-                <img className="w-10 h-10 me-4 rounded-full" src={reviewData.user.gender === 'Male' ? defaultUserImageMale : defaultUserImageFemale} alt="" />
+                <img className="w-10 h-10 me-4 rounded-full" src={reviewData.user.logo_image_url == null ? defaultCoffeeShop : reviewData.user.logo_image_url} alt="" />
                 <div className="font-medium">
-                    <p>{reviewData.user.firstname}<time dateTime={reviewData.user.created_at} className="block text-sm text-gray-500">
+                    <p>{reviewData.user.company}<time dateTime={reviewData.user.created_at} className="block text-sm text-gray-500">
                         Joined on {new Date(reviewData.user.created_at).toLocaleString('default', { month: 'long', year: 'numeric' })}
                     </time></p>
                 </div>

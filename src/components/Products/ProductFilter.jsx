@@ -1,8 +1,9 @@
-import React from 'react';
+import React,  { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 const ProductFilter = (props) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
      //Handling checkboxes change
      const handleCheckbox = (event) => {
@@ -48,9 +49,41 @@ const ProductFilter = (props) => {
         setSearchParams(newSearchParams);
     }
 
+    //Handle Resete Filters
+    const resetFilters = () => {
+      setSearchParams('');
+
+      // Reset checkboxes
+      document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+      });
+
+      // Reset radio buttons
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+      });
+
+      // Reset input fields
+      document.getElementById('min').value = '';
+      document.getElementById('max').value = '';
+
+      // Reset select field
+      document.getElementById('country').selectedIndex = 0;
+
+    }
+
+    //Toggle filters
+    const toggleFilters = () => {
+      setIsFiltersOpen(!isFiltersOpen);
+    };
+
     return (
-        <div className="w-1/4 pt-[85px] bg-gray-50" >
-          <aside className="w-full p-6 rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[85px]">
+      <div className="flex flex-col lg:flex-row lg:flex-col">
+          <button className="lg:hidden mt-4 px-4 py-2 bg-brightColor text-white rounded" onClick={toggleFilters}>
+          {isFiltersOpen ? 'Hide Filters' : 'Show Filters'}
+        </button>
+        <aside className={`lg:block ${isFiltersOpen ? 'block' : 'hidden'} w-full bg-gray-50 p-6 rounded-lg`}>
+         {/* <aside className="w-full bg-gray-50 p-6 rounded-lg lg:overflow-hidden overflow-visible lg:block lg:sticky relative top-0"> */}
             <div className="divide-y divide-gray-200">
 
               {/* Category Filter */}
@@ -62,7 +95,6 @@ const ProductFilter = (props) => {
                     <div key={index} className="flex items-center">
                       <input type="checkbox" name="category" value={category} id={category} className="text-primary focus:ring-0 rounded-sm cursor-pointer" onChange={handleCheckbox} />
                       <label htmlFor={category} className="text-gray-600 ml-3 cursor-pointer">{category}</label>
-                      {/* <div className="ml-auto text-gray-600 text-sm">(15)</div> */}
                     </div>
                   ))}
                 </div>              
@@ -116,8 +148,12 @@ const ProductFilter = (props) => {
               </div>
             </div>
 
+            <div className="flex p-5 justify-center">
+              <button onClick={resetFilters} className='px-10 py-3 border-2 border-white bg-gray-300 hover:bg-[#AB6B2E]  hover:text-white transition-all rounded-full'>Reset Filter</button>
+            </div>
+
           </aside>
-        </div>
+      </div>
     );
 };
 

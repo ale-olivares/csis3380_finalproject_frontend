@@ -1,8 +1,13 @@
 import React from "react";
-import img from "../assets/img/home.png";
 import Button from "../layouts/Button";
 
+import { NavLink } from 'react-router-dom';
+
+import { useNavigate } from "react-router-dom";
+
+
 const Home = () => {
+  let navigate = useNavigate();
   return (
     <div className=" min-h-screen flex flex-col justify-center bg-home bg-no-repeat bg-cover bg-fixed bg-left lg:flex-row lg:justify-between items-center lg:px-32 px-5 gap-10">
       <div className=" w-full lg:w-2/4 space-y-4 mt-14 lg:mt-0 text-white">
@@ -18,7 +23,8 @@ const Home = () => {
         </p>
         <br></br>
         <div className=" flex flex-row gap-6 text-black">
-          <Button title="PRODUCT CATALOG" />
+
+          <Button onClick={() => navigate('/catalog')} title="PRODUCT CATALOG" />
 
         </div>
       </div>
