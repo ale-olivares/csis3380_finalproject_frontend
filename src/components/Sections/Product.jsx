@@ -70,9 +70,9 @@ const Product = () => {
   }
 
   return (
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         <ProductFilter countries={uniqueCountries} categories={categories} grindTypes={grindTypes} weights={weights}/>
-        <div className="w-3/4">
+        <div className="w-full lg:w-3/4">
           <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full ">
             <h1 className="font-semibold text-center text-4xl m-8">Our Products</h1>
             <div className="flex items-center mb-4">

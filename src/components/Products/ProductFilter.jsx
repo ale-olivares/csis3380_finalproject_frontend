@@ -1,9 +1,9 @@
-import React from 'react';
+import React,  { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Button from '../../layouts/Button';
 
 const ProductFilter = (props) => {
     const [searchParams, setSearchParams] = useSearchParams();
+    const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
      //Handling checkboxes change
      const handleCheckbox = (event) => {
@@ -72,9 +72,18 @@ const ProductFilter = (props) => {
 
     }
 
+    //Toggle filters
+    const toggleFilters = () => {
+      setIsFiltersOpen(!isFiltersOpen);
+    };
+
     return (
-        <div className="w-1/4 bg-gray-50" >
-          <aside className="w-full p-6 rounded-lg overflow-hidden hidden lg:block bg-gray-50 sticky top-[8px]">
+      <div className="flex flex-col lg:flex-row lg:flex-col">
+          <button className="lg:hidden mt-4 px-4 py-2 bg-brightColor text-white rounded" onClick={toggleFilters}>
+          {isFiltersOpen ? 'Hide Filters' : 'Show Filters'}
+        </button>
+        <aside className={`lg:block ${isFiltersOpen ? 'block' : 'hidden'} w-full bg-gray-50 p-6 rounded-lg`}>
+         {/* <aside className="w-full bg-gray-50 p-6 rounded-lg lg:overflow-hidden overflow-visible lg:block lg:sticky relative top-0"> */}
             <div className="divide-y divide-gray-200">
 
               {/* Category Filter */}
@@ -144,7 +153,7 @@ const ProductFilter = (props) => {
             </div>
 
           </aside>
-        </div>
+      </div>
     );
 };
 
