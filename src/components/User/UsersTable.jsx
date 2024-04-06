@@ -46,9 +46,8 @@ const UsersTable = () => {
     return (
         <>
         <h1 className="font-semibold text-center text-3xl pt-5">Users</h1>
-        <div className="container pt-5 mx-auto pb-20 min-h-screen">
+        <div className="container pt-5 mx-auto pb-20 min-h-screen" style={{ width: '90vw' }}>
             <div className='pb-[10px]'>
-                <label htmlFor="table-search" className="sr-only">Search</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 rtl:inset-r-0 rtl:right-0 flex items-center ps-3 pointer-events-none">
                         <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path></svg>
@@ -68,13 +67,13 @@ const UsersTable = () => {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-6 py-3">Username</th>
-                            <th scope="col" className="px-6 py-3">Email</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Email</th>
                             <th scope="col" className="px-6 py-3">Company</th>
-                            <th scope="col" className="px-6 py-3" >Address</th>
-                            <th scope="col" className="px-6 py-3">Phone</th>
-                            <th scope="col" className="px-6 py-3">Roles</th>
-                            <th scope="col" className="px-6 py-3">Creation Date</th>
-                            <th scope="col" className="px-6 py-3">Status</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3" >Address</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Phone</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Roles</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Creation Date</th>
+                            <th scope="col" className="hidden sm:table-cell px-6 py-3">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,16 +81,16 @@ const UsersTable = () => {
                             <tr key={index} className="bg-white border-b  hover:bg-amber-50" 
                                 onClick={ ()=>navigate(`/user/${user._id}`)}
                             >
-                                <th scope="row" className="px-6 py-4  font-medium text-gray-900 whitespace-nowrap dark:text-white"> 
+                                <th scope="row" className="px-6 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"> 
                                     {user.username}         
                                 </th>
-                                    <td className="px-6 py-4">{user.email}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3">{user.email}</td>
                                     <td className="px-6 py-4">{user.company}</td>
-                                    <td className="px-6 py-4 " >{user.address}</td>
-                                    <td className="px-6 py-4">{user.phone}</td>
-                                    <td className="px-6 py-4"> {user.roles.map(role => role.name).join(", ")}</td>
-                                    <td className="px-6 py-4"> {new Date(user.created_at).toLocaleDateString('en-US')}</td>
-                                    <td className="px-6 py-4">{user.deletedAt?"Inactive":"Active"}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3 " >{user.address}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3">{user.phone}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3"> {user.roles.map(role => role.name).join(", ")}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3"> {new Date(user.created_at).toLocaleDateString('en-US')}</td>
+                                    <td className="hidden sm:table-cell px-6 py-3">{user.deletedAt?"Inactive":"Active"}</td>
                             </tr>
                         )}
                     </tbody> 
