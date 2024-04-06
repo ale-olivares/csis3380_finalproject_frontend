@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import { GiCoffeeBeans } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import { getCurrentUser, isAdmin as checkAdmin, logout } from "../services/AuthService";
 import DropdownMenu from "./Menus/DropdownMenu";
@@ -12,16 +12,18 @@ import UserLinks from "./Menus/UserLinks";
 
 const Navbar = () => {
   const { totalItemsCart } = useCart();
-  const [menu, setMenu] = useState(false);
-  let navigate = useNavigate();
   const user = getCurrentUser();
   const [isAdmin, setIsAdmin] = useState(false);
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     setIsAdmin(checkAdmin());
   }, [user]); 
 
+  useEffect(() => {
+    setIsNavbarOpen(false);
+  }, [location]);
 
 
    //Toggle NavBar

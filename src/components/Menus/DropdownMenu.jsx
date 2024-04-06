@@ -22,8 +22,8 @@ const DropdownMenu = () => {
     }
       
   return (
-    <div className="lg:hidden bg-gradient-to-r from-backgroundColor to-brightColor bg-opacity-0 p-4 mx-auto flex flex-wrap justify-center items-center font-semibold font-heading space-x-4 space-y-1">
-      {!user ? (
+    <div className="lg:hidden bg-gradient-to-r from-backgroundColor to-brightColor p-4 mx-auto flex flex-col justify-center items-center font-semibold font-heading space-y-1">
+        {!user ? (
         <>
            <GeneralLinks/>
             <NavLink to="/login" className={({ isActive }) => isActive  ?"group relative inline-block cursor-pointer text-hoverColor"  : "group relative inline-block cursor-pointer hover:text-hoverColor text-white"}> Login</NavLink>
