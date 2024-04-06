@@ -73,7 +73,7 @@ const Product = () => {
       <div className="flex flex-col lg:flex-row">
         <ProductFilter countries={uniqueCountries} categories={categories} grindTypes={grindTypes} weights={weights}/>
         <div className="w-full lg:w-3/4">
-          <div className="min-h-screen flex flex-col justify-center lg:px-32 px-5 bg-[#FFF] h-full ">
+          <div className="min-h-screen flex flex-col lg:px-32 px-5 bg-[#FFF] h-full ">
             <h1 className="font-semibold text-center text-4xl m-8">Our Products</h1>
             <div className="flex items-center mb-4">
                 <div className="text-gray-600">Showing {Math.min(1 + ((currentPage-1)*productPerPage), totalProducts)}–{products.length+((currentPage-1)*productPerPage)} of {totalProducts} results</div>
@@ -89,7 +89,7 @@ const Product = () => {
             </div>
        
             {products.length === 0 && <div className="text-center text-2xl text-gray-500 container pt-40 lg:px-40 lg:pb-40 md:mx-auto min-h-max">No products found</div>}
-            <div className="flex flex-wrap gap-12 pb-10 justify-start product-list">
+            <div className="flex flex-wrap gap-12 pb-10 justify-center product-list">
               {products.map((product, index) => (
                 <ProductCard key={index+1} ind={index+1} product={product}/> 
               ))}
