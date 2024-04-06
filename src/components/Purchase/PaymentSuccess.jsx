@@ -133,7 +133,7 @@ const PaymentSuccessComponent = () => {
                 <div className="mt-10 p-6 bg-white shadow-lg rounded-lg">
                     <h2 className="text-2xl font-semibold text-gray-800">We received your order!</h2>
                     <div className="mt-4 text-gray-600">
-                        <p><strong>Order Status:</strong> {orderItems.order_status}</p>
+                        <p><strong>Order Number:</strong> {orderItems?.order_number?.toString().padStart(10, '0')}</p>
                         <p><strong>Order Date:</strong> {formatDate(orderItems.created_at)}</p>
                     </div>
 
