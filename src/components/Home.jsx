@@ -1,6 +1,10 @@
 import React from "react";
 import Button from "../layouts/Button";
+
+import { NavLink } from 'react-router-dom';
+
 import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
   let navigate = useNavigate();
@@ -19,7 +23,8 @@ const Home = () => {
         </p>
         <br></br>
         <div className=" flex flex-row gap-6 text-black">
-          <Button onClick={()=>navigate('/catalog')} title="PRODUCT CATALOG" />
+
+          <Button onClick={() => navigate('/catalog')} title="PRODUCT CATALOG" />
 
         </div>
       </div>

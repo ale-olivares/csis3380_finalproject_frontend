@@ -1,14 +1,49 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { login, getCurrentUser } from '../services/AuthService';
+import { getUserDetail } from '../services/UserService';
 
 
 const Login = () => {
+
+    const history = useNavigate();
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
 
-    const handleLogin = (e) => {
+    async function handleLogin(e) {
         e.preventDefault();
-        // add logic to handle the login process
+        //logic to handle the login process
+        try {
+
+            const loginResponse = await login(username, password);
+            if (loginResponse.message) {
+                setMessage(loginResponse.message);
+
+            }
+            else {
+                //validate if user has requiredpassword field  = true 
+
+                const user = await getUserDetail(getCurrentUser().id);
+                if (user.required_change_password) {
+                    console.log("Go to set password component");
+                    history("/setPassword");
+                } else {
+                    console.log("Go to home");
+                    history("/")
+                }
+
+
+                //history("/")
+            }
+
+
+        } catch (e) {
+            console.log(e);
+        }
+
+
         console.log('Logging in with:', { username, password });
     };
 
@@ -50,27 +85,6 @@ const Login = () => {
                             />
                         </div>
                     </div>
-
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="remember-me"
-                                name="remember-me"
-                                type="checkbox"
-                                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                            />
-                            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                                Remember me
-                            </label>
-                        </div>
-
-                        <div className="text-sm">
-                            <a href="#" className="font-medium text-brightColor hover:text-indigo-500">
-                                Forgot your password?
-                            </a>
-                        </div>
-                    </div>
-
                     <div>
                         <button
                             type="submit"
@@ -79,17 +93,19 @@ const Login = () => {
                             Login
                         </button>
                     </div>
+                    <p>{message}</p>
 
-                    <div className="items-center text-center ">
-                        <span>Don't have an account?
-                            <NavLink to="/signUp">
-                                <span className="font-bold px-2 hover:text-indigo-500">
-                                    Click here to Sign Up
+                    <div className="text-center items-center justify-between">
 
-                                </span>
-                            </NavLink>
-                        </span>
+                        <NavLink
+                            to="/forgotPassword"
+                            className="text-sm font-medium text-brightColor hover:text-indigo-500"
+                        >
+                            Forgot your password?
+                        </NavLink>
+
                     </div>
+
 
                 </form>
             </div>
