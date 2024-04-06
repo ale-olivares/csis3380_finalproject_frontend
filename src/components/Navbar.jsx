@@ -3,12 +3,12 @@ import { GiCoffeeBeans } from "react-icons/gi";
 import { NavLink } from 'react-router-dom';
 import { FaCartShopping } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../contexts/CartContext";
-import { getCurrentUser, isAdmin as checkAdmin, logout } from "../../services/AuthService";
-import DropdownMenu from "./DropdownMenu";
-import GeneralLinks from "./GeneralLinks";
-import AdminLinks  from "./AdminLinks";
-import UserLinks from "./UserLinks";
+import { useCart } from "../contexts/CartContext";
+import { getCurrentUser, isAdmin as checkAdmin, logout } from "../services/AuthService";
+import DropdownMenu from "./Menus/DropdownMenu";
+import GeneralLinks from "./Menus/GeneralLinks";
+import AdminLinks  from "./Menus/AdminLinks";
+import UserLinks from "./Menus/UserLinks";
 
 const Navbar = () => {
   const { totalItemsCart } = useCart();
