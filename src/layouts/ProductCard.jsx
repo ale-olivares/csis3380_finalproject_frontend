@@ -15,7 +15,7 @@ const ProductCard = (props) => {
 
     <div className="w-full lg:w-1/4 bg-orange-50 p-3 rounded-lg text-center justify-center items-center h-[530px] ml-10">
       <div className="flex flex-col items-center">
-        <img className="rounded-lg max-h-[300px] max-w-[300px] mx-auto mb-4" src={props.product.product_subtypes[0].image_url} alt="img" />
+        <img className="rounded-lg max-h-[300px] mx-auto mb-4" src={props.product.product_subtypes[0].image_url} alt="img" />
       </div>
       <div className=" flex flex-col items-center mt-5 gap-3" >
         <h2 className="font-semibold text-xl">{props.product.name}</h2>
