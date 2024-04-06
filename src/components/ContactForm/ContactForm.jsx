@@ -19,7 +19,6 @@ const ContactForm = () => {
     
         try{
             await sendInquiry({email, phone, title, body });
-            // setNotification({ show: true, message: 'Inquiry sent successfully!', type: 'success' });
             setModal({
                 showModal: true,
                 modalMessage: "Message sent successfully",
@@ -29,10 +28,9 @@ const ContactForm = () => {
             form.reset();
         }catch(error){
             console.error('Error while sending inquiry', error);
-            // setNotification({ show: true, message: error.response.data.message, type: 'error' });
             setModal({
                 showModal: true,
-                modalMessage: error.message,
+                modalMessage: error.response.data.message,
                 modalTitle: "Error",
                 modalType: "error"
             });
@@ -41,8 +39,7 @@ const ContactForm = () => {
 
     return(
         <>
-            {/* <Notification  show={notification.show}message={notification.message}  type={notification.type}  onClose={() => setNotification({ ...notification, show: false })}        /> */}
-            <section className="bg-white">
+            <section className="flex justify-center items-center min-h-screen bg-white">
                 <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
                     <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact Us</h2>
                     <p className="font-light text-center text-gray-500  sm:text-xl"> Have thoughts to share on our coffee and tea selections? Interested in bulk orders or details about our products? </p>
