@@ -3,10 +3,12 @@ import { getCurrentUser } from '../../services/AuthService';
 import { getCart as getCartService, removeFromCart as removeFromCartService } from '../../services/CartService';
 import { makeStripeCheckout as stripeCheckoutService, updateShoppingCartSessionId as updateCartSessionIdService } from '../../services/PaymentService';
 import defaultProductImage from '../../assets/img/default_500_500.png';
+import defaultImageEmptyCart from '../../assets/img/emptycart.png';
 import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from "../../layouts/Loading";
 
 const ShoppingCartComponent = () => {
 
@@ -17,10 +19,10 @@ const ShoppingCartComponent = () => {
     const [total, setTotal] = useState(0);
     const [modal, setModal] = useState(null);
     const { totalItemsCart, updateCartCount } = useCart();
-    
+
     const addToCart = (updatedTotalCart) => {
         updateCartCount(updatedTotalCart);
-      };
+    };
 
     const calculateTotal = () => {
         let newTotal = 0;
@@ -46,7 +48,7 @@ const ShoppingCartComponent = () => {
             try {
                 const userId = getCurrentUser().id;
                 await getCartService(userId).then((response) => {
-                    
+
                     if (!response) {
                         setCartItems({ items: [] });
                     } else {
@@ -68,6 +70,7 @@ const ShoppingCartComponent = () => {
 
     useEffect(() => {
         calculateTotal();
+        setIsLoading(false);
     }, [cartItems]);
 
     const handleRemoveItem = async (itemId) => {
@@ -122,7 +125,7 @@ const ShoppingCartComponent = () => {
 
     // In your render or return statement
     if (isLoading) {
-        return <div>Loading cart...</div>;
+        return <LoadingComponent />;
     }
 
     return (
@@ -195,11 +198,12 @@ const ShoppingCartComponent = () => {
                                 <div className="flex justify-end mt-10">
                                     <button
                                         onClick={handleStripeCheckout}
-                                        className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600"
+                                        className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out"
                                     >
                                         <FaCreditCard />
                                         Pay with Stripe
                                     </button>
+
                                 </div>
                             </div>
                         </div>
@@ -208,6 +212,7 @@ const ShoppingCartComponent = () => {
                     (
                         <div className="text-center px-4">
                             <h1 className="text-2xl md:text-3xl font-bold">Your cart is empty</h1>
+                            <img src={defaultImageEmptyCart} className="mx-auto w-1/2" alt="Empty cart" />
                             <p className="text-gray-500">Looks like you haven't added anything to your cart yet</p>
                         </div>
                     )}
