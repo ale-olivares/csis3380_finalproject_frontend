@@ -18,10 +18,10 @@ const ShoppingCartComponent = () => {
     const [total, setTotal] = useState(0);
     const [modal, setModal] = useState(null);
     const { totalItemsCart, updateCartCount } = useCart();
-    
+
     const addToCart = (updatedTotalCart) => {
         updateCartCount(updatedTotalCart);
-      };
+    };
 
     const calculateTotal = () => {
         let newTotal = 0;
@@ -47,7 +47,7 @@ const ShoppingCartComponent = () => {
             try {
                 const userId = getCurrentUser().id;
                 await getCartService(userId).then((response) => {
-                    
+
                     if (!response) {
                         setCartItems({ items: [] });
                     } else {
@@ -196,11 +196,12 @@ const ShoppingCartComponent = () => {
                                 <div className="flex justify-end mt-10">
                                     <button
                                         onClick={handleStripeCheckout}
-                                        className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600"
+                                        className="hover:bg-blue-700 text-white font-medium rounded flex items-center justify-center gap-2 py-2 px-4 bg-blue-600 border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition duration-300 ease-in-out"
                                     >
                                         <FaCreditCard />
                                         Pay with Stripe
                                     </button>
+
                                 </div>
                             </div>
                         </div>

@@ -9,6 +9,7 @@ import { getCurrentUser } from '../../services/AuthService';
 import ReviewCardComponent from '../../layouts/ReviewCard';
 import { useCart } from '../../contexts/CartContext';
 import LoadingComponent from '../../layouts/Loading';
+import { isAdmin } from '../../services/AuthService';
 
 const ProductDetailComponent = () => {
 
@@ -25,7 +26,7 @@ const ProductDetailComponent = () => {
     const [modal, setModal] = useState(null);
     const navigate = useNavigate();
     const { updateCartCount } = useCart();
-    
+
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
@@ -35,7 +36,7 @@ const ProductDetailComponent = () => {
                     setSelectedWeight(productData.product_subtypes[0].weight._id);
                     setSelectedPrice(productData.product_subtypes[0].price);
                     setSelectedSubproductId(productData.product_subtypes[0]._id);
-                    setReviews(productData.product_subtypes[0].reviews? productData.product_subtypes[0].reviews : []); 
+                    setReviews(productData.product_subtypes[0].reviews ? productData.product_subtypes[0].reviews : []);
                     setAverageRating(calculateAverageRating(productData));
                 }
 
@@ -67,7 +68,7 @@ const ProductDetailComponent = () => {
                 }
                 else {
                     setModal(null);
-                    
+
                     // Call the service function to add to the backend cart
                     const response = await addToCartService(getCurrentUser().id, productId, selectedSubproductId, selectedGrind, inputQuantity, selectedPrice);
 
@@ -78,7 +79,7 @@ const ProductDetailComponent = () => {
                             modalTitle: "Error",
                             modalType: "error"
                         });
-                        
+
                     }
                     else {
                         setModal({
@@ -110,10 +111,10 @@ const ProductDetailComponent = () => {
     };
 
     const calculateAverageRating = (product) => {
-        
+
         // get reviews from the selected sub product
         const reviews = product.product_subtypes.filter(subtype => subtype._id.toString() !== selectedSubproductId)[0].reviews;
-        
+
         if (reviews === undefined || reviews.length === 0) {
             return 0
         }
@@ -168,7 +169,7 @@ const ProductDetailComponent = () => {
                                                     Varietal
                                                 </th>
                                                 <td className="px-6 py-4">
-                                                    
+
                                                     {product.varietal.join(', ')}
                                                 </td>
                                             </tr>
@@ -316,21 +317,23 @@ const ProductDetailComponent = () => {
                                             <label htmlFor="price" className="block mb-2">Price:</label>
                                             <p className='pt-2'>${(product.product_subtypes.find(subtype => subtype.weight._id === selectedWeight).price * inputQuantity).toLocaleString("en-US", { minimumFractionDigits: 2 })}</p>
                                         </div>
-                                        {getCurrentUser() ? (
-                                            <div className="sm:col-span-4 sm:col-start-2 mt-4">
-                                                <button onClick={handleAddToCart} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 space-x-2">
-                                                    <FaCartPlus className="text-base" />
-                                                    <span>Add to Cart</span>
-                                                </button>
-                                            </div>) : (
-                                            <div className="sm:col-span-4 sm:col-start-2 mt-4">
+                                        {getCurrentUser() ?
+                                            (isAdmin() == false
+                                                ? (
+                                                    <div className="sm:col-span-4 sm:col-start-2 mt-4">
+                                                        <button onClick={handleAddToCart} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 space-x-2">
+                                                            <FaCartPlus className="text-base" />
+                                                            <span>Add to Cart</span>
+                                                        </button>
+                                                    </div>) : (<></>
+
+                                                )
+                                            ) : (<div className="sm:col-span-4 sm:col-start-2 mt-4">
                                                 <button onClick={redirectLogin} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm  font-medium rounded-md text-white bg-brightColor hover:bg-hoverColor hover:text-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 space-x-2">
                                                     <FaUser className="text-base" />
                                                     <span>Login to Buy</span>
                                                 </button>
-                                            </div>
-                                        )
-
+                                            </div>)
                                         }
                                     </div>
                                 </div>
