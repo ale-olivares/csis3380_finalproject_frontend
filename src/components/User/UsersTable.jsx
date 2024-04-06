@@ -77,7 +77,7 @@ const UsersTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user, index) =>
+                        {users.length===0? <tr><td colSpan={8} className="text-center py-4 text-gray-500 text-lg">No users</td></tr> :users.map((user, index) =>
                             <tr key={index} className="bg-white border-b  hover:bg-amber-50" 
                                 onClick={ ()=>navigate(`/user/${user._id}`)}
                             >
