@@ -8,6 +8,7 @@ import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../../contexts/CartContext';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from "../../layouts/Loading";
 
 const ShoppingCartComponent = () => {
 
@@ -69,6 +70,7 @@ const ShoppingCartComponent = () => {
 
     useEffect(() => {
         calculateTotal();
+        setIsLoading(false);
     }, [cartItems]);
 
     const handleRemoveItem = async (itemId) => {
@@ -123,7 +125,7 @@ const ShoppingCartComponent = () => {
 
     // In your render or return statement
     if (isLoading) {
-        return <div>Loading cart...</div>;
+        return <LoadingComponent />;
     }
 
     return (
