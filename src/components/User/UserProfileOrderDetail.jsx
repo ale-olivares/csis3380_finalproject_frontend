@@ -4,10 +4,10 @@ import UserAddReviewComponent from "./UserAddReview";
 import UserReviewSuccessComponent from "./UserReviewSuccess";
 import { getCurrentUser } from "../../services/AuthService";
 import { deleteReview, getReviewFromUser } from "../../services/ReviewService";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const UserProfileOrderDetailComponent = ({ order }) => {
-
+    
     const [subtotal, setSubtotal] = useState(0);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [showReviewSuccessModal, setShowReviewSuccessModal] = useState(false);
@@ -117,7 +117,7 @@ const UserProfileOrderDetailComponent = ({ order }) => {
         <>
             <div className="mt-10 p-4 md:p-6 bg-white shadow-lg rounded-lg">
                 <div className="flex flex-col md:flex-row justify-between">
-                    <h2 className="text-xl font-semibold text-gray-800">Order #: {order.order_number.toString().padStart(10, '0')}</h2>
+                    <h2 className="text-xl font-semibold text-gray-800">Order #: {order.order_number.toString().padStart(7, '0')}</h2>
                     <p className={`text-md md:text-lg font-semibold ${order.order_status.toLowerCase() === 'pending' ? 'text-blue-500' :
                         order.order_status.toLowerCase() === 'in process' ? 'text-orange-500' :
                             order.order_status.toLowerCase() === 'delivered' ? 'text-green-500' :
@@ -150,11 +150,14 @@ const UserProfileOrderDetailComponent = ({ order }) => {
                                         <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
                                     </td>
                                     <td className="px-4 py-2">
-                                        {item.product.name}
-                                        <br />
-                                        {item.grind_type.name}
-                                        <br />
-                                        {item.product.product_subtypes[0].weight.name}</td>
+                                        <NavLink to={`/product/${item.product.prod_id}`} className="font-semibold hover:underline">
+                                            {item.product.name}
+                                            <br />
+                                            {item.grind_type.name}
+                                            <br />
+                                            {item.product.product_subtypes[0].weight.name}
+                                        </NavLink>
+                                    </td>
                                     <td className="px-4 py-2">{item.quantity}</td>
                                     <td className="px-4 py-2">${item.unit_price}</td>
                                     <td className="px-4 py-2">${(item.quantity * item.unit_price).toFixed(2)}</td>

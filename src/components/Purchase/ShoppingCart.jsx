@@ -7,7 +7,7 @@ import defaultImageEmptyCart from '../../assets/img/emptycart.png';
 import { FaTrash, FaCreditCard } from 'react-icons/fa';
 import { loadStripe } from '@stripe/stripe-js';
 import { useCart } from '../../contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import LoadingComponent from "../../layouts/Loading";
 
 const ShoppingCartComponent = () => {
@@ -158,11 +158,13 @@ const ShoppingCartComponent = () => {
                                                     <img src={item.product.product_subtypes[0].image_url} className="w-16 md:w-24 lg:w-32 mx-auto max-w-full max-h-full" alt="Product" />
                                                 </td>
                                                 <td className="px-6 py-4 text-gray-900">
-                                                    {item.product.name}
-                                                    <br />
-                                                    {item.grind_type.name}
-                                                    <br />
-                                                    {item.product.product_subtypes[0].weight.name}
+                                                    <NavLink to={`/product/${item.product.prod_id}`} className="font-semibold hover:underline">
+                                                        {item.product.name}
+                                                        <br />
+                                                        {item.grind_type.name}
+                                                        <br />
+                                                        {item.product.product_subtypes[0].weight.name}
+                                                    </NavLink>
                                                 </td>
                                                 <td className="px-6 py-4 text-center">
                                                     {item.quantity}
