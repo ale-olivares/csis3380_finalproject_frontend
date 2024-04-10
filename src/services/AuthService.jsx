@@ -25,6 +25,7 @@ export const login = async (username, password) => {
 };
 
 export const logout = () => {
+    localStorage.removeItem("cartItemsCount");
     localStorage.removeItem("user");
 };
 
