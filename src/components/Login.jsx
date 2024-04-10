@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { login, getCurrentUser } from '../services/AuthService';
 import { getUserDetail } from '../services/UserService';
+import { useCart } from '../contexts/CartContext';
+import { getCart as getCartService} from '../services/CartService';
 
 
 const Login = () => {
@@ -11,6 +13,11 @@ const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const { totalItemsCart, updateCartCount } = useCart();
+
+    const addToCart = (updateTotalCart) => {
+        updateCartCount(updateTotalCart);
+    }
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -20,11 +27,28 @@ const Login = () => {
             const loginResponse = await login(username, password);
             if (loginResponse.message) {
                 setMessage(loginResponse.message);
-
             }
             else {
+                
+                // Update the cart count
+                const cart = await getCartService(getCurrentUser().id);
+                
+                if (!cart){
+                    addToCart(0);
+                    localStorage.setItem("cartItemsCount", 0);
+                }
+                else
+                {
+                    if (cart.items.length > 0){
+                        addToCart(cart.items.length);
+                        localStorage.setItem("cartItemsCount", cart.items.length.toString());
+                    }else{
+                        addToCart(0);
+                        localStorage.setItem("cartItemsCount", 0);
+                    }
+                }
+                
                 //validate if user has requiredpassword field  = true 
-
                 const user = await getUserDetail(getCurrentUser().id);
                 if (user.required_change_password) {
                     console.log("Go to set password component");
