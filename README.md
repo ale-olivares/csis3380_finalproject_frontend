@@ -14,7 +14,6 @@ The coffeebeanswholesale frontend acts as the face of the website, simplifying t
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
 
 ## Project Description
 
@@ -56,11 +55,3 @@ The project implements a Vite+React.js frontend with integration with our NodeJS
 ## Usage
 
 1. Run the server using `npm run dev` and explore the website with http://localhost:8081/
-
-## Contributing
-
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/fooBar`).
-3. Commit your changes (`git commit -am 'Add some fooBar'`).
-4. Push to the branch (`git push origin feature/fooBar`).
-5. Create a new Pull Request.
